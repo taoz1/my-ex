@@ -34,7 +34,7 @@ const MAX_MESSAGE = 160;
 const MAX_REPLY = 280;
 const MAX_MEMORIES = 6;
 const MAX_CONTEXT = 8;
-const MAX_OPTIONS = 6;
+const MAX_OPTIONS = 8;
 
 // 第一幕里任何 NPC 都不该说出的词：原型地名、暴力犯罪细节。
 export const BLOCKED_TERMS = ['菲律宾', '马尼拉', '绑架', '撕票', '杀人', '尸体', '谋杀'];
@@ -65,9 +65,11 @@ export function validateChoice(input) {
   return { ...turn, options: input.options.map(o => cleanText(o, 80)), context: input.context.map(c => cleanText(c, 300)) };
 }
 
-// AI 选中了某个走向时只返回编号；都不对应时由角色回应一句，剧情停在原处。
+// AI 照抄选中走向的原文（比让它报编号可靠），这里换回编号；都不对应时由角色回应一句，剧情停在原处。
 export function validateChoiceResult(data, turn) {
-  if (Number.isInteger(data?.choice) && data.choice >= 0 && data.choice < turn.options.length) return { choice: data.choice };
+  const picked = typeof data?.choice === 'string' ? data.choice.trim() : null;
+  const index = picked ? turn.options.findIndex(o => o === picked || o.includes(picked) || picked.includes(o)) : -1;
+  if (index >= 0) return { choice: index };
   return { choice: null, ...validateReply(data, turn.npc) };
 }
 
@@ -87,6 +89,7 @@ function characterCard(turn) {
     `禁区：${npc.forbidden}`,
     `当前场景：${SCENES[turn.scene].goal}`,
     '规则：你只知道自己亲历和听说的事，不得改变以上设定。用现场口语回应，有个性、具体、克制，可以不同意玩家，不要说教，不要替玩家下结论。不要跳出角色，不要承认自己是AI。',
+    '说话前先看清对方刚说的那句话：数字、人名、条件照原样理解，不要听岔，不要凭空冒出对方没提过的数字。算账要算对。你的立场必须前后一致。不要重复你在最近几句里已经说过的话和口头禅，每次回应都要接住对方这句话往下说。',
   ];
 }
 
@@ -104,19 +107,22 @@ export function buildChoicePrompt(turn) {
   const emotions = CHARACTERS[turn.npc].emotions.join('|');
   const system = [
     ...characterCard(turn),
-    `现在是剧情的关键处，玩家（陈默）自由说了一句话。剧情预设了几种走向（storyOptions，编号从0开始），每条是陈默可能说的话或做的事。
+    `现在是剧情的关键处，玩家（陈默）自由说了一句话。剧情预设了几种走向（storyOptions），每条是陈默可能说的话或做的事。
 先判断玩家这句话的意思是否对应其中某一条：意思相同或非常接近就算对应，措辞可以完全不同；数字、立场、态度要对得上。
-如果对应，choice 填编号，reply 填空字符串。
-如果不对应任何一条（闲聊、问别的事、提出不同的数字或方案、含糊其辞），choice 填 null，并以你的角色身份自然回应他，顺势把话题引回眼前需要他表态的事，但不要替他做选择，也不要把选项念出来。`,
-    `只输出JSON：{"choice":编号或null,"reply":"choice为null时不超过120个中文字的回应，否则为空字符串","emotion":"${emotions} 之一"}。不要输出其他字段。`,
+如果某条写的是一个范围（比如“退她1000以上、不到1500”），玩家说出的数字落在范围里就算对应。玩家只要说出了一个具体的数额或分法，不管是正式提议、随口试探、问“行不行”，还是转述别人的话（比如“老邝说可以退你1200”），都算他提出了这个方案，按数额对应到所在的那一条。
+先在 analysis 里用一句话写清：玩家这句话的意思是什么，里面有没有数额、数额是多少、落在哪一条。
+如果对应，choice 照抄那一条的原文，reply 填空字符串。
+如果不对应任何一条（闲聊、问别的事、含糊其辞），choice 填 null，并以你的角色身份自然回应他，顺势把话题引回眼前需要他表态的事，但不要替他做选择，也不要把选项念出来。`,
+    `只输出JSON：{"analysis":"一句话分析","choice":"照抄的那一条原文，或 null","reply":"choice为null时不超过120个中文字的回应，否则为空字符串","emotion":"${emotions} 之一"}。不要输出其他字段。`,
   ].join('\n\n');
   const user = JSON.stringify({ recentLines: turn.context, storyOptions: turn.options, playerSays: turn.message, recentMemories: turn.memories });
   return [{ role: 'system', content: system }, { role: 'user', content: user }];
 }
 
 const ROUTES = {
-  '/api/dialogue': { validate: validateDialogue, prompt: buildPrompt, result: (data, turn) => validateReply(data, turn.npc) },
-  '/api/choose': { validate: validateChoice, prompt: buildChoicePrompt, result: validateChoiceResult },
+  '/api/dialogue': { validate: validateDialogue, prompt: buildPrompt, result: (data, turn) => validateReply(data, turn.npc), params: { max_tokens: 320 } },
+  // 判断走向要稳定，温度调低
+  '/api/choose': { validate: validateChoice, prompt: buildChoicePrompt, result: validateChoiceResult, params: { max_tokens: 480, temperature: 0.3 } },
 };
 
 async function readBody(request) {
@@ -167,7 +173,7 @@ export async function handleApi(request, env, fetcher = fetch) {
       body: JSON.stringify({
         model,
         thinking: { type: 'disabled' },
-        max_tokens: 320,
+        ...route.params,
         response_format: { type: 'json_object' },
         messages: route.prompt(turn),
       }),

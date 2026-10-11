@@ -37,7 +37,7 @@ test('every script with story choices has an AI scene for free-text input', () =
     const options = steps.filter(s => s.choice);
     if (!options.length) continue;
     assert.ok(SCENES[CHOICE_SCENES[id]], `${id}: no scene in CHOICE_SCENES`);
-    for (const s of options) assert.ok(s.choice.length <= 6, `${id}: too many options for the AI`);
+    for (const s of options) assert.ok(s.choice.length <= 8, `${id}: too many options for the AI`);
   }
 });
 
@@ -65,10 +65,10 @@ function playPrologue(state) {
   assert.equal(state.quest, 'P0');               // 进门不再自动开场
   arriveAndGetApproached(state);
   assert.equal(state.quest, 'P1');
-  interact(state, 'laokuang', [0, 3]);          // 问底线，离开
-  interact(state, 'qingqing', [0, 4]);          // 问在意什么，离开
+  interact(state, 'laokuang', [0, 6]);          // 问底线，离开
+  interact(state, 'qingqing', [0, 7]);          // 问在意什么，离开
   assert.ok(state.flags.k_bottom && state.flags.q_bottom);
-  interact(state, 'laokuang', [2, 1, 0]);       // 我有方案 → 扣500退1000 → 好啊
+  interact(state, 'laokuang', [4, 0]);          // 扣500退1000 → 加微信：好啊
   assert.equal(state.quest, 'A1_01');
   assert.equal(state.phone.pending, 'a1_01_job');
 }
@@ -77,11 +77,16 @@ test('a failed proposal keeps the prologue open', () => {
   const state = createState();
   interact(state, 'door_rental');
   arriveAndGetApproached(state);
-  interact(state, 'laokuang', [3]);
-  interact(state, 'qingqing', [4]);
-  interact(state, 'laokuang', [2, 0]);          // 全退 → 老邝拒绝
+  interact(state, 'laokuang', [6]);
+  interact(state, 'qingqing', [7]);
+  interact(state, 'laokuang', [2]);             // 全退 → 老邝拒绝
   assert.equal(state.quest, 'P1');
   assert.equal(state.stats.cred, 15);
+  const more = interact(state, 'qingqing', [4]); // 退她1200 → 她同意，老邝拒绝
+  assert.ok(more.lines.some(l => l.speaker === 'laokuang' && l.text.includes('扣不到五百')));
+  interact(state, 'qingqing', [6]);             // 退不到1000 → 她拒绝
+  assert.equal(state.quest, 'P1');
+  assert.equal(state.stats.cred, 5);
 });
 
 test('full playthrough: prologue to the end of act one', () => {

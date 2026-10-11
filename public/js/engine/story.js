@@ -51,6 +51,14 @@ export function approachingNpc(state) {
   return npcsOnMap(state).find(n => n.approach && n.approach.when(state)) || null;
 }
 
+// 序章调解：玩家说出的任何退款数额，都落进这四档之一（押金1500：老邝至少要扣500，她至少要拿回1000）
+const offers = when => [
+  { t: '提出方案：押金1500全退给她。', when, fx: { flags: { p1_offer: 'full' } }, goto: 'propose' },
+  { t: '提出方案：退她1000以上、不到1500（比如1200），老邝扣不到500。', when, fx: { flags: { p1_offer: 'more' } }, goto: 'propose' },
+  { t: '提出方案：老邝扣500，退她1000。', when, fx: { flags: { p1_offer: 'fair' } }, goto: 'propose' },
+  { t: '提出方案：退她不到1000（比如750、500），老邝扣500以上。', when, fx: { flags: { p1_offer: 'less' } }, goto: 'propose' },
+];
+
 // ── 互动规则 ────────────────────────────────────────────────
 // 返回 { script } / { menu: 'travel' } / { travel, script? } / { toast }
 export function interaction(state, target) {
@@ -138,7 +146,7 @@ export const SCRIPTS = {
     { choice: [
       { t: '老邝，你心里最低能接受扣多少？', goto: 'bottom' },
       { t: '她说要报警，你怕不怕？', goto: 'police' },
-      { t: '我有个方案了。', when: s => s.flags.p1_talked_q, goto: 'propose' },
+      ...offers(s => s.flags.p1_talked_q),
       { t: '我先去问问她。', goto: 'bye' },
     ] },
     { label: 'bottom' },
@@ -172,7 +180,7 @@ export const SCRIPTS = {
       { t: '你真正在意的是什么？', goto: 'care' },
       { t: '车是旧了点，但提前退车，扣一点押金也是行规。', goto: 'rule' },
       { t: '能不能把墨镜摘下来说话？', goto: 'glasses', when: s => !s.flags.p1_glasses },
-      { t: '我有个方案了。', when: s => s.flags.p1_talked_k, goto: 'propose' },
+      ...offers(s => s.flags.p1_talked_k),
       { t: '我先去跟老邝聊聊。', goto: 'bye' },
     ] },
     { label: 'care' },
@@ -198,16 +206,20 @@ export const SCRIPTS = {
     { end: true },
   ],
 
+  // 玩家报出的方案由 offers() 里的选项记在 flags.p1_offer 上
   p1_propose: [
     N('你把两人叫到茶几边。押金一共1500美元。'),
-    { choice: [
-      { t: '全退1500，老邝认个亏。', goto: 'kuang_no' },
-      { t: '扣500，退她1000。各让一步。', goto: 'ok' },
-      { t: '扣750，退750，一人一半。', goto: 'qing_no' },
-      { t: '扣1000，退500，毕竟是她毁约。', goto: 'qing_no' },
-    ] },
+    { if: s => s.flags.p1_offer === 'fair', goto: 'ok' },
+    { if: s => s.flags.p1_offer === 'less', goto: 'qing_no' },
+    { if: s => s.flags.p1_offer === 'more', goto: 'kuang_more' },
     { label: 'kuang_no' },
     say('laokuang', '全退？那我不是白干了？老陈你到底帮谁的！', 'panic'),
+    { fx: { stats: { cred: -5 } } },
+    N('谈崩了。再想想。'),
+    { end: true },
+    { label: 'kuang_more' },
+    say('qingqing', '这还差不多。', 'cold'),
+    say('laokuang', '我什么时候答应退这么多了？扣不到五百，这车我白给她开了半个月？老陈你到底帮谁的！', 'panic'),
     { fx: { stats: { cred: -5 } } },
     N('谈崩了。再想想。'),
     { end: true },

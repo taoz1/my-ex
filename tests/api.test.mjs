@@ -96,7 +96,7 @@ test('free-text story input: the AI maps it to a branch, or answers in character
     const body = JSON.parse(opts.body);
     assert.match(body.messages[0].content, /storyOptions/);
     assert.match(body.messages[1].content, /扣500，退她1000/);
-    return reply('{"choice":1,"reply":"","emotion":"neutral"}');
+    return reply('{"analysis":"退1000，扣500","choice":"扣500，退她1000","reply":"","emotion":"neutral"}');
   });
   assert.deepEqual(await hit.json(), { choice: 1, model: 'deepseek-flash' });
   const miss = await handleApi(choose(pick), env, async () => reply('{"choice":null,"reply":"你倒是说个数啊。","emotion":"cold"}'));
@@ -105,12 +105,12 @@ test('free-text story input: the AI maps it to a branch, or answers in character
 
 test('free-text story input is validated', async () => {
   assert.throws(() => validateChoice({ ...pick, options: [] }));
-  assert.throws(() => validateChoice({ ...pick, options: Array(7).fill('x') }));
+  assert.throws(() => validateChoice({ ...pick, options: Array(9).fill('x') }));
   assert.throws(() => validateChoice({ ...pick, context: 'x' }));
   const t = validateChoice(pick);
-  assert.equal(validateChoiceResult({ choice: 2 }, t).choice, 2);
-  assert.throws(() => validateChoiceResult({ choice: 3 }, t), 'out-of-range choice needs a reply');
-  assert.equal(validateChoiceResult({ choice: 9, reply: '嗯？' }, t).choice, null);
+  assert.equal(validateChoiceResult({ choice: '扣1000，退500' }, t).choice, 2);
+  assert.throws(() => validateChoiceResult({ choice: '别的' }, t), 'an unknown option needs a reply');
+  assert.equal(validateChoiceResult({ choice: '别的', reply: '嗯？' }, t).choice, null);
   assert.equal((await handleApi(choose({ ...pick, npc: 'chen_mother' }), { DEEPSEEK_API_KEY: 'x' }, () => { throw Error('must not call'); })).status, 400);
 });
 
