@@ -3,12 +3,12 @@
 // 一段脚本是步骤数组，步骤类型：
 //   { s: 说话人, e?: 表情, t: 文本 | (state)=>文本 }   台词（s 为 v_* 时是内心声音）
 //   { fx: {...} }                                    结算效果（见 state.js applyFx）
-//   { choice: [{ t, fx?, goto?, when? }] }           选项；when(state) 为假时隐藏
+//   { choice: [{ t, fx?, goto?, when? }] }           剧情走向；玩家自由输入，由 AI 判断对应哪一条。when(state) 为假时不参与
 //   { label: '名字' } / { goto: '名字' }               跳转
 //   { call: '脚本id' }                                转到另一段脚本继续（不返回）
 //   { if: (state)=>bool, goto: '名字' }               条件跳转
 //   { check: 'clarity', min: 30, goto: '名字' }       属性检定，成功则跳转
-//   { chat: { npc, scene, suggestions } }            脚本结束，转入 AI 自由对话
+//   { chat: { npc, scene } }                         脚本结束，转入 AI 自由对话
 //   { end: true }                                    脚本结束
 import { applyFx } from './state.js';
 import { SCRIPTS } from './story.js';
@@ -71,6 +71,12 @@ export function choose(state, run, index) {
   if (option.fx) run.events.push(...applyFx(state, option.fx));
   if (option.goto) jump(run, option.goto); else run.pc++;
   return option.t;
+}
+
+// 所有走向都没有分支和效果时，玩家说什么剧情都一样往下走，不必问 AI。
+export function choiceIsFree(run) {
+  const st = SCRIPTS[run.id][run.pc];
+  return !!st?.choice && st.choice.every(c => !c.fx && !c.goto);
 }
 
 // 测试与调试用：按给定选项序列把脚本跑完，返回所有台词。选项用完后总选最后一个（通常是“离开”）。

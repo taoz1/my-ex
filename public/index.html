@@ -28,10 +28,8 @@
           <div class="dialogue-main">
             <div class="speaker-row"><strong id="speaker"></strong><span id="speaker-role" class="label"></span><button id="close-dialogue" class="close" aria-label="结束对话" hidden>×</button></div>
             <div id="transcript" class="transcript"></div>
-            <div id="choices" class="choices"></div>
             <div id="continue-hint" class="continue-hint" hidden>点击或按 空格 继续 ▼</div>
             <form id="chat-form" class="chat-form" hidden>
-              <div id="suggestions" class="suggestions"></div>
               <div class="chat-row">
                 <input id="chat-input" maxlength="160" autocomplete="off" placeholder="你想说什么……" aria-label="对话内容">
                 <button type="submit">说</button>
@@ -77,8 +75,6 @@
       <aside>
         <nav class="tabs" role="tablist">
           <button class="tab active" data-tab="quest">任务</button>
-          <button class="tab" data-tab="board">线索板</button>
-          <button class="tab" data-tab="versions">版本档案</button>
           <button id="phone-btn" class="tab phone-tab">手机<span id="phone-badge" class="badge" hidden></span></button>
         </nav>
 
@@ -87,20 +83,6 @@
           <h2 id="quest-title"></h2>
           <p id="quest-copy" class="quest-copy"></p>
           <div class="progress"><span id="quest-progress"></span></div>
-          <div class="divider"></div>
-          <span class="label">陈默</span>
-          <div id="stats" class="stats"></div>
-          <div class="divider"></div>
-          <span class="label">随身笔记</span>
-          <div id="journal" class="journal"></div>
-        </div>
-
-        <div class="tab-panel board" data-panel="board" hidden>
-          <div id="board"></div>
-        </div>
-
-        <div class="tab-panel" data-panel="versions" hidden>
-          <div id="versions"></div>
         </div>
 
         <div class="side-footer">
@@ -114,7 +96,7 @@
       <span><kbd>WASD</kbd>/<kbd>方向键</kbd> 移动</span>
       <span><kbd>E</kbd>/<kbd>空格</kbd> 互动 · 继续</span>
       <span><kbd>P</kbd> 手机</span>
-      <span><kbd>Esc</kbd> 结束闲聊</span>
+      <span><kbd>Esc</kbd> 结束对话</span>
     </section>
   </main>
 

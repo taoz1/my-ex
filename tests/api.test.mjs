@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { handleApi, validateDialogue, validateReply, buildPrompt } from '../backend/api.mjs';
+import { handleApi, validateDialogue, validateReply, buildPrompt, validateChoice, validateChoiceResult } from '../backend/api.mjs';
 import { resolveFile } from '../server.mjs';
 
 const turn = { npc: 'qingqing', scene: 'a1_daily', message: '今天想去哪儿？', memories: [] };
@@ -83,6 +83,35 @@ test('blocked or malformed provider output becomes a redacted 502', async () => 
 test('prompt only includes the requested character', () => {
   const [system] = buildPrompt(validateDialogue(turn));
   assert.ok(!system.content.includes('老邝，50多岁'));
+});
+
+const pick = { ...turn, scene: 'p1_mediation', message: '要不退她一千，老邝留五百？', context: ['老邝：老陈，你说句公道话。'], options: ['全退1500', '扣500，退她1000', '扣1000，退500'] };
+const choose = body => new Request('http://localhost/api/choose', {
+  method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body),
+});
+
+test('free-text story input: the AI maps it to a branch, or answers in character', async () => {
+  const env = { DEEPSEEK_API_KEY: 'k' };
+  const hit = await handleApi(choose(pick), env, async (url, opts) => {
+    const body = JSON.parse(opts.body);
+    assert.match(body.messages[0].content, /storyOptions/);
+    assert.match(body.messages[1].content, /扣500，退她1000/);
+    return reply('{"choice":1,"reply":"","emotion":"neutral"}');
+  });
+  assert.deepEqual(await hit.json(), { choice: 1, model: 'deepseek-flash' });
+  const miss = await handleApi(choose(pick), env, async () => reply('{"choice":null,"reply":"你倒是说个数啊。","emotion":"cold"}'));
+  assert.deepEqual(await miss.json(), { choice: null, reply: '你倒是说个数啊。', emotion: 'cold', model: 'deepseek-flash' });
+});
+
+test('free-text story input is validated', async () => {
+  assert.throws(() => validateChoice({ ...pick, options: [] }));
+  assert.throws(() => validateChoice({ ...pick, options: Array(7).fill('x') }));
+  assert.throws(() => validateChoice({ ...pick, context: 'x' }));
+  const t = validateChoice(pick);
+  assert.equal(validateChoiceResult({ choice: 2 }, t).choice, 2);
+  assert.throws(() => validateChoiceResult({ choice: 3 }, t), 'out-of-range choice needs a reply');
+  assert.equal(validateChoiceResult({ choice: 9, reply: '嗯？' }, t).choice, null);
+  assert.equal((await handleApi(choose({ ...pick, npc: 'chen_mother' }), { DEEPSEEK_API_KEY: 'x' }, () => { throw Error('must not call'); })).status, 400);
 });
 
 test('static file resolution refuses path traversal', () => {

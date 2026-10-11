@@ -1,7 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createState, serialize, deserialize } from '../public/js/engine/state.js';
-import { SCRIPTS } from '../public/js/engine/story.js';
+import { SCRIPTS, CHOICE_SCENES } from '../public/js/engine/story.js';
+import { SCENES } from '../backend/npc-cards.mjs';
 import { runScript } from '../public/js/engine/script.js';
 import { QUESTS } from '../public/js/engine/quests.js';
 import { interact, drive } from './helpers.mjs';
@@ -30,11 +31,20 @@ test('every script runs to the end on a fresh state with every first-level choic
   }
 });
 
+test('every script with story choices has an AI scene for free-text input', () => {
+  for (const [id, steps] of Object.entries(SCRIPTS)) {
+    const options = steps.filter(s => s.choice);
+    if (!options.length) continue;
+    assert.ok(SCENES[CHOICE_SCENES[id]], `${id}: no scene in CHOICE_SCENES`);
+    for (const s of options) assert.ok(s.choice.length <= 6, `${id}: too many options for the AI`);
+  }
+});
+
 function playPrologue(state) {
   interact(state, 'door_rental');
   assert.equal(state.quest, 'P1');
   interact(state, 'laokuang', [0, 3]);          // 问底线，离开
-  interact(state, 'qingqing', [0, 5]);          // 问在意什么，离开
+  interact(state, 'qingqing', [0, 4]);          // 问在意什么，离开
   assert.ok(state.flags.k_bottom && state.flags.q_bottom);
   interact(state, 'laokuang', [2, 1, 0]);       // 我有方案 → 扣500退1000 → 好啊
   assert.equal(state.quest, 'A1_01');
@@ -45,7 +55,7 @@ test('a failed proposal keeps the prologue open', () => {
   const state = createState();
   interact(state, 'door_rental');
   interact(state, 'laokuang', [3]);
-  interact(state, 'qingqing', [5]);
+  interact(state, 'qingqing', [4]);
   interact(state, 'laokuang', [2, 0]);          // 全退 → 老邝拒绝
   assert.equal(state.quest, 'P1');
   assert.equal(state.stats.cred, 15);

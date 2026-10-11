@@ -2,6 +2,7 @@
 // blocks：不可通行的方块（照地图图片里的墙、建筑、家具标出；没有图片时也用来画占位图）。
 // spots：可互动的点（门、车、床、物件）。
 // art：地图图片文件名（assets/maps/{art}.png），不写则与地图 id 相同。
+// scale：人物行走图的放大倍数。室内图的家具画得比街景大，人物要跟着放大，不写则为 1。
 // 调整坐标时：地址加 ?debug，在控制台运行 __game.showBlocks()，会把方块和互动点叠在地图上。
 
 export const WORLD_W = 1536;
@@ -30,23 +31,37 @@ export const MAPS = {
       wall(1070, 0, 180, 350, '梅姨风水'),
       wall(1250, 0, 286, 350, '阿珍护肤直销'),
       thing(145, 425, 140, 75, '你的车'),
-      thing(85, 420, 25, 170),                // 灯柱
-      thing(770, 440, 22, 235),               // 路口灯柱
+      thing(85, 560, 25, 30),                 // 灯柱（只挡底座，灯杆在画面里竖着越过马路）
+      thing(768, 640, 24, 35),                // 路口灯柱底座
       thing(295, 445, 75, 60),                // 树池
       thing(925, 445, 75, 60),
       thing(1120, 445, 80, 60),
       thing(1400, 445, 80, 60),
       thing(1215, 430, 135, 75, '白色SUV'),
       thing(1475, 505, 61, 85),
+      thing(36, 385, 20, 25),                 // 北侧人行道：灯柱底座、垃圾桶、消防栓
+      thing(526, 395, 28, 38),
+      thing(566, 405, 22, 28),
+      thing(831, 405, 20, 27),
+      thing(1050, 395, 46, 38),
+      thing(1246, 362, 25, 60),
+      thing(1505, 415, 22, 27),
       wall(0, 595, 310, 340, '唐记面包'),
       thing(110, 925, 120, 50),               // 长椅
+      thing(310, 675, 45, 155),               // 面包店门口的盆栽
       thing(405, 690, 65, 60),
+      thing(522, 725, 24, 35),                // 南侧路口灯柱底座
+      thing(815, 655, 32, 62),                // 报刊箱
       thing(465, 800, 65, 95),
       thing(1000, 680, 65, 50),
       thing(1165, 610, 185, 110, '巴士站'),
       thing(1120, 650, 35, 55),               // 邮筒
+      thing(1352, 660, 32, 55),               // 垃圾桶
+      thing(1420, 740, 22, 30),               // 灯柱底座
+      thing(1085, 735, 70, 50),               // 超市围栏前的灌木
+      thing(1392, 730, 50, 55),
       wall(840, 785, 696, 239, '华人超市'),
-      wall(1470, 610, 66, 175),
+      wall(1440, 610, 96, 175),
     ],
     spots: [
       { id: 'door_rental', kind: 'door', x: 683, y: 362, label: '进入租车行' },
@@ -57,6 +72,7 @@ export const MAPS = {
 
   rental_shop: {
     name: '老邝租车行',
+    scale: 1.5,
     floor: '#6b5f52',
     spawn: { x: 775, y: 520 },
     blocks: [
@@ -85,6 +101,7 @@ export const MAPS = {
 
   qingqing_house: {
     name: '晴晴家',
+    scale: 1.5,
     art: 'qingqing_house_a',
     floor: '#7a6f62',
     spawn: { x: 1400, y: 470 },
@@ -129,6 +146,7 @@ export const MAPS = {
 
   mall: {
     name: '西岭购物中心',
+    scale: 1.25,
     floor: '#cfc8bb',
     spawn: { x: 785, y: 740 },
     blocks: [
@@ -179,6 +197,7 @@ export const MAPS = {
 
   parents_home: {
     name: '父母家',
+    scale: 1.5,
     art: 'chen_parents_home',
     floor: '#8a7560',
     spawn: { x: 595, y: 900 },
@@ -239,6 +258,7 @@ export const MAPS = {
 
   afternoon_tea: {
     name: '海景酒店 · 下午茶',
+    scale: 1.5,
     floor: '#b89c84',
     spawn: { x: 768, y: 940 },
     blocks: [

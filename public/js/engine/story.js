@@ -86,14 +86,22 @@ export function interaction(state, target) {
   }
 }
 
-// AI 自由对话的建议话题
-export const CHAT_SUGGESTIONS = {
-  p1_mediation: ['你们俩到底谁说了算？', '都退一步行不行？'],
-  kuang_daily: ['那个女人什么来头？', '最近生意怎么样？'],
-  a1_job_wechat: ['那份工作具体做什么？', '你平时都忙些什么？'],
-  a1_daily: ['今天想去哪儿？', '说说你在英国的日子'],
-  a1_cohabit: ['芳姐在这儿做多久了？', '晴晴平时脾气怎么样？'],
-  a1_parents: ['妈，你觉得她怎么样？', '爸最近身体还好吗？'],
+// 剧情选项处玩家自由输入时，交给 AI 判断走向所用的场景（见 backend/npc-cards.mjs 的 SCENES）
+export const CHOICE_SCENES = {
+  p1_kuang: 'p1_mediation',
+  p1_qing: 'p1_mediation',
+  p1_propose: 'p1_mediation',
+  kuang_after: 'kuang_daily',
+  a1_01_job: 'a1_job_wechat',
+  a1_04_movein: 'a1_job_wechat',
+  a1_02_mall: 'a1_daily',
+  a1_03_sakura: 'a1_daily',
+  a1_06_tattoo: 'a1_daily',
+  a1_08_golf: 'a1_daily',
+  a1_08_exchange: 'a1_daily',
+  a1_09_page: 'a1_daily',
+  a1_07_dinner: 'a1_parents',
+  fang_talk: 'a1_cohabit',
 };
 
 // ── 剧情脚本 ────────────────────────────────────────────────
@@ -149,7 +157,6 @@ export const SCRIPTS = {
       { t: '车是旧了点，但提前退车，扣一点押金也是行规。', goto: 'rule' },
       { t: '能不能把墨镜摘下来说话？', goto: 'glasses', when: s => !s.flags.p1_glasses },
       { t: '我有个方案了。', when: s => s.flags.p1_talked_k, goto: 'propose' },
-      { t: '（随便聊聊）', goto: 'chat' },
       { t: '我先去跟老邝聊聊。', goto: 'bye' },
     ] },
     { label: 'care' },
@@ -170,9 +177,6 @@ export const SCRIPTS = {
     { goto: 'menu' },
     { label: 'propose' },
     { call: 'p1_propose' },
-    { label: 'chat' },
-    { fx: { flags: { p1_talked_q: true } } },
-    { chat: { npc: 'qingqing', scene: 'p1_mediation' } },
     { label: 'bye' },
     { fx: { flags: { p1_talked_q: true } } },
     { end: true },
@@ -558,15 +562,12 @@ export const SCRIPTS = {
     say('fangjie', '陈先生，喝茶吗？'),
     { choice: [
       { t: '芳姐，晴晴家里是做什么的？', goto: 'family' },
-      { t: '（随便聊聊）', goto: 'chat' },
       { t: '不用了，谢谢。', goto: 'bye' },
     ] },
     { label: 'family' },
     say('fangjie', '听说她爸是开五星酒店的！她跟每个新认识的人都要讲一遍，我都听过好几遍啦。'),
     { fx: { version: ['heiress', '对芳姐（芳姐转述）', '“听过听过。”同一套家世，她对保姆也讲过好几遍。'] } },
     { end: true },
-    { label: 'chat' },
-    { chat: { npc: 'fangjie', scene: 'a1_cohabit' } },
     { label: 'bye' },
     { end: true },
   ],

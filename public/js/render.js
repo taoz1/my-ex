@@ -38,7 +38,7 @@ export function draw(ctx, state, target, time) {
     ...npcsOnMap(state).map(n => ({ ...n, npc: true })),
     { id: 'chen', label: '陈默', x: state.player.x, y: state.player.y, dir: state.player.dir, player: true },
   ].sort((a, b) => a.y - b.y);
-  for (const p of people) drawPerson(ctx, p, target?.id === p.id);
+  for (const p of people) drawPerson(ctx, p, target?.id === p.id, map.scale || 1);
 
   ctx.restore();
 }
@@ -86,14 +86,15 @@ function drawSpot(ctx, s, active, time) {
   if (active) label(ctx, s.label, s.x, s.y - 20, '#e8b24a', 14);
 }
 
-function drawPerson(ctx, p, selected) {
+function drawPerson(ctx, p, selected, scale) {
+  const size = SPRITE_SIZE * scale;
   const sheetId = p.player ? 'chen_mo' : (GENERIC[p.id] !== undefined ? 'npc_generic' : p.id);
   const sheet = spriteImage(sheetId);
   if (sheet) {
     const frames = sheetId === 'npc_generic' ? 8 : 4;
     const index = sheetId === 'npc_generic' ? GENERIC[p.id] : Math.max(0, DIRS.indexOf(p.dir || 'down'));
     const fw = sheet.width / frames;
-    ctx.drawImage(sheet, index * fw, 0, fw, sheet.height, p.x - SPRITE_SIZE / 2, p.y - SPRITE_SIZE + 10, SPRITE_SIZE, SPRITE_SIZE);
+    ctx.drawImage(sheet, index * fw, 0, fw, sheet.height, p.x - size / 2, p.y - size + 10 * scale, size, size);
   } else {
     const color = p.player ? SPEAKERS.chen.color : (p.color || SPEAKERS[p.id]?.color || '#888');
     ctx.fillStyle = '#00000040';
@@ -104,9 +105,9 @@ function drawPerson(ctx, p, selected) {
   }
   if (selected) {
     ctx.strokeStyle = '#e8b24a'; ctx.lineWidth = 2;
-    ctx.strokeRect(p.x - 22, p.y - 60, 44, 74);
+    ctx.strokeRect(p.x - 22 * scale, p.y - 60 * scale, 44 * scale, 74 * scale);
   }
-  label(ctx, p.label, p.x, p.y - (sheet ? SPRITE_SIZE - 4 : 50), p.player ? '#e8b24a' : '#f5f0e7', 14);
+  label(ctx, p.label, p.x, p.y - (sheet ? size - 4 * scale : 50), p.player ? '#e8b24a' : '#f5f0e7', 14);
 }
 
 function label(ctx, text, x, y, color, size) {

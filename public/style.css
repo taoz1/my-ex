@@ -63,14 +63,9 @@ canvas { display: block; width: 100%; height: auto; image-rendering: pixelated; 
 .line.narrator { color: #c9cfd6; font-style: italic; }
 .line.voice { padding-left: 10px; border-left: 3px solid var(--vc, #888); color: var(--vc, #ccc); }
 .line.old { opacity: .55; }
-.choices { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
-.choices button { text-align: left; background: #182233; border: 1px solid #3c4b62; color: var(--ink); padding: 7px 10px; }
-.choices button:hover, .choices button:focus { border-color: var(--amber); outline: none; }
 .continue-hint { margin-top: 6px; color: var(--muted); font-size: 12px; text-align: right; animation: blink 1.4s infinite; }
 @keyframes blink { 50% { opacity: .35; } }
 .chat-form { margin-top: 8px; }
-.suggestions { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 6px; }
-.suggestions button { background: none; border: 1px solid #3c4b62; color: var(--muted); padding: 2px 8px; font-size: 13px; }
 .chat-row { display: flex; gap: 6px; }
 .chat-row input { flex: 1; background: #0a0e15; border: 1px solid #3c4b62; color: var(--ink); padding: 7px 10px; font: inherit; }
 .chat-row button { background: var(--amber); color: #1a1408; border: 0; padding: 0 16px; font-weight: 700; }
@@ -86,7 +81,6 @@ canvas { display: block; width: 100%; height: auto; image-rendering: pixelated; 
 .dialogue.phone .line.narrator { background: none; color: #777; align-self: center; font-size: 12px; }
 .dialogue.phone .line.voice { background: #f6f0ff; color: #5b4a8b; }
 .dialogue.phone .line .who { display: none; }
-.dialogue.phone .choices button { background: #fff; color: #222; border-color: #ccc; }
 .dialogue.phone .continue-hint, .dialogue.phone .chat-status, .dialogue.phone .close { color: #666; }
 .dialogue.phone .chat-row input { background: #fff; color: #222; border-color: #ccc; }
 
@@ -117,41 +111,9 @@ aside { background: linear-gradient(160deg, #182130, #11161f); border: 1px solid
 .quest-copy { color: #c9cfd6; font-size: 14px; }
 .progress { height: 4px; background: #0a0e15; margin-top: 10px; }
 .progress span { display: block; height: 100%; background: var(--amber); }
-.divider { height: 1px; background: var(--line); margin: 14px 0; }
-.stats { display: grid; gap: 7px; margin-top: 6px; }
-.stat { display: grid; grid-template-columns: 70px 1fr 28px; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
-.stat .bar { height: 6px; background: #0a0e15; }
-.stat .bar span { display: block; height: 100%; background: var(--sc); }
-.stat b { color: var(--ink); text-align: right; font-weight: 600; }
-.journal { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
-.note { font-size: 13px; color: #b8c0c9; border-left: 2px solid var(--line); padding-left: 8px; }
-.note.new { border-color: var(--amber); color: var(--ink); }
 .side-footer { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; border-top: 1px solid var(--line); }
 .ai-badge { font-size: 11px; letter-spacing: .1em; color: var(--muted); }
 .ai-badge.ready { color: var(--teal); }
-
-/* 线索板 */
-.board { background: #3b2c1f center / cover; }
-.board.cork { background-image: var(--cork); }
-.board-section { margin-bottom: 14px; }
-.board-section > .label { margin-bottom: 6px; }
-.card { background: #f1eadb; color: #2a241c; padding: 8px 10px; margin-bottom: 8px; font-size: 13px; box-shadow: 2px 3px 0 #0005; position: relative; }
-.card .who { font-weight: 700; font-size: 12px; color: #7a5a3a; }
-.card .tag { position: absolute; top: 6px; right: 8px; font-size: 11px; padding: 0 6px; border: 1px solid currentColor; }
-.tag.unverified { color: #8a7a64; }
-.tag.doubtful { color: #b5482f; }
-.tag.overturned { color: #555; text-decoration: line-through; }
-.card.anchor { background: #e9dcf0; border-left: 4px solid #8b5fa8; }
-.evidence-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-.evidence { background: #f1eadb; color: #2a241c; padding: 6px; font-size: 12px; text-align: center; border: 0; box-shadow: 2px 3px 0 #0005; }
-.evidence .thumb { height: 54px; background: #d8ccb6 center / contain no-repeat; margin-bottom: 4px; }
-.evidence-detail { background: #f1eadb; color: #2a241c; padding: 8px 10px; font-size: 13px; margin-top: 8px; }
-.empty { color: var(--muted); font-size: 13px; }
-.version-topic { margin-bottom: 16px; }
-.version-topic h3 { margin: 0 0 2px; font-size: 15px; }
-.version-topic .hint { color: var(--muted); font-size: 12px; margin-bottom: 6px; }
-.version { border-left: 2px solid var(--rose); padding: 2px 0 2px 8px; margin-bottom: 6px; font-size: 13px; }
-.version b { color: var(--rose); font-weight: 600; margin-right: 4px; }
 
 .help-row { display: flex; flex-wrap: wrap; gap: 18px; color: var(--muted); font-size: 13px; margin-top: 12px; }
 .mobile-controls { display: none; }

@@ -1,12 +1,12 @@
 // 入口：游戏循环、输入、对话 / 手机 / 开车流程、存档。
 import { createState, applyFx, travel, rememberChat, serialize, deserialize } from './engine/state.js';
 import { MAPS, DESTINATIONS, ARRIVALS } from './engine/maps.js';
-import { interaction, CHAT_SUGGESTIONS } from './engine/story.js';
-import { startScript, nextStep, choose } from './engine/script.js';
+import { interaction, CHOICE_SCENES } from './engine/story.js';
+import { startScript, nextStep, choose, choiceIsFree } from './engine/script.js';
 import { movePlayer, nearestTarget } from './engine/world.js';
 import { SPEAKERS } from './engine/catalog.js';
 import { draw, debug } from './render.js';
-import { renderPanels, bindPanels, escapeHtml } from './panels.js';
+import { renderPanels, escapeHtml } from './panels.js';
 import { portraitImage, uiImage, preload } from './assets.js';
 
 const SAVE_KEY = 'fourth-version-save-v1';
@@ -14,6 +14,8 @@ const $ = s => document.querySelector(s);
 const canvas = $('#game');
 const ctx = canvas.getContext('2d');
 const keys = new Set();
+// 剧情关键处能接话、由 AI 扮演的角色
+const CHOICE_NPCS = ['qingqing', 'laokuang', 'fangjie', 'chen_mother'];
 
 let state = createState();
 let target = null;
@@ -23,7 +25,7 @@ let last = performance.now();
 let saveTimer = 0;
 
 // 对话控制器状态
-const talk = { open: false, mode: null, run: null, waiting: false, chat: null, busy: false, phone: false, turns: 0 };
+const talk = { open: false, mode: null, run: null, waiting: false, chat: null, options: null, busy: false, phone: false, lines: [], lastNpc: null };
 
 // ── 存档 ─────────────────────────────
 function save() {
@@ -86,11 +88,12 @@ function appendLine(speakerId, text) {
 function openBox({ phone = false } = {}) {
   talk.open = true;
   talk.phone = phone;
+  talk.lines = [];
+  talk.lastNpc = null;
   keys.clear();
   $('#dialogue').hidden = false;
   $('#dialogue').classList.toggle('phone', phone);
   $('#transcript').innerHTML = '';
-  $('#choices').innerHTML = '';
   $('#chat-form').hidden = true;
   $('#close-dialogue').hidden = true;
   $('#continue-hint').hidden = true;
@@ -103,6 +106,7 @@ function closeBox() {
   talk.mode = null;
   talk.run = null;
   talk.chat = null;
+  talk.options = null;
   talk.waiting = false;
   $('#dialogue').hidden = true;
   save();
@@ -120,6 +124,14 @@ function playScript(id, { phone = false } = {}) {
   advance();
 }
 
+// 记下最近几句台词，剧情走向判断时作为上下文发给 AI
+function remember(speakerId, text) {
+  const sp = SPEAKERS[speakerId] || SPEAKERS.narrator;
+  talk.lines.push(`${speakerId === 'chen' ? '陈默' : sp.name || '旁白'}：${text}`.slice(0, 300));
+  talk.lines = talk.lines.slice(-8);
+  if (CHOICE_NPCS.includes(speakerId)) talk.lastNpc = speakerId;
+}
+
 function advance() {
   const run = talk.run;
   const prevMap = state.map;
@@ -127,19 +139,21 @@ function advance() {
   flushEvents(run.events);
   if (state.map !== prevMap) onMapChanged();
   renderPanels(state);
-  $('#choices').innerHTML = '';
   $('#continue-hint').hidden = true;
+  $('#chat-form').hidden = true;
+  $('#chat-input').blur();
+  $('#close-dialogue').hidden = true;
   talk.waiting = false;
 
   if (step.type === 'line') {
     if (!talk.phone) setPortrait(step.speaker, step.emotion);
     appendLine(step.speaker, step.text);
+    remember(step.speaker, step.text);
     if (talk.phone) state.phone.log.push(`${SPEAKERS[step.speaker]?.name || ''}：${step.text}`);
     talk.waiting = true;
     $('#continue-hint').hidden = false;
   } else if (step.type === 'choice') {
-    $('#choices').innerHTML = step.options.map((o, i) => `<button data-choice="${o.index}">${i + 1}. ${escapeHtml(o.text)}</button>`).join('');
-    $('#choices button')?.focus();
+    enterChoice(step.options);
   } else if (step.type === 'chat') {
     enterChat(step.npc, step.scene);
   } else {
@@ -147,62 +161,108 @@ function advance() {
   }
 }
 
-function pickChoice(index) {
-  const text = choose(state, talk.run, index);
-  appendLine('chen', text);
-  if (talk.phone) state.phone.log.push(`你：${text}`);
+// ── 剧情关键处：自由输入 ─────────────
+// 不列出选项。玩家说的话由 AI 判断对应哪个剧情走向；都不对应时，对方按角色回应一句，剧情停在原处。
+function enterChoice(options) {
+  talk.mode = 'choose';
+  talk.options = options;
+  $('#chat-form').hidden = false;
+  $('#close-dialogue').hidden = false;
+  const free = choiceIsFree(talk.run);
+  setChatStatus(free || ai.connected ? '轮到你说话了。' : `AI 未连接：${ai.reason}`, !free && !ai.connected);
+  $('#chat-input').focus();
+}
+
+function takeChoice(index, said) {
+  talk.mode = 'script';
+  choose(state, talk.run, index);
+  remember('chen', said);
+  if (talk.phone) state.phone.log.push(`你：${said}`);
   advance();
+}
+
+async function sendChoice(message) {
+  appendLine('chen', message);
+  if (choiceIsFree(talk.run)) { takeChoice(talk.options[0].index, message); return; }
+  const npc = talk.lastNpc;
+  const scene = CHOICE_SCENES[talk.run.id];
+  const result = await askAi('/api/choose', {
+    npc, scene, message,
+    memories: (state.memories[npc] || []).slice(-6),
+    context: talk.lines,
+    options: talk.options.map(o => o.text),
+  });
+  if (!result || talk.mode !== 'choose') return;
+  if (result.choice !== null) {
+    takeChoice(talk.options[result.choice].index, message);
+    return;
+  }
+  if (!talk.phone) setPortrait(npc, result.emotion);
+  appendLine(npc, result.reply);
+  remember('chen', message);
+  remember(npc, result.reply);
+  if (talk.phone) state.phone.log.push(`你：${message}`, `${SPEAKERS[npc].name}：${result.reply}`);
+  rememberChat(state, npc, `陈默：“${message}” ${SPEAKERS[npc].name}：“${result.reply}”`);
+  setChatStatus('轮到你说话了。');
+  save();
 }
 
 // ── AI 自由对话 ──────────────────────
 function enterChat(npc, scene) {
   talk.mode = 'chat';
   talk.chat = { npc, scene };
-  talk.turns = 0;
   if (!talk.phone) setPortrait(npc, 'neutral');
   $('#chat-form').hidden = false;
   $('#close-dialogue').hidden = false;
-  $('#suggestions').innerHTML = (CHAT_SUGGESTIONS[scene] || []).map(s => `<button type="button" data-say="${escapeHtml(s)}">${escapeHtml(s)}</button>`).join('');
   setChatStatus(ai.connected ? 'AI 角色会按自己的性格和知道的事回应你。按 Esc 或 × 结束。' : `AI 未连接：${ai.reason}`, !ai.connected);
   $('#chat-input').focus();
 }
 
 async function sendChat(message) {
-  message = message.trim();
-  if (!message || talk.busy || !talk.chat) return;
   const { npc, scene } = talk.chat;
-  talk.busy = true;
   appendLine('chen', message);
+  const result = await askAi('/api/dialogue', { npc, scene, message, memories: (state.memories[npc] || []).slice(-6) });
+  if (!result || !talk.chat) return; // 等待期间对话已关闭
+  if (!talk.phone) setPortrait(npc, result.emotion);
+  appendLine(npc, result.reply);
+  if (talk.phone) state.phone.log.push(`你：${message}`, `${SPEAKERS[npc].name}：${result.reply}`);
+  rememberChat(state, npc, `陈默：“${message}” ${SPEAKERS[npc].name}：“${result.reply}”`);
+  setChatStatus('AI 回应完成。');
+  save();
+}
+
+function say(text) {
+  text = text.trim();
+  if (!text || talk.busy) return;
+  if (talk.mode === 'choose') sendChoice(text);
+  else if (talk.mode === 'chat') sendChat(text);
+}
+
+// 调用服务端 AI；失败时在对话框里写明原因并返回 null（不会编造回应）。
+async function askAi(path, body) {
+  talk.busy = true;
   setChatStatus('对方正在想……');
-  let result;
   try {
-    const res = await fetch('/api/dialogue', {
+    const res = await fetch(path, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ npc, scene, message, memories: (state.memories[npc] || []).slice(-6) }),
+      body: JSON.stringify(body),
       signal: AbortSignal.timeout(45000),
     });
     const data = await res.json().catch(() => ({}));
     if (!res.ok) throw Error(data.error || `服务器返回 ${res.status}`);
-    result = data;
     setAi(true, '');
-    setChatStatus('AI 回应完成。');
+    return data;
   } catch (e) {
     const reason = e.name === 'TimeoutError' ? 'AI 回应超时（45 秒）。' : e.name === 'TypeError' ? '连不上游戏服务器。' : e.message;
-    if (talk.chat) {
+    if (talk.open) {
       appendError(`AI 没有回应：${reason}`);
       setChatStatus(`AI 未连接：${reason}`, true);
     }
-    return;
+    return null;
   } finally {
     talk.busy = false;
   }
-  if (!talk.chat) return; // 等待期间对话已关闭
-  talk.turns++;
-  if (!talk.phone) setPortrait(npc, result.emotion);
-  appendLine(npc, result.reply);
-  rememberChat(state, npc, `陈默：“${message}” ${SPEAKERS[npc].name}：“${result.reply}”`);
-  save();
 }
 
 function setChatStatus(text, error = false) {
@@ -346,15 +406,14 @@ async function checkAi() {
 // ── 事件绑定 ─────────────────────────
 addEventListener('keydown', e => {
   if (e.target.matches('input')) {
-    if (e.key === 'Escape' && talk.mode === 'chat') closeBox();
+    if (e.key === 'Escape' && (talk.mode === 'chat' || talk.mode === 'choose')) closeBox();
     return;
   }
   const k = e.key.toLowerCase();
   if (['arrowup', 'arrowdown', 'arrowleft', 'arrowright', ' '].includes(k)) e.preventDefault();
   if (talk.open) {
     if ((k === ' ' || k === 'e' || k === 'enter') && talk.waiting) advance();
-    else if (/^[1-9]$/.test(k)) $(`#choices button:nth-child(${k})`)?.click();
-    else if (k === 'escape' && talk.mode === 'chat') closeBox();
+    else if (k === 'escape' && (talk.mode === 'chat' || talk.mode === 'choose')) closeBox();
     return;
   }
   if (!$('#travel').hidden) { if (k === 'escape') closeTravel(); return; }
@@ -366,10 +425,6 @@ addEventListener('keyup', e => keys.delete(e.key.toLowerCase()));
 addEventListener('blur', () => keys.clear());
 
 $('#dialogue').addEventListener('click', e => {
-  const choice = e.target.closest('[data-choice]');
-  if (choice) { pickChoice(Number(choice.dataset.choice)); return; }
-  const say = e.target.closest('[data-say]');
-  if (say) { sendChat(say.dataset.say); return; }
   if (talk.waiting && !e.target.closest('form')) advance();
 });
 $('#close-dialogue').onclick = closeBox;
@@ -378,7 +433,7 @@ $('#chat-form').onsubmit = e => {
   const input = $('#chat-input');
   const text = input.value;
   input.value = '';
-  sendChat(text);
+  say(text);
 };
 $('#travel-list').onclick = e => { const b = e.target.closest('[data-dest]'); if (b) driveTo(b.dataset.dest); };
 $('#travel-cancel').onclick = closeTravel;
@@ -398,7 +453,6 @@ document.querySelectorAll('[data-move]').forEach(b => {
   b.addEventListener('pointerdown', e => { e.preventDefault(); keys.add(k); });
   for (const ev of ['pointerup', 'pointercancel', 'pointerleave']) b.addEventListener(ev, e => { e.preventDefault(); keys.delete(k); });
 });
-bindPanels(() => state);
 
 // ── 启动 ─────────────────────────────
 const saved = loadSave();

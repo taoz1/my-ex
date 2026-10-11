@@ -47,7 +47,7 @@ npm run dev              # 打开 http://localhost:3000
 
 ## 操作
 
-`WASD`/方向键 移动 · `E`/空格 互动、继续对话 · 数字键 选选项 · `P` 手机 · `Esc` 结束闲聊
+`WASD`/方向键 移动 · `E`/空格 互动、继续对话 · 轮到你说话时直接打字（剧情走向由 AI 判断） · `P` 手机 · `Esc` 结束对话
 
 ## 目录结构
 
@@ -63,9 +63,9 @@ public/                 前端（原生 ES 模块 + Canvas 2D）
     world.js            移动与碰撞
   js/main.js            游戏循环、输入、对话 / 手机 / 开车、存档
   js/render.js          地图与人物渲染（有素材画素材，没有画占位图）
-  js/panels.js          侧栏：任务、线索板、版本档案
+  js/panels.js          侧栏：任务说明、手机未读数
 backend/
-  api.mjs               /api/status、/api/dialogue（DeepSeek，服务端调用）
+  api.mjs               /api/status、/api/dialogue、/api/choose（DeepSeek，服务端调用）
   npc-cards.mjs         AI NPC 角色卡与场景目标（只在服务端）
 assets/                 美术素材（见 docs/art/文生图素材清单_第一批.md）
 docs/story/             叙事设计文档
