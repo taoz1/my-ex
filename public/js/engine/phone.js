@@ -24,7 +24,20 @@ const normalize = text => text.toLowerCase().replace(/\s+/g, '');
 export function search(state, query) {
   const q = normalize(query);
   if (!q) return [];
-  return SEARCH_RESULTS.filter(r => (!r.when || r.when(state)) && r.keys.some(group => group.every(word => q.includes(normalize(word)))));
+  return SEARCH_RESULTS.filter(r => {
+    if (r.when && !r.when(state)) return false;
+    const groups = typeof r.keys === 'function' ? r.keys(state) : r.keys;
+    return groups.some(group => group.every(word => q.includes(normalize(word))));
+  });
+}
+
+// 照片比对小游戏：选中的特征要和 compare.match 完全一致才算认出来
+export function comparePhotos(result, picked) {
+  const { match } = result.compare;
+  const wrong = picked.filter(f => !match.includes(f));
+  if (wrong.length) return { ok: false, text: `${wrong.join('、')}——这些很容易变，不能当证据。看骨相。` };
+  if (picked.length < match.length) return { ok: false, text: '还不够确定。再看看。' };
+  return { ok: true, text: '侧脸、鼻梁、下巴……越看越像。' };
 }
 
 // ── 法院案件系统 ───────────────────────────────────────────

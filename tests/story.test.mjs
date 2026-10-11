@@ -1,12 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createState, serialize, deserialize } from '../public/js/engine/state.js';
+import { createState, serialize, deserialize, applyFx } from '../public/js/engine/state.js';
 import { SCRIPTS, CHOICE_SCENES } from '../public/js/engine/story.js';
 import { SCENES, ACTS, INTENTS, CHARACTERS } from '../backend/npc-cards.mjs';
 import { runScript, startScript, nextStep, choose, matchOption } from '../public/js/engine/script.js';
 import { MINDS, react, trust } from '../public/js/engine/minds.js';
 import { AI_NPCS } from '../public/js/engine/catalog.js';
-import { CONTACTS, contactScene } from '../public/js/engine/phone.js';
+import { CONTACTS, contactScene, search, comparePhotos } from '../public/js/engine/phone.js';
 import { QUESTS } from '../public/js/engine/quests.js';
 import { interact, drive } from './helpers.mjs';
 import { updateApproach } from '../public/js/engine/world.js';
@@ -265,6 +265,68 @@ function playActTwo(state) {
 
 test('full playthrough: act two', () => {
   playActTwo(playActOne());
+});
+
+// 模拟在手机上读一条搜索结果（以及照片比对）
+function readResult(state, query, id) {
+  const r = search(state, query).find(x => x.id === id);
+  assert.ok(r, `searching “${query}” should find ${id}`);
+  state.searched.push(r.id);
+  if (r.fx) applyFx(state, typeof r.fx === 'function' ? r.fx(state) : r.fx);
+  if (r.compare) {
+    assert.ok(!comparePhotos(r, ['发型']).ok, 'hair is not a feature');
+    assert.ok(comparePhotos(r, r.compare.match).ok);
+    applyFx(state, r.compare.fx);
+  }
+  return r.then?.(state);
+}
+
+function playActThree(state) {
+  runScript(state, state.phone.pending, [0]);         // 老钟来电
+  assert.equal(state.quest, 'A3_16');
+  assert.ok(state.notebook.some(n => n.text.includes('许嘉晴')));
+  assert.equal(search(state, '许嘉晴')[0].id, 'xjq_other', 'before September the bare name finds nothing useful');
+  runScript(state, state.phone.pending, [0, 0]);      // 资金审查 → 28天 → 逼她退钱
+  for (const id of ['laozhong', 'michael', 'xiaomo']) runScript(state, CONTACTS[id].script(state), [0]);
+  assert.ok(state.flags.paid_xiaomo && state.flags.told_police);
+  assert.equal(state.phone.pending, 'a3_16_explain2');
+  runScript(state, state.phone.pending);
+  assert.equal(state.claims.accountant.status, 'overturned');
+  assert.equal(state.quest, 'A3_17');
+  runScript(state, state.phone.pending, [0]);          // 拆穿新闻贴金
+  assert.ok(state.evidence.includes('pattern_news'));
+  assert.equal(state.quest, 'A3_18');
+
+  assert.equal(readResult(state, '许嘉晴', 'luna_main'), null);
+  assert.equal(readResult(state, '许嘉晴', 'luna_chat'), null);
+  readResult(state, '鹿鸣', 'luna_v2');
+  const next = readResult(state, '许嘉晴', 'luna_photo');
+  assert.equal(next, 'a3_18_realize');
+  runScript(state, next);
+  assert.equal(state.quest, 'A3_19');
+
+  runScript(state, CONTACTS.qingqing.script(state));   // 语音聊：版本三
+  assert.equal(state.versions.luna.length, 2);
+  drive(state, 'qingqing_house_b');
+  interact(state, 'qingqing', [0, 0, 0]);              // 相信她，回家都记下来
+  assert.ok(state.flags.g_record);
+  runScript(state, state.phone.pending, [0, 0, 0]);    // 三次都转账
+  assert.equal(state.transfers.reduce((n, t) => n + t.amount, 0), 600);
+  assert.equal(state.quest, 'A4_21');
+  assert.equal(state.actBreak, 3);
+  return state;
+}
+
+test('full playthrough: act three', () => {
+  playActThree(playActTwo(playActOne()));
+});
+
+test('a high-clarity player can find the Luna case early with name + keyword', () => {
+  const state = createState();
+  state.quest = 'A3_16';
+  assert.equal(search(state, '许嘉晴 网红').length, 0, 'not before the name is known');
+  state.flags.knows_real_name = true;
+  assert.ok(search(state, '许嘉晴 网红').some(r => r.id === 'luna_main'));
 });
 
 test('save round-trips and rejects broken saves', () => {

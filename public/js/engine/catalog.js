@@ -16,6 +16,10 @@ export const SPEAKERS = {
   azhen: { name: '阿珍', role: '护肤品直销', color: '#d36a8f', portrait: 'azhen' },
   linda: { name: 'Linda 郭', role: '豪宅经纪人', color: '#8fb3a0', portrait: 'linda' },
   laohe: { name: '老何', role: '二手工具的买家', color: '#8c8471', portrait: null },
+  // 第三幕
+  laozhong: { name: '老钟', role: '帮她换过汇的朋友', color: '#b07a4f', portrait: 'laozhong' },
+  michael: { name: '麦可', role: '帮她换过汇的朋友', color: '#5f8fa8', portrait: 'michael' },
+  xiaomo: { name: '小莫', role: '帮她换过汇的朋友', color: '#8fa85f', portrait: 'xiaomo' },
   narrator: { name: '', role: '旁白', color: '#9ba4ae', portrait: null },
   v_mother: { name: '妈妈的声音', role: '内心', color: '#b39ddb', portrait: null, voice: true },
   v_desire: { name: '欲望', role: '内心', color: '#e57373', portrait: null, voice: true },
@@ -24,7 +28,7 @@ export const SPEAKERS = {
 };
 
 // 由 AI 扮演、能自由对话的角色（backend/npc-cards.mjs 里有角色卡）
-export const AI_NPCS = ['qingqing', 'laokuang', 'fangjie', 'chen_mother', 'akang', 'xiaowen', 'shenman', 'azhen', 'linda'];
+export const AI_NPCS = ['qingqing', 'laokuang', 'fangjie', 'chen_mother', 'akang', 'xiaowen', 'shenman', 'azhen', 'linda', 'laozhong', 'michael', 'xiaomo'];
 
 // 证据 / 物件。img 对应 assets/items/ 下的文件名（不含扩展名）。
 export const EVIDENCE = {
@@ -39,6 +43,11 @@ export const EVIDENCE = {
   lawfirm_folder: { name: '律所的文件夹', img: 'lawfirm_folder', desc: '她从“投行”大楼下来时手里的文件夹，上面印着一家移民律所的标志。同一层楼的指示牌上也有这家律所。' },
   utility_bill: { name: '电费账单', img: 'utility_bill', desc: '新房的电费账单，户名：陈默。阿珍来的那天，它就摊在书桌上。' },
   member_form: { name: '直销会员登记', img: 'member_form', desc: '为了帮她“演戏”，你在阿珍那里登记了会员。' },
+  fake_screenshot: { name: '“三千万被冻”截图', img: 'fake_screenshot', desc: '她发来的截图：她名下三千万人民币被冻结。字体边缘不太对。' },
+  transfer_timeline: { name: '收款时间表', img: 'transfer_timeline', desc: '麦可整理的：每一笔人民币转进朋友账户的时间、金额，和当面交给她的美元现金。' },
+  pattern_news: { name: '模式卡：新闻贴金', img: 'pattern_card', desc: '她总把新闻里的人说成自己认识的人。新闻里从来没有名字。' },
+  luna_photo: { name: '三人合照', img: 'luna_photo', desc: '2023年5月：鹿鸣、一个侧着脸的年轻女子、一位年长女性。年轻女子的脖子上没有纹身。和你拍的樱花节照片放在一起，侧脸、鼻梁、下巴越看越像。' },
+  k_chat: { name: '聊天截图', img: 'phone_chat', desc: '鹿鸣的朋友公开的截图。“星河妈”：“晴晴和K分手了，想出去玩几天。”署名“晴晴”的账号：“我已经到圣罗莎港啦，在酒店洗澡等你～”' },
   cash_envelope: { name: '换汇的现金', img: 'cash_envelope', desc: '人民币转进朋友的国内账户，朋友在这边把美元现金当面交给她。' },
 };
 
@@ -65,6 +74,17 @@ export const CLAIMS = {
   house_bought: { who: 'qingqing', topic: 'family', text: '（对芳姐）“这房子是我买的，一百多万，先过渡一下。”' },
   interview_ok: { who: 'qingqing', topic: 'money', text: '投行面试很成功，“只是没有身份不能上班。你跟我结婚，我就能来上班了。”' },
   three_salons: { who: 'qingqing', topic: 'money', text: '（对阿珍）她合伙开了三家美容院，八月还有新店开张。' },
+  // 第三幕
+  audit: { who: 'qingqing', topic: 'money', text: '朋友的卡被冻“只是资金审查，正常的”。' },
+  unfreeze_28: { who: 'qingqing', topic: 'money', text: '“28天以后就全部解封了。”' },
+  frozen_30m: { who: 'qingqing', topic: 'money', text: '她名下有三千万人民币也被冻结了（她发来了截图）。' },
+  zhaohui_client: { who: 'qingqing', topic: 'money', text: '赵慧不是会计，是“捞人”的委托人：老秦帮她狱中的丈夫联系律师，钱是律师费和保释金。' },
+  reported_me: { who: 'qingqing', topic: 'money', text: '赵慧“不想认账，故意举报我”。' },
+  dividend: { who: 'qingqing', topic: 'qin_assets', text: '年底新加坡公司会给她一百万美元分红，到时候大家的损失她都补偿。“分红的钱只能买奢侈品。”' },
+  tianlong: { who: 'qingqing', topic: 'qin_assets', text: '新闻里湖蓝色定制豪车醉驾的“天龙人”，就是阿蓉的女儿。' },
+  coin_wife: { who: 'qingqing', topic: 'qin_assets', text: '百亿数字币被没收的那个人，他老婆她认识，一起喝过下午茶。' },
+  luna_v3: { who: 'qingqing', topic: 'luna', text: '那些消息是老秦拿她的手机发的；她被软禁了，她和老秦都在英国，没去南屿；接机的是一个叫 Rico 的人。' },
+  meiyi_gua: { who: 'qingqing', topic: 'money', text: '梅姨算过：这个阶段家里不能有男人。你的东西“找不到了”。' },
   money_cut: { who: 'qingqing', topic: 'money', text: '“本来老秦说这些钱全部给我的，就是因为你太笨，在阿珍面前把咱俩的关系暴露了。”' },
 };
 
@@ -81,4 +101,5 @@ export const VERSION_TOPICS = {
   chen_identity: { title: '“陈默是谁”', hint: '她怎么向别人介绍你。' },
   house: { title: '她住的房子', hint: '租的？买的？要看她在跟谁说。' },
   money: { title: '钱从哪来', hint: '会计、生意、老秦……' },
+  luna: { title: '鹿鸣的事', hint: '一个失联的博主。她讲过不止一个版本。' },
 };

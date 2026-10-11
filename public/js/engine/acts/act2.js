@@ -449,7 +449,7 @@ export const SCRIPTS = {
     { label: 'moveout' },
     N('你收拾了一个行李箱，搬回自己的住处。有些东西来不及带走，她说“先放着”。'),
     { label: 'end' },
-    { fx: { quest: 'A3_15', actBreak: 2, travel: { map: 'chen_home' }, note: '第二幕结束。秦岳从阿珍那里知道了你的存在。她说：“都是你害的。”' } },
+    { fx: { quest: 'A3_15', actBreak: 2, travel: { map: 'chen_home' }, phone: { pending: 'a3_15_call', from: 'laozhong' }, note: '第二幕结束。秦岳从阿珍那里知道了你的存在。她说：“都是你害的。”' } },
   ],
 
   a2_daily: [

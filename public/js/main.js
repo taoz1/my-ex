@@ -310,6 +310,9 @@ function logPhone(line) {
 }
 
 function openContact(id) {
+  // 有些联系人此刻有一段剧情要演（比如朋友打来的电话），先演剧情
+  const scripted = CONTACTS[id].script?.(state);
+  if (scripted) { playScript(scripted, { phone: id }); return; }
   openBox({ phone: id });
   talk.lines = CONTACTS[id].context?.(state) ?? [];
   const history = (state.phone.logs[id] || []).slice(-12);
@@ -356,6 +359,7 @@ function act() {
   const result = interaction(state, target);
   if (result.toast) toast(result.toast);
   if (result.menu === 'travel') openTravel();
+  if (result.phoneApp) openPhoneUI(result.phoneApp);
   if (result.travel) { travel(state, result.travel); onMapChanged(); save(); }
   if (result.script) playScript(result.script);
 }
@@ -484,6 +488,7 @@ bindPhone({
   getState: () => state,
   playPhoneScript,
   openContact,
+  playScript: id => playScript(id),
   afterFx(events) { for (const e of events) toast(e); renderPanels(state); save(); },
 });
 $('#btn-new').onclick = () => startGame(true);

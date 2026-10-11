@@ -1,6 +1,6 @@
 // 手机界面：消息、搜索、法院案件系统、监狱查询、证据。
 // 只负责显示和点击；查询规则在 engine/phone.js，内容在 engine/content/phone_content.js。
-import { contactList, search, findCase, caseComplete, inmateLookup, COURT_CASES } from './engine/phone.js';
+import { contactList, search, findCase, caseComplete, inmateLookup, comparePhotos, COURT_CASES } from './engine/phone.js';
 import { applyFx } from './engine/state.js';
 import { SPEAKERS, CLAIMS, EVIDENCE, ANCHORS, VERSION_TOPICS } from './engine/catalog.js';
 import { itemImage } from './assets.js';
@@ -16,7 +16,7 @@ const APPS = [
 ];
 const STATUS_TEXT = { unverified: '未核实', doubtful: '存疑', overturned: '已推翻' };
 
-let host = null;   // main.js 传入：{ getState, playPhoneScript, openContact, afterFx }
+let host = null;   // main.js 传入：{ getState, playPhoneScript, openContact, playScript, afterFx }
 let app = 'messages';
 let view = null;   // 当前 app 内的子页面
 
@@ -72,7 +72,8 @@ function searchApp(state) {
   if (view?.result) {
     const r = view.result;
     return `<button class="back" data-back>‹ 返回结果</button>
-      <article class="article"><h3>${escapeHtml(r.title)}</h3><small>${escapeHtml(r.source)}</small>${r.text.split('\n').map(p => `<p>${escapeHtml(p)}</p>`).join('')}</article>`;
+      <article class="article"><h3>${escapeHtml(r.title)}</h3><small>${escapeHtml(r.source)}</small>${r.text.split('\n').map(p => `<p>${escapeHtml(p)}</p>`).join('')}</article>
+      ${compareBox(state, r)}`;
   }
   const query = view?.query || '';
   const results = query ? search(state, query) : [];
@@ -81,6 +82,17 @@ function searchApp(state) {
       : '<p class="empty">没有找到相关结果。换个关键词试试。</p>')
     : `<p class="empty">名字、地名、案号……先记下来，再来搜。${state.notebook.length ? `<br>你记下的：${state.notebook.map(n => escapeHtml(n.text)).join('、')}` : ''}</p>`;
   return `<form class="phone-form" data-form="search"><input name="q" value="${escapeHtml(query)}" placeholder="搜索" autocomplete="off"><button>搜</button></form>${list}`;
+}
+
+// 照片比对：调出你拍过、没被她删掉的照片，挑出对得上的特征
+function compareBox(state, r) {
+  if (!r.compare || !r.compare.when(state)) return '';
+  if (state.flags[r.compare.flag]) return `<p class="hint">${escapeHtml(r.compare.done)}</p>`;
+  const picked = view.picked || [];
+  return `<div class="compare"><p class="hint">${escapeHtml(r.compare.prompt)}</p>
+    <div class="compare-pics"><div>${escapeHtml(r.compare.left)}</div><div>${escapeHtml(r.compare.right)}</div></div>
+    ${r.compare.features.map(f => `<button class="feature ${picked.includes(f) ? 'on' : ''}" data-feature="${escapeHtml(f)}">${escapeHtml(f)}</button>`).join('')}
+    <button class="phone-go" data-compare>比对</button>${view.compareMsg ? `<p class="hint">${escapeHtml(view.compareMsg)}</p>` : ''}</div>`;
 }
 
 // ── 法院案件系统 ───────────────────────────────────────────
@@ -119,6 +131,23 @@ const section = (title, body) => (body ? `<h4>${title}</h4>${body}` : '');
 function onClick(e) {
   const state = host.getState();
   if (e.target.closest('[data-back]')) { view = { query: view.query }; render(); return; }
+  const feature = e.target.closest('[data-feature]');
+  if (feature) {
+    const f = feature.dataset.feature;
+    const picked = view.picked || [];
+    view = { ...view, picked: picked.includes(f) ? picked.filter(x => x !== f) : [...picked, f], compareMsg: null };
+    render();
+    return;
+  }
+  if (e.target.closest('[data-compare]')) {
+    const r = view.result;
+    const out = comparePhotos(r, view.picked || []);
+    view = { ...view, compareMsg: out.text };
+    if (out.ok) fx(r.compare.fx);
+    render();
+    if (out.ok) afterRead(r);
+    return;
+  }
   if (e.target.closest('[data-pending]')) { closePhone(); host.playPhoneScript(); return; }
   const contact = e.target.closest('[data-contact]');
   if (contact) { closePhone(); host.openContact(contact.dataset.contact); return; }
@@ -128,13 +157,20 @@ function onClick(e) {
     view = { query: view.query, result: r };
     if (!state.searched.includes(r.id)) {
       state.searched.push(r.id);
-      if (r.fx) fx(r.fx);
+      if (r.fx) fx(typeof r.fx === 'function' ? r.fx(state) : r.fx);
     }
     render();
+    afterRead(r);
     return;
   }
   const kase = e.target.closest('[data-case]');
   if (kase) openReader(kase.dataset.case);
+}
+
+// 读完一条结果后，可能触发一段剧情（比如三条线索凑齐）
+function afterRead(r) {
+  const next = r.then?.(host.getState());
+  if (next) { closePhone(); host.playScript(next); }
 }
 
 function onSubmit(e) {

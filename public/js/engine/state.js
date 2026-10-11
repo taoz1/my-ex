@@ -26,6 +26,7 @@ export function createState() {
     notebook: [],      // 记下的号码、案号、名字：{ id, text }
     pinned: {},        // 卷宗 id -> 已钉到线索板的关键段落
     searched: [],      // 读过的搜索结果 id
+    transfers: [],     // 你转给她的钱：{ quest, amount }。转账时不提示，第五幕才会想起来
     pressure: [],      // 拉扯循环的记录：{ quest, kind }（认错 / 设界 / 沉默 / DARVO），第五幕会回看
     actBreak: null,    // 刚演完的是第几幕：显示幕间卡片后清空
     memories: {},      // npcId -> 最近对话摘要
@@ -96,6 +97,7 @@ export function applyFx(state, fx = {}) {
     if (!state.phone.blocked.includes(id)) state.phone.blocked.push(id);
   }
   for (const id of list(fx.uncontact)) state.phone.contacts = state.phone.contacts.filter(c => c !== id);
+  if (fx.transfer) state.transfers.push({ quest: state.quest, amount: fx.transfer });
   for (const kind of list(fx.pull)) state.pressure.push({ quest: state.quest, kind });
   if (fx.actBreak) state.actBreak = fx.actBreak;
   for (const id of list(fx.unblock)) state.phone.blocked = state.phone.blocked.filter(b => b !== id);
