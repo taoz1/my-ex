@@ -9,12 +9,22 @@ export const SPEAKERS = {
   chen_mother: { name: '妈妈', role: '陈默的母亲', color: '#9c8fb8', portrait: 'chen_mother' },
   qinyue: { name: '秦岳', role: '电话那头 · K', color: '#6b7a8f', portrait: 'qin_yue' },
   passerby: { name: '路人', role: '华埠街坊', color: '#7d8c99', portrait: null },
+  // 第二幕
+  xiaowen: { name: '小雯', role: '国内的老朋友', color: '#d39b6a', portrait: 'xiaowen' },
+  akang: { name: '阿康', role: '共同好友', color: '#6a9bd3', portrait: 'akang' },
+  shenman: { name: '沈曼', role: '编剧 · 新房东', color: '#a78bc9', portrait: 'shenman' },
+  azhen: { name: '阿珍', role: '护肤品直销', color: '#d36a8f', portrait: 'azhen' },
+  linda: { name: 'Linda 郭', role: '豪宅经纪人', color: '#8fb3a0', portrait: 'linda' },
+  laohe: { name: '老何', role: '二手工具的买家', color: '#8c8471', portrait: null },
   narrator: { name: '', role: '旁白', color: '#9ba4ae', portrait: null },
   v_mother: { name: '妈妈的声音', role: '内心', color: '#b39ddb', portrait: null, voice: true },
   v_desire: { name: '欲望', role: '内心', color: '#e57373', portrait: null, voice: true },
   v_mediator: { name: '和事佬', role: '内心', color: '#81c784', portrait: null, voice: true },
   v_detective: { name: '老侦探', role: '内心', color: '#64b5f6', portrait: null, voice: true },
 };
+
+// 由 AI 扮演、能自由对话的角色（backend/npc-cards.mjs 里有角色卡）
+export const AI_NPCS = ['qingqing', 'laokuang', 'fangjie', 'chen_mother', 'akang', 'xiaowen', 'shenman', 'azhen', 'linda'];
 
 // 证据 / 物件。img 对应 assets/items/ 下的文件名（不含扩展名）。
 export const EVIDENCE = {
@@ -23,6 +33,12 @@ export const EVIDENCE = {
   sakura_polaroid: { name: '樱花节合影', img: 'sakura_polaroid', desc: '樱花树下的合影。拍照时她把脸转开了，只露出侧脸。' },
   tattoo_arm: { name: '纹身', img: 'tattoo_arm', desc: '大腿和上臂各有一个男性头像，身上十几处英文。其中一句：“K is my lord, and I’m the slave”。颈部和手背有洗过的疤痕。' },
   case_file_page: { name: '卷宗第26条', img: 'case_file_page', desc: '“26. I have seen an Interpol Red Notice associated with this passport... charged with Illegally Absorbing Deposits from the Public...”她只给你看了这一段。' },
+  wanwan_chat: { name: '“玩一玩”', img: 'phone_chat', desc: '你和小雯的微信：“反正就是玩一玩。”她翻你手机时看到的就是这一句。' },
+  qin_letter: { name: '狱中的手写信', img: 'qin_letter', desc: '秦岳关禁闭时写的信。劝她别再和他母亲吵架，末尾写着：“不要放弃我。”' },
+  lease_b: { name: '新房的租约', img: 'lease', desc: '橡树谷新房的租约，房东沈曼。承租人一栏签的是你的名字：陈默。' },
+  lawfirm_folder: { name: '律所的文件夹', img: 'lawfirm_folder', desc: '她从“投行”大楼下来时手里的文件夹，上面印着一家移民律所的标志。同一层楼的指示牌上也有这家律所。' },
+  utility_bill: { name: '电费账单', img: 'utility_bill', desc: '新房的电费账单，户名：陈默。阿珍来的那天，它就摊在书桌上。' },
+  member_form: { name: '直销会员登记', img: 'member_form', desc: '为了帮她“演戏”，你在阿珍那里登记了会员。' },
   cash_envelope: { name: '换汇的现金', img: 'cash_envelope', desc: '人民币转进朋友的国内账户，朋友在这边把美元现金当面交给她。' },
 };
 
@@ -44,6 +60,12 @@ export const CLAIMS = {
   coin_tip: { who: 'qingqing', topic: 'qin_assets', text: '她和老秦在英国的私人饭局上，提前得知了“总统币要发行”的内部消息。' },
   red_notice: { who: 'qingqing', topic: 'qin_identity', text: '卷宗第26条：老秦因“非法吸收公众存款”被红通。“他只是个经济犯。”' },
   accountant: { who: 'qingqing', topic: 'money', text: '国内转人民币的是她的“会计”。' },
+  // 第二幕
+  driver_coming: { who: 'qingqing', topic: 'qin_assets', text: '老秦答应给她安排司机和一辆新车，两人当着你的面讨论车型和颜色。' },
+  house_bought: { who: 'qingqing', topic: 'family', text: '（对芳姐）“这房子是我买的，一百多万，先过渡一下。”' },
+  interview_ok: { who: 'qingqing', topic: 'money', text: '投行面试很成功，“只是没有身份不能上班。你跟我结婚，我就能来上班了。”' },
+  three_salons: { who: 'qingqing', topic: 'money', text: '（对阿珍）她合伙开了三家美容院，八月还有新店开张。' },
+  money_cut: { who: 'qingqing', topic: 'money', text: '“本来老秦说这些钱全部给我的，就是因为你太笨，在阿珍面前把咱俩的关系暴露了。”' },
 };
 
 // 认知锚点：玩家在第一幕被植入的认知，会在后面被推翻。
@@ -57,4 +79,6 @@ export const VERSION_TOPICS = {
   heiress: { title: '千金故事', hint: '她对每个新认识的人都要讲一遍。' },
   tattoo: { title: '纹身的来历', hint: '同一身纹身，她给过不止一种解释。' },
   chen_identity: { title: '“陈默是谁”', hint: '她怎么向别人介绍你。' },
+  house: { title: '她住的房子', hint: '租的？买的？要看她在跟谁说。' },
+  money: { title: '钱从哪来', hint: '会计、生意、老秦……' },
 };

@@ -95,11 +95,12 @@ export function choiceIsFree(run) {
 //   { act: 'ask', topic: '话题' }         玩家问到这个话题（话题原文会发给 AI 做归类）
 //   { act: 'propose', min?, max? }       玩家提出的数额落在范围里（含两端）
 //   { act: 'support' } 等                只看行为
+//   { topic: '话题' }                     不管什么行为，只要说的是这个话题
 const asList = v => (v === undefined ? [] : Array.isArray(v) ? v : [v]);
 
 function matches(m, said) {
   if (m === '*') return true;
-  if (m.act !== said.act) return false;
+  if (m.act && m.act !== said.act) return false;
   if (m.topic && m.topic !== said.topic) return false;
   if (m.min !== undefined && !(said.amount >= m.min)) return false;
   if (m.max !== undefined && !(said.amount <= m.max)) return false;

@@ -26,6 +26,8 @@ export function createState() {
     notebook: [],      // 记下的号码、案号、名字：{ id, text }
     pinned: {},        // 卷宗 id -> 已钉到线索板的关键段落
     searched: [],      // 读过的搜索结果 id
+    pressure: [],      // 拉扯循环的记录：{ quest, kind }（认错 / 设界 / 沉默 / DARVO），第五幕会回看
+    actBreak: null,    // 刚演完的是第几幕：显示幕间卡片后清空
     memories: {},      // npcId -> 最近对话摘要
     notes: ['2025年2月。老邝打来电话，说租车出了点麻烦，请你去当个和事佬。'],
     stories: [],       // 第一幕日常中听过的炫富故事
@@ -93,6 +95,9 @@ export function applyFx(state, fx = {}) {
   for (const id of list(fx.block)) {
     if (!state.phone.blocked.includes(id)) state.phone.blocked.push(id);
   }
+  for (const id of list(fx.uncontact)) state.phone.contacts = state.phone.contacts.filter(c => c !== id);
+  for (const kind of list(fx.pull)) state.pressure.push({ quest: state.quest, kind });
+  if (fx.actBreak) state.actBreak = fx.actBreak;
   for (const id of list(fx.unblock)) state.phone.blocked = state.phone.blocked.filter(b => b !== id);
   for (const id of list(fx.anchor)) {
     if (!ANCHORS[id]) throw Error(`Unknown anchor ${id}`);

@@ -1,6 +1,12 @@
-// 序章 + 第一幕剧情：NPC 站位、互动规则、剧情脚本。
+// 剧情总表：序章 + 第一幕写在这里，第二幕起各幕写在 acts/ 下，在这里合并。
+// 每个幕文件导出 PLACEMENTS / SCRIPTS / CHOICE_SCENES / STANCES 和 interact(state, target)。
 // 文本依据 docs/story/05_主线剧情.md，人名地名已虚构化。
 import { trust } from './minds.js';
+import { QUEST_ORDER } from './quests.js';
+import * as ACT2 from './acts/act2.js';
+
+// 后面的幕优先处理互动（同一个 NPC 在不同幕有不同的戏）
+const LATER_ACTS = [ACT2];
 
 const say = (s, t, e) => ({ s, t, e });
 const N = t => say('narrator', t);
@@ -8,7 +14,7 @@ const has = flag => s => !!s.flags[flag];
 const act1Ready = s => s.stories.length >= 3 && !!s.flags.exchange_decided;
 
 // ── NPC 站位 ────────────────────────────────────────────────
-const PLACEMENTS = {
+const BASE_PLACEMENTS = {
   chinatown_street: [
     { id: 'uncle', label: '街坊阿伯', x: 230, y: 395, color: '#8c7d6b' },
     { id: 'waiter', label: '茶餐厅伙计', x: 420, y: 395, color: '#a36b52', when: s => s.quest !== 'P0' },
@@ -19,8 +25,8 @@ const PLACEMENTS = {
     { id: 'qingqing', label: '那个女人', x: 950, y: 365, when: s => s.quest === 'P0' || s.quest === 'P1' },
   ],
   qingqing_house: [
-    { id: 'qingqing', label: '晴晴', x: 580, y: 720, when: s => ['A1_03', 'A1_05', 'A1_06', 'A1_08', 'A1_09', 'END1'].includes(s.quest) },
-    { id: 'fangjie', label: '芳姐', x: 860, y: 700, when: s => s.quest !== 'A1_02' },
+    { id: 'qingqing', label: '晴晴', x: 580, y: 720, when: s => ['A1_03', 'A1_05', 'A1_06', 'A1_08', 'A1_09'].includes(s.quest) },
+    { id: 'fangjie', label: '芳姐', x: 860, y: 700, when: s => s.quest !== 'A1_02' && QUEST_ORDER.indexOf(s.quest) < QUEST_ORDER.indexOf('A2_10') },
   ],
   mall: [
     { id: 'qingqing', label: '晴晴', x: 1080, y: 560, when: s => s.quest === 'A1_02' || (s.quest === 'A1_08' && !s.stories.includes('mall')) },
@@ -63,6 +69,14 @@ const offers = () => [
 // ── 互动规则 ────────────────────────────────────────────────
 // 返回 { script } / { menu: 'travel' } / { travel, script? } / { toast }
 export function interaction(state, target) {
+  for (const act of LATER_ACTS) {
+    const result = act.interact(state, target);
+    if (result) return result;
+  }
+  return baseInteraction(state, target);
+}
+
+function baseInteraction(state, target) {
   const q = state.quest;
   const m = state.map;
   switch (target.id) {
@@ -105,7 +119,7 @@ export function interaction(state, target) {
 }
 
 // NPC 此刻的立场（键名对应 backend/npc-cards.mjs 场景里的 stances），说话时告诉 AI，免得它自己松口
-export const STANCES = {
+const BASE_STANCES = {
   p1_mediation: {
     qingqing: s => (s.flags.q_bottom ? 'bottom' : 'full'),
     laokuang: s => (s.flags.k_bottom ? 'bottom' : 'full'),
@@ -113,7 +127,7 @@ export const STANCES = {
 };
 
 // 剧情选项处玩家自由输入时，交给 AI 判断走向所用的场景（见 backend/npc-cards.mjs 的 SCENES）
-export const CHOICE_SCENES = {
+const BASE_CHOICE_SCENES = {
   p1_kuang: 'p1_mediation',
   p1_qing: 'p1_mediation',
   p1_propose: 'p1_mediation',
@@ -131,7 +145,7 @@ export const CHOICE_SCENES = {
 };
 
 // ── 剧情脚本 ────────────────────────────────────────────────
-export const SCRIPTS = {
+const BASE_SCRIPTS = {
   // 序章 ───────────────────────────────
   // 老邝看见陈默进门，自己凑过来（见 PLACEMENTS 的 approach）
   p0_arrive: [
@@ -597,7 +611,7 @@ export const SCRIPTS = {
     { fx: { anchor: 'econ_only' } },
     N('你以为自己认识的，是一个男朋友因为金融犯罪入狱、独自在美国生活、等着男朋友给她钱的年轻女人。'),
     N('四月底，你们原本计划去赌场玩几天。出发前一天，她拿起了你的手机……'),
-    { fx: { quest: 'END1', end: true, note: '第一幕结束。她给你看了卷宗第26条：老秦被红通，罪名是“非法吸收公众存款”。' } },
+    { fx: { quest: 'A2_09', actBreak: 1, note: '第一幕结束。她给你看了卷宗第26条：老秦被红通，罪名是“非法吸收公众存款”。' } },
   ],
 
   // 杂项 ───────────────────────────────
@@ -638,3 +652,15 @@ export const SCRIPTS = {
     say('passerby', '老邝那边又吵起来了？这条街上，什么事都传得快。'),
   ],
 };
+
+// ── 合并各幕 ────────────────────────────────────────────────
+function mergePlacements(...tables) {
+  const out = {};
+  for (const table of tables) for (const [map, list] of Object.entries(table)) out[map] = [...(out[map] || []), ...list];
+  return out;
+}
+
+const PLACEMENTS = mergePlacements(BASE_PLACEMENTS, ...LATER_ACTS.map(a => a.PLACEMENTS));
+export const SCRIPTS = Object.assign({}, BASE_SCRIPTS, ...LATER_ACTS.map(a => a.SCRIPTS));
+export const CHOICE_SCENES = Object.assign({}, BASE_CHOICE_SCENES, ...LATER_ACTS.map(a => a.CHOICE_SCENES));
+export const STANCES = Object.assign({}, BASE_STANCES, ...LATER_ACTS.map(a => a.STANCES));

@@ -5,6 +5,8 @@ import { SCRIPTS, CHOICE_SCENES } from '../public/js/engine/story.js';
 import { SCENES, ACTS, INTENTS, CHARACTERS } from '../backend/npc-cards.mjs';
 import { runScript, startScript, nextStep, choose, matchOption } from '../public/js/engine/script.js';
 import { MINDS, react, trust } from '../public/js/engine/minds.js';
+import { AI_NPCS } from '../public/js/engine/catalog.js';
+import { CONTACTS, contactScene } from '../public/js/engine/phone.js';
 import { QUESTS } from '../public/js/engine/quests.js';
 import { interact, drive } from './helpers.mjs';
 import { updateApproach } from '../public/js/engine/world.js';
@@ -28,6 +30,7 @@ test('every script runs to the end on a fresh state with every first-level choic
       const state = createState();
       Object.assign(state.flags, { p1_talked_k: true, p1_talked_q: true });
       state.minds.qingqing = { trust: 1 };
+      state.stats.clarity = 50;
       const out = runScript(state, id, firstChoice ? [i] : []);
       assert.ok(['end', 'chat'].includes(out.last.type), `${id} ended with ${out.last.type}`);
     }
@@ -42,10 +45,20 @@ test('every story choice can be reached by free text', () => {
       assert.ok(SCENES[CHOICE_SCENES[id]], `${id}: no scene in CHOICE_SCENES`);
       for (const c of step.choice) {
         assert.ok(c.on, `${id}: option “${c.t}” has no on`);
-        for (const m of [c.on].flat()) if (m !== '*') assert.ok(ACTS[m.act], `${id}: unknown act ${m.act}`);
+        for (const m of [c.on].flat()) {
+          if (m === '*') continue;
+          assert.ok(m.act || m.topic, `${id}: option “${c.t}” matches nothing`);
+          if (m.act) assert.ok(ACTS[m.act], `${id}: unknown act ${m.act}`);
+        }
       }
     }
   }
+});
+
+test('every AI-voiced character has a character card, and every scene lists real characters', () => {
+  for (const npc of AI_NPCS) assert.ok(CHARACTERS[npc], `${npc} has no character card`);
+  for (const [id, scene] of Object.entries(SCENES)) for (const npc of scene.npcs) assert.ok(AI_NPCS.includes(npc), `${id}: ${npc} is not an AI NPC`);
+  for (const [id, c] of Object.entries(CONTACTS)) assert.ok(SCENES[contactScene(createState(), id)]?.npcs.includes(c.npc), `contact ${id}`);
 });
 
 test('NPC reaction rules only use acts and intents the server knows', () => {
@@ -147,7 +160,8 @@ test('a failed proposal keeps the prologue open', () => {
   assert.equal(state.stats.cred, 5);
 });
 
-test('full playthrough: prologue to the end of act one', () => {
+// 序章 + 第一幕，其余各幕的通关测试接着往下打
+function playActOne() {
   const state = createState();
   playPrologue(state);
   assert.equal(state.stats.cred, 30);
@@ -197,11 +211,60 @@ test('full playthrough: prologue to the end of act one', () => {
 
   drive(state, 'qingqing_house');
   interact(state, 'qingqing', [0]);
-  assert.equal(state.quest, 'END1');
-  assert.ok(state.ended);
+  assert.equal(state.quest, 'A2_09');
+  assert.equal(state.actBreak, 1);
   assert.ok(state.anchors.econ_only);
   assert.equal(state.versions.heiress.length, 3);
   assert.equal(state.versions.tattoo.length, 2);
+  return state;
+}
+
+test('full playthrough: prologue to the end of act one', () => {
+  playActOne();
+});
+
+function playActTwo(state) {
+  interact(state, 'qingqing', [0, 0, 0]);             // 玩一玩：拒绝并离开
+  assert.ok(state.flags.d_refused);
+  assert.equal(state.map, 'casino_suite');
+  interact(state, 'qingqing', [1, 1, 1]);             // 赌场三日：三次都设界
+  assert.equal(state.pressure.filter(p => p.kind === 'boundary').length, 3);
+  assert.equal(state.quest, 'A2_10B');
+  assert.equal(state.map, 'chen_home');
+  runScript(state, state.phone.pending, [1]);         // 台阶：问司机
+  assert.equal(state.quest, 'A2_11');
+
+  drive(state, 'qingqing_house_b');
+  interact(state, 'qingqing', [1]);                   // 不帮她对芳姐撒谎
+  assert.ok(state.flags.refused_lie && state.flags.lease_my_name);
+  assert.equal(state.quest, 'A2_12');
+
+  drive(state, 'financial_district');
+  interact(state, 'tower_door');
+  interact(state, 'tower_sign');
+  interact(state, 'tower_door', [1]);                 // 先不结婚
+  assert.ok(state.evidence.includes('lawfirm_folder'));
+  assert.ok(!state.flags.married);
+  assert.equal(state.quest, 'A2_13');
+
+  drive(state, 'mansion_hills');
+  interact(state, 'qingqing');
+  interact(state, 'tools', [1]);                      // 不背锅
+  assert.equal(state.quest, 'A2_14');
+
+  drive(state, 'qingqing_house_b');
+  interact(state, 'qingqing', [2]);                   // 去阿珍那里登记
+  assert.ok(state.flags.real_name_leak);
+  assert.equal(state.quest, 'A2_14B');
+  interact(state, 'qingqing', [0]);
+  assert.equal(state.quest, 'A3_15');
+  assert.equal(state.actBreak, 2);
+  assert.ok(state.flags.saw_darvo);
+  return state;
+}
+
+test('full playthrough: act two', () => {
+  playActTwo(playActOne());
 });
 
 test('save round-trips and rejects broken saves', () => {

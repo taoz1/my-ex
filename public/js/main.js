@@ -5,7 +5,7 @@ import { interaction, CHOICE_SCENES, STANCES } from './engine/story.js';
 import { startScript, nextStep, choose, choiceIsFree, matchOption, choiceTopics } from './engine/script.js';
 import { react } from './engine/minds.js';
 import { movePlayer, nearestTarget, updateApproach } from './engine/world.js';
-import { SPEAKERS } from './engine/catalog.js';
+import { SPEAKERS, AI_NPCS } from './engine/catalog.js';
 import { draw, debug } from './render.js';
 import { renderPanels, escapeHtml } from './panels.js';
 import { bindPhone, openPhone as openPhoneUI, closePhone, phoneOpen } from './phone_ui.js';
@@ -17,8 +17,6 @@ const $ = s => document.querySelector(s);
 const canvas = $('#game');
 const ctx = canvas.getContext('2d');
 const keys = new Set();
-// 剧情关键处能接话、由 AI 扮演的角色
-const CHOICE_NPCS = ['qingqing', 'laokuang', 'fangjie', 'chen_mother'];
 
 let state = createState();
 let target = null;
@@ -117,9 +115,11 @@ function closeBox() {
   $('#dialogue').hidden = true;
   save();
   renderPanels(state);
-  if (state.ended && !state.flags.act1_seen) {
-    state.flags.act1_seen = true;
-    showActEnd();
+  if (state.actBreak) {
+    const act = state.actBreak;
+    state.actBreak = null;
+    save();
+    showActEnd(act);
   }
 }
 
@@ -135,7 +135,7 @@ function remember(speakerId, text) {
   const sp = SPEAKERS[speakerId] || SPEAKERS.narrator;
   talk.lines.push(`${speakerId === 'chen' ? '陈默' : sp.name || '旁白'}：${text}`.slice(0, 300));
   talk.lines = talk.lines.slice(-8);
-  if (CHOICE_NPCS.includes(speakerId)) talk.lastNpc = speakerId;
+  if (AI_NPCS.includes(speakerId)) talk.lastNpc = speakerId;
 }
 
 function advance() {
@@ -311,6 +311,7 @@ function logPhone(line) {
 
 function openContact(id) {
   openBox({ phone: id });
+  talk.lines = CONTACTS[id].context?.(state) ?? [];
   const history = (state.phone.logs[id] || []).slice(-12);
   if (!history.length) appendLine('narrator', '还没有聊天记录。');
   for (const line of history) {
@@ -397,13 +398,21 @@ function startGame(fresh) {
   if (!ai.connected) toast(`AI 未连接：${ai.reason}`);
 }
 
-function showActEnd() {
+// 幕间卡片：每幕结束时显示这一幕留下了什么
+const ACT_TITLES = { 1: '第一幕 · 饵', 2: '第二幕 · 裂', 3: '第三幕 · 冻', 4: '第四幕 · 卷宗', 5: '第五幕 · 反噬' };
+const NEXT_ACT = { 1: '第二幕「裂」', 2: '第三幕「冻」', 3: '第四幕「卷宗」', 4: '第五幕「反噬」', 5: '终幕「第四个版本」' };
+
+function showActEnd(act) {
   const s = state.stats;
+  const yes = flag => (state.flags[flag] ? '是' : '否');
   const facts = [
     ['依恋', s.attachment], ['清醒', s.clarity], ['自我怀疑', s.doubt], ['可信度', s.cred],
     ['记下的说法', Object.keys(state.claims).length], ['物件', state.evidence.length],
-    ['搬去同住', state.flags.moved_in ? '是' : '否'], ['帮她换汇', state.flags.exchange_helped ? '是' : '否'],
+    ...(act === 1 ? [['搬去同住', yes('moved_in')], ['帮她换汇', yes('exchange_helped')]] : []),
+    ...(act === 2 ? [['结婚', yes('married')], ['对小雯', state.flags.xiaowen_lured ? '约了她' : state.flags.d_pretended ? '假装答应' : state.flags.d_deleted ? '删了她' : '拒绝']] : []),
   ];
+  $('#act-end-title').textContent = ACT_TITLES[act];
+  $('#act-next').textContent = `接下来：${NEXT_ACT[act]}`;
   $('#act-summary').innerHTML = facts.map(([k, v]) => `<span>${k}</span><b>${v}</b>`).join('');
   $('#act-end').hidden = false;
 }
