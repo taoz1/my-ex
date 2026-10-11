@@ -1,5 +1,6 @@
 // 序章 + 第一幕剧情：NPC 站位、互动规则、剧情脚本。
 // 文本依据 docs/story/05_主线剧情.md，人名地名已虚构化。
+import { trust } from './minds.js';
 
 const say = (s, t, e) => ({ s, t, e });
 const N = t => say('narrator', t);
@@ -52,11 +53,11 @@ export function approachingNpc(state) {
 }
 
 // 序章调解：玩家说出的任何退款数额，都落进这四档之一（押金1500：老邝至少要扣500，她至少要拿回1000）
-const offers = when => [
-  { t: '提出方案：押金1500全退给她。', when, fx: { flags: { p1_offer: 'full' } }, goto: 'propose' },
-  { t: '提出方案：退她1000以上、不到1500（比如1200），老邝扣不到500。', when, fx: { flags: { p1_offer: 'more' } }, goto: 'propose' },
-  { t: '提出方案：老邝扣500，退她1000。', when, fx: { flags: { p1_offer: 'fair' } }, goto: 'propose' },
-  { t: '提出方案：退她不到1000（比如750、500），老邝扣500以上。', when, fx: { flags: { p1_offer: 'less' } }, goto: 'propose' },
+const offers = () => [
+  { t: '押金1500全退给她。', on: { act: 'propose', min: 1500 }, fx: { flags: { p1_offer: 'full' } }, goto: 'propose' },
+  { t: '老邝说可以退你1200。', on: { act: 'propose', min: 1001, max: 1499 }, fx: { flags: { p1_offer: 'more' } }, goto: 'propose' },
+  { t: '老邝扣500，退她1000。', on: { act: 'propose', min: 1000, max: 1000 }, fx: { flags: { p1_offer: 'fair' } }, goto: 'propose' },
+  { t: '一人一半，退她750。', on: { act: 'propose', max: 999 }, fx: { flags: { p1_offer: 'less' } }, goto: 'propose' },
 ];
 
 // ── 互动规则 ────────────────────────────────────────────────
@@ -103,6 +104,14 @@ export function interaction(state, target) {
   }
 }
 
+// NPC 此刻的立场（键名对应 backend/npc-cards.mjs 场景里的 stances），说话时告诉 AI，免得它自己松口
+export const STANCES = {
+  p1_mediation: {
+    qingqing: s => (s.flags.q_bottom ? 'bottom' : 'full'),
+    laokuang: s => (s.flags.k_bottom ? 'bottom' : 'full'),
+  },
+};
+
 // 剧情选项处玩家自由输入时，交给 AI 判断走向所用的场景（见 backend/npc-cards.mjs 的 SCENES）
 export const CHOICE_SCENES = {
   p1_kuang: 'p1_mediation',
@@ -144,10 +153,10 @@ export const SCRIPTS = {
     say('laokuang', '老陈，你说句公道话。规矩就是规矩。'),
     { label: 'menu' },
     { choice: [
-      { t: '老邝，你心里最低能接受扣多少？', goto: 'bottom' },
-      { t: '她说要报警，你怕不怕？', goto: 'police' },
-      ...offers(s => s.flags.p1_talked_q),
-      { t: '我先去问问她。', goto: 'bye' },
+      { t: '老邝，你心里最低能接受扣多少？', when: s => !s.flags.k_bottom, on: { act: 'ask', topic: '老邝最低能接受扣多少' }, goto: 'bottom' },
+      { t: '她说要报警，你怕不怕？', once: true, on: [{ act: 'ask', topic: '报警的事' }, { act: 'challenge' }], goto: 'police' },
+      ...offers(),
+      { t: '我先去问问她。', on: { act: 'leave' }, goto: 'bye' },
     ] },
     { label: 'bottom' },
     say('laokuang', '至少扣500。车给她开了半个月，清洗、保养、空着找下家，哪样不要钱？少于500，我白折腾。'),
@@ -177,12 +186,17 @@ export const SCRIPTS = {
     say('qingqing', '又怎么了？', 'cold'),
     { label: 'menu' },
     { choice: [
-      { t: '你真正在意的是什么？', goto: 'care' },
-      { t: '车是旧了点，但提前退车，扣一点押金也是行规。', goto: 'rule' },
-      { t: '能不能把墨镜摘下来说话？', goto: 'glasses', when: s => !s.flags.p1_glasses },
-      ...offers(s => s.flags.p1_talked_k),
-      { t: '我先去跟老邝聊聊。', goto: 'bye' },
+      { t: '你真正在意的是什么？', when: s => !s.flags.q_bottom, on: [{ act: 'ask', topic: '她真正在意什么' }, { act: 'ask', topic: '她最少要拿回多少' }], goto: 'care' },
+      { t: '车是旧了点，但提前退车，扣一点押金也是行规。', once: true, on: { act: 'pressure' }, fx: { trust: { qingqing: -1 } }, goto: 'rule' },
+      { t: '能不能把墨镜摘下来说话？', on: { act: 'ask', topic: '请她摘下墨镜' }, goto: 'glasses', when: s => !s.flags.p1_glasses },
+      ...offers(),
+      { t: '那我不管了，你们自己谈吧。', on: { act: 'leave' }, when: s => trust(s, 'qingqing') >= 1 && !s.flags.q_bottom, goto: 'stay' },
+      { t: '我先去跟老邝聊聊。', on: { act: 'leave' }, goto: 'bye' },
+      // 信任够了，再站她这边一次，她就松口
+      { t: '你受委屈了，我站你这边。', on: { act: 'support' }, when: s => trust(s, 'qingqing') >= 1 && !s.flags.q_bottom, goto: 'care' },
     ] },
+    { label: 'stay' },
+    say('qingqing', '等等……你走了我找谁去？', 'wronged'),
     { label: 'care' },
     say('qingqing', '不是钱的事。他看我一个女人，觉得好欺负。我来美国这么久，什么样的人没见过？', 'wronged'),
     say('qingqing', '全扣？做梦。至少把一千还给我——这是面子问题。'),
@@ -242,8 +256,8 @@ export const SCRIPTS = {
     N('老邝数出十张百元大钞。临走前，她主动走到你面前。'),
     say('qingqing', '我来美国这么久，见过不少人，就觉得你这个人比较有礼貌，还有点素质。这样吧，咱俩加个微信，交个朋友。', 'sweet'),
     { choice: [
-      { t: '好啊。', fx: { stats: { attachment: 5 } } },
-      { t: '（犹豫了一下）好吧。', fx: { stats: { clarity: 2 } } },
+      { t: '好啊。', on: { act: 'agree' }, fx: { stats: { attachment: 5 } } },
+      { t: '（犹豫了一下）好吧。', on: '*', fx: { stats: { clarity: 2 } } },
     ] },
     { fx: {
       flags: { prologue_done: true },
@@ -280,9 +294,9 @@ export const SCRIPTS = {
     say('qingqing', '对了，牢里那个不是我老公，是男朋友，我们没领证。他是因为“非法集资”进去的。FBI抓他的时候我也在场，警察都没带走我，说明我是清白的。'),
     { fx: { claim: ['not_married', 'financial_crime', 'innocent_present'] } },
     { choice: [
-      { t: '五万美元？具体要交接什么？', goto: 'ask' },
-      { t: '听起来不错，我考虑一下。', goto: 'think' },
-      { t: '南屿的赌场……合法吗？', goto: 'legal' },
+      { t: '五万美元？具体要交接什么？', on: { act: 'ask', topic: '那份工作具体做什么' }, goto: 'ask' },
+      { t: '听起来不错，我考虑一下。', on: [{ act: 'agree' }, { act: 'support' }], goto: 'think' },
+      { t: '南屿的赌场……合法吗？', on: [{ act: 'ask', topic: '南屿的赌场合不合法' }, { act: 'challenge' }], goto: 'legal' },
     ] },
     { label: 'ask' },
     say('qingqing', '就是……管管人，看看账。具体的到时候老秦会安排。'),
@@ -313,16 +327,16 @@ export const SCRIPTS = {
     say('qinyue', '老婆，你在干什么？'),
     say('qingqing', '正在买东西呢……', 'sweet'),
     { choice: [
-      { t: '（装作没听见）' },
-      { t: '（看了她一眼）', fx: { stats: { clarity: 2 } } },
+      { t: '（装作没听见）', on: '*' },
+      { t: '（看了她一眼）', on: [{ act: 'challenge' }, { act: 'ask', topic: '电话里叫她老婆的人是谁' }], fx: { stats: { clarity: 2 } } },
     ] },
     say('v_detective', '电话那头叫她“老婆”。'),
     N('返程路上，她半开玩笑地开口。'),
     say('qingqing', '我看你人不错，不如我跟你结婚吧。', 'sweet'),
     { choice: [
-      { t: '结婚可以，除非你能让我每个月赚到五万美元。', fx: { stats: { attachment: 3 } } },
-      { t: '别开玩笑了。', fx: { stats: { clarity: 2 } } },
-      { t: '好啊。', fx: { stats: { attachment: 8 } }, goto: 'yes' },
+      { t: '结婚可以，除非你能让我每个月赚到五万美元。', on: [{ act: 'ask', topic: '先兑现南屿那份五万美元的工作' }, { act: 'propose' }], fx: { stats: { attachment: 3 } } },
+      { t: '别开玩笑了。', on: [{ act: 'refuse' }, { act: 'challenge' }], fx: { stats: { clarity: 2 } } },
+      { t: '好啊。', on: { act: 'agree' }, fx: { stats: { attachment: 8 } }, goto: 'yes' },
     ] },
     { goto: 'next' },
     { label: 'yes' },
@@ -356,9 +370,9 @@ export const SCRIPTS = {
     { label: 'talk' },
     say('qingqing', '我们俩什么时候结婚啊？', 'sweet'),
     { choice: [
-      { t: '你答应我的事（南屿那份工作）都还没做到哦。', fx: { stats: { attachment: 2 } } },
-      { t: '认真的？我们才认识一个月。', fx: { stats: { clarity: 4, attachment: -2 } } },
-      { t: '那就结吧。', fx: { stats: { attachment: 10 }, flags: { said_yes_marry: true } } },
+      { t: '你答应我的事（南屿那份工作）都还没做到哦。', on: { act: 'ask', topic: '先兑现南屿那份五万美元的工作' }, fx: { stats: { attachment: 2 } } },
+      { t: '认真的？我们才认识一个月。', on: [{ act: 'challenge' }, { act: 'refuse' }], fx: { stats: { clarity: 4, attachment: -2 } } },
+      { t: '那就结吧。', on: { act: 'agree' }, fx: { stats: { attachment: 10 }, flags: { said_yes_marry: true } } },
     ] },
     say('qingqing', '你要是能真心待我……', 'lookdown'),
     N('看完樱花，你开车回到自己的住处。'),
@@ -371,8 +385,8 @@ export const SCRIPTS = {
     { choice: [{ t: '我们车程也就四五十分钟，这算哪门子异地？' }] },
     say('qingqing', '我发现自己离不开你了，怎么办？你搬过来跟我住吧。', 'sweet'),
     { choice: [
-      { t: '好，我收拾一下东西。', fx: { flags: { moved_in: true }, stats: { attachment: 8 }, version: ['chen_identity', '对外人', '“我的专职司机。”'] } },
-      { t: '先不急，我常过去就是了。', fx: { stats: { clarity: 3, attachment: -3 } } },
+      { t: '好，我收拾一下东西。', on: { act: 'agree' }, fx: { flags: { moved_in: true }, stats: { attachment: 8 }, version: ['chen_identity', '对外人', '“我的专职司机。”'] } },
+      { t: '先不急，我常过去就是了。', on: { act: 'refuse' }, fx: { stats: { clarity: 3, attachment: -3 } } },
     ] },
     { fx: { quest: 'A1_05', phone: { pending: null } } },
     { if: has('moved_in'), goto: 'moved' },
@@ -409,9 +423,9 @@ export const SCRIPTS = {
     say('qingqing', '我恨死这个男人了！这些都是他逼我纹的！在英国的时候，他把我软禁起来……', 'wronged'),
     { fx: { claim: 'tattoo_forced', version: ['tattoo', '对陈默（第一次）', '被老秦在英国软禁时逼着纹的。'] } },
     { choice: [
-      { t: '英国是法治国家，你为什么不报警？', goto: 'police' },
-      { t: '（抱住她）都过去了。', fx: { stats: { attachment: 5 } }, goto: 'hug' },
-      { t: '（沉默）', goto: 'silent' },
+      { t: '英国是法治国家，你为什么不报警？', on: [{ act: 'challenge' }, { act: 'ask', topic: '她为什么不报警' }], goto: 'police' },
+      { t: '（抱住她）都过去了。', on: { act: 'support' }, fx: { stats: { attachment: 5 } }, goto: 'hug' },
+      { t: '（沉默）', on: '*', goto: 'silent' },
     ] },
     { label: 'police' },
     say('qingqing', '他身边有四个保镖、两个助理。我去学校上课，都有两个保镖跟着。我哪有机会？', 'wronged'),
@@ -441,8 +455,8 @@ export const SCRIPTS = {
     N('爸妈和亲戚们做了一大桌菜，热情地招呼她。饭后，妈妈把你叫到阳台上。'),
     say('chen_mother', '默默，这个女孩子看上去很复杂。你要多了解一下，不要这么急。'),
     { choice: [
-      { t: '妈，我会注意的。', fx: { stats: { clarity: 8, attachment: -3 }, flags: { listened_mother: true } }, goto: 'listen' },
-      { t: '人家才25岁，经历再复杂能有多复杂？最多谈错几段恋爱，多大的事儿？', fx: { stats: { attachment: 3, doubt: 3 } }, goto: 'brush' },
+      { t: '妈，我会注意的。', on: { act: 'agree' }, fx: { stats: { clarity: 8, attachment: -3 }, flags: { listened_mother: true } }, goto: 'listen' },
+      { t: '人家才25岁，经历再复杂能有多复杂？最多谈错几段恋爱，多大的事儿？', on: [{ act: 'refuse' }, { act: 'challenge' }], fx: { stats: { attachment: 3, doubt: 3 } }, goto: 'brush' },
     ] },
     { label: 'listen' },
     say('chen_mother', '嗯。你从小就心软，什么事都想着两边说和。可有的事，是说和不了的。'),
@@ -482,8 +496,8 @@ export const SCRIPTS = {
     { fx: { stats: { clarity: 3 } } },
     { label: 'end' },
     { choice: [
-      { t: '那你不是很有钱？', goto: 'rich' },
-      { t: '（不说话）', goto: 'done' },
+      { t: '那你不是很有钱？', on: [{ act: 'ask', topic: '她是不是很有钱' }, { act: 'challenge' }], goto: 'rich' },
+      { t: '（不说话）', on: '*', goto: 'done' },
     ] },
     { label: 'rich' },
     say('qingqing', '那当然。我以前可是被大哥捧在手心的女人。你能和我在一起，是三生修来的福气。', 'sweet'),
@@ -541,8 +555,8 @@ export const SCRIPTS = {
     say('qingqing', '我在这边的美元不够花了，想把国内的人民币换一点过来。你有没有朋友在国内有银行账户？我让国内的会计把人民币转给他们，他们在这边给我美元现金。'),
     { fx: { claim: 'accountant' } },
     { choice: [
-      { t: '我自己早没有国内账户了，不过可以问问老钟和麦可。', goto: 'help' },
-      { t: '私下换汇不太合规，你还是找银行吧。', goto: 'refuse' },
+      { t: '我自己早没有国内账户了，不过可以问问老钟和麦可。', on: [{ act: 'agree' }, { act: 'support' }], goto: 'help' },
+      { t: '私下换汇不太合规，你还是找银行吧。', on: [{ act: 'refuse' }, { act: 'challenge' }], goto: 'refuse' },
     ] },
     { label: 'help' },
     N('从三月到五月，朋友们陆续帮她换过几次钱：人民币转进朋友的国内账户，朋友在这边把美元现金当面交给她。很多次你就在现场。'),
@@ -570,8 +584,8 @@ export const SCRIPTS = {
     say('qingqing', '看到了吧？他就是个经济犯。罪名跟那些诈骗大佬一样——那他肯定也有很多很多钱。'),
     say('qingqing', '他涉案金额那么大，回国会判得很重。所以他现在需要我想办法，让他尽可能留在美国受审。'),
     { choice: [
-      { t: '后面几页能给我看看吗？', goto: 'more' },
-      { t: '原来是这样。', goto: 'ok' },
+      { t: '后面几页能给我看看吗？', on: [{ act: 'ask', topic: '看看卷宗后面几页' }, { act: 'challenge' }], goto: 'more' },
+      { t: '原来是这样。', on: '*', goto: 'ok' },
     ] },
     { label: 'more' },
     say('qingqing', '你看那么多干嘛？', 'cold'),
@@ -589,8 +603,8 @@ export const SCRIPTS = {
   fang_talk: [
     say('fangjie', '陈先生，喝茶吗？'),
     { choice: [
-      { t: '芳姐，晴晴家里是做什么的？', goto: 'family' },
-      { t: '不用了，谢谢。', goto: 'bye' },
+      { t: '芳姐，晴晴家里是做什么的？', once: true, on: { act: 'ask', topic: '晴晴家里是做什么的' }, goto: 'family' },
+      { t: '不用了，谢谢。', on: [{ act: 'leave' }, { act: 'refuse' }], goto: 'bye' },
     ] },
     { label: 'family' },
     say('fangjie', '听说她爸是开五星酒店的！她跟每个新认识的人都要讲一遍，我都听过好几遍啦。'),

@@ -8,7 +8,12 @@
 - AI 模型：DeepSeek，只在服务端调用（`backend/api.mjs`），Key 放 `.env` 的 `DEEPSEEK_API_KEY`。AI 没接通时**不要**用假的本地回应：剧情照常，NPC 自由对话显示“AI 未连接”和具体原因（用户要求）。`/api/status` 会真正连一次 DeepSeek 校验 Key 和模型名。
 - 里程碑：第一版是「序章 + 第一幕」，已完成。下一步是第二幕「裂」（剧情见 `docs/story/05_主线剧情.md`）。
 - 分支：每次直接推 `main`。
-- 对话完全开放：剧情里不列选项，玩家直接打字。`/api/choose` 让 AI 判断这句话对应脚本里哪个 `choice` 走向；都不对应时角色按人设回一句，剧情停在原处。所有走向都没有分支和效果的选项点不问 AI，说什么都往下走。AI 没接通时，有分支的选项点走不下去（会显示原因）。新写的脚本若有 `choice`，要在 `story.js` 的 `CHOICE_SCENES` 里给它配场景。
+- 对话完全开放：剧情里不列选项，玩家直接打字。
+- AI NPC 统一用“理解 → 决定 → 说话”三步（用户确认的方案，参考 Façade、He et al. 2018 谈判对话、Meta CICERO）：
+  1. 理解 `/api/understand`：AI 只把玩家的话归类成一种行为 act（支持、质疑、施压、提方案、要走……，定义在 `backend/npc-cards.mjs` 的 `ACTS`），附带话题和数额。
+  2. 决定（浏览器里的游戏逻辑，不靠 AI）：剧情关键处按选项的 `on` 匹配（`script.js` 的 `matchOption`，`'*'` 兜底，`once` 只走一次）；对不上时按 `engine/minds.js` 的性格规则定意图，并改 NPC 的信任值 `state.minds`。
+  3. 说话 `/api/speak`：AI 按决定好的意图（`INTENTS`）和此刻立场（场景的 `stances`，由 `story.js` 的 `STANCES` 选）用角色口吻说出来。讨价还价场景（有 `numbers`）里 NPC 说出没人提过的数字会被拒绝并重试。
+  新写的剧情选项都要写 `on`；新场景在 `CHOICE_SCENES` 配场景。AI 没接通时，有分支的选项点走不下去（会显示原因）。
 - 侧栏只保留任务说明和手机。属性、笔记、线索、版本档案仍在存档里记录（第一幕结束的总结会用），只是不显示。
 - 室内地图的人物按 `maps.js` 里的 `scale` 放大（租车行、晴晴家、父母家、下午茶 1.5，商场 1.25）。路灯这类竖着的物件只挡底座。
 - 开场不交代：进门不播旁白，让玩家自己找 NPC 聊。NPC 想主动找玩家时，在 `story.js` 的 `PLACEMENTS` 里给它加 `approach: { when, script, delay }`，它会在进图 delay 秒后走到玩家跟前开口（`world.js` 的 `updateApproach`）。序章的老邝就是这样。

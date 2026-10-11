@@ -1,6 +1,7 @@
-// 服务端 API：/api/status、/api/dialogue、/api/choose。
+// 服务端 API：/api/status、/api/understand、/api/speak。
+// NPC 对话分三步（见 npc-cards.mjs 的 ACTS / INTENTS）：理解和说话在这里调 AI，决定在浏览器的游戏逻辑里。
 // DeepSeek API Key 只在服务端读取，不会发给浏览器。
-import { WORLD, CHARACTERS, SCENES } from './npc-cards.mjs';
+import { WORLD, CHARACTERS, SCENES, ACTS, INTENTS } from './npc-cards.mjs';
 
 export const DEFAULT_MODEL = 'deepseek-flash';
 const ENDPOINT = 'https://api.deepseek.com/chat/completions';
@@ -34,7 +35,8 @@ const MAX_MESSAGE = 160;
 const MAX_REPLY = 280;
 const MAX_MEMORIES = 6;
 const MAX_CONTEXT = 8;
-const MAX_OPTIONS = 8;
+const MAX_TOPICS = 12;
+const ATTEMPTS = 2;   // AI 的回应不合格（格式、数字、禁词）时重试的次数
 
 // 第一幕里任何 NPC 都不该说出的词：原型地名、暴力犯罪细节。
 export const BLOCKED_TERMS = ['菲律宾', '马尼拉', '绑架', '撕票', '杀人', '尸体', '谋杀'];
@@ -46,83 +48,134 @@ function cleanText(value, max) {
   return value.trim();
 }
 
-export function validateDialogue(input) {
+function cleanList(value, maxItems, maxLength) {
+  if (!Array.isArray(value) || value.length > maxItems) throw Error('Invalid list');
+  return value.map(v => cleanText(v, maxLength));
+}
+
+// 两个接口共用的部分：哪个 NPC、哪个场景、玩家说了什么、最近的上下文。
+function validateTurn(input) {
   if (!input || typeof input !== 'object') throw Error('Invalid body');
   const scene = SCENES[input.scene];
   if (!scene) throw Error('Invalid scene');
   if (!CHARACTERS[input.npc] || !scene.npcs.includes(input.npc)) throw Error('Invalid NPC');
-  const message = cleanText(input.message, MAX_MESSAGE);
-  if (!Array.isArray(input.memories) || input.memories.length > MAX_MEMORIES) throw Error('Invalid memories');
-  const memories = input.memories.map(m => cleanText(m, 600));
-  return { npc: input.npc, scene: input.scene, message, memories };
+  return {
+    npc: input.npc,
+    scene: input.scene,
+    message: cleanText(input.message, MAX_MESSAGE),
+    memories: cleanList(input.memories ?? [], MAX_MEMORIES, 600),
+    context: cleanList(input.context ?? [], MAX_CONTEXT, 300),
+  };
 }
 
-// 剧情关键处：玩家自由输入，交给 AI 判断对应哪个剧情走向。
-export function validateChoice(input) {
-  const turn = validateDialogue(input);
-  if (!Array.isArray(input.options) || !input.options.length || input.options.length > MAX_OPTIONS) throw Error('Invalid options');
-  if (!Array.isArray(input.context) || input.context.length > MAX_CONTEXT) throw Error('Invalid context');
-  return { ...turn, options: input.options.map(o => cleanText(o, 80)), context: input.context.map(c => cleanText(c, 300)) };
+// ── 数字检查 ───────────────────────────────────────────────
+// 找出一段话里 ≥100 的数（阿拉伯数字和“一千五”“七百五”这类中文数字）。
+const CN_DIGITS = { 零: 0, 一: 1, 二: 2, 两: 2, 三: 3, 四: 4, 五: 5, 六: 6, 七: 7, 八: 8, 九: 9 };
+const CN_UNITS = { 十: 10, 百: 100, 千: 1000 };
+
+function parseChinese(text) {
+  let total = 0, section = 0, num = 0, lastUnit = 1;
+  for (const ch of text) {
+    if (ch === '零') { lastUnit = 10; continue; }
+    if (ch in CN_DIGITS) { num = CN_DIGITS[ch]; continue; }
+    if (ch === '万') { total += (section + num) * 10000; section = 0; num = 0; lastUnit = 10000; continue; }
+    section += (num || 1) * CN_UNITS[ch];
+    lastUnit = CN_UNITS[ch];
+    num = 0;
+  }
+  // “一千五”的“五”是五百：末尾的单个数字跟着上一个单位降一级
+  return total + section + (lastUnit >= 100 ? num * lastUnit / 10 : num);
 }
 
-// AI 照抄选中走向的原文（比让它报编号可靠），这里换回编号；都不对应时由角色回应一句，剧情停在原处。
-export function validateChoiceResult(data, turn) {
-  const picked = typeof data?.choice === 'string' ? data.choice.trim() : null;
-  const index = picked ? turn.options.findIndex(o => o === picked || o.includes(picked) || picked.includes(o)) : -1;
-  if (index >= 0) return { choice: index };
-  return { choice: null, ...validateReply(data, turn.npc) };
+export function numbersIn(text) {
+  const found = [];
+  for (const m of text.matchAll(/\d[\d,]*/g)) found.push(Number(m[0].replace(/,/g, '')));
+  for (const m of text.matchAll(/[零一二两三四五六七八九十百千万]+/g)) if (/[十百千万]/.test(m[0])) found.push(parseChinese(m[0]));
+  return found.filter(n => n >= 100);
 }
 
-export function validateReply(data, npc) {
-  const reply = cleanText(data?.reply, MAX_REPLY);
-  if (BLOCKED_TERMS.some(term => reply.includes(term))) throw Error('Blocked content');
-  const emotion = CHARACTERS[npc].emotions.includes(data?.emotion) ? data.emotion : 'neutral';
-  return { reply, emotion };
+// 有 numbers 的场景（讨价还价）：NPC 只能说游戏给的数、场景里的数、玩家说过的数，以及它们和总额的差。
+export function allowedNumbers(turn) {
+  const scene = SCENES[turn.scene];
+  const base = new Set([...scene.numbers, ...numbersIn([turn.message, ...turn.context, ...turn.memories].join('\n'))]);
+  if (turn.intent.amount) base.add(turn.intent.amount);
+  for (const n of [...base]) base.add(scene.numbers[0] - n);
+  return base;
 }
 
-function characterCard(turn) {
+// ── 第一步：理解 ───────────────────────────────────────────
+export function validateUnderstand(input) {
+  return { ...validateTurn(input), topics: cleanList(input.topics ?? [], MAX_TOPICS, 60) };
+}
+
+export function buildUnderstandPrompt(turn) {
+  const scene = SCENES[turn.scene];
+  const system = [
+    WORLD,
+    `当前场景：${scene.goal}`,
+    `你的任务：只做分类，不扮演角色。判断玩家（陈默）对${CHARACTERS[turn.npc].name}说的这句话属于哪一种行为（act）：\n${Object.entries(ACTS).map(([k, v]) => `- ${k}：${v}`).join('\n')}`,
+    turn.topics.length ? `如果玩家是在问或谈下面某个话题，topic 照抄那个话题，否则为 null：\n${turn.topics.map(t => `- ${t}`).join('\n')}` : 'topic 一律为 null。',
+    scene.amount ? `如果玩家说出了数额，amount 填数字，口径是：${scene.amount}。没有数额时为 null。` : 'amount 一律为 null。',
+    '先在 analysis 里用一句话写清玩家的意思（有数额就写出数额）。只输出JSON：{"analysis":"一句话","act":"上面的某个键","topic":"照抄的话题或null","amount":数字或null}。',
+  ].join('\n\n');
+  const user = JSON.stringify({ recentLines: turn.context, playerSays: turn.message });
+  return [{ role: 'system', content: system }, { role: 'user', content: user }];
+}
+
+export function validateUnderstandResult(data, turn) {
+  if (!Object.hasOwn(ACTS, data?.act)) throw Error('Unknown act');
+  const topic = typeof data.topic === 'string' ? turn.topics.find(t => t === data.topic.trim()) ?? null : null;
+  const amount = SCENES[turn.scene].amount && Number.isFinite(data.amount) && data.amount >= 0 ? Math.round(data.amount) : null;
+  return { act: data.act, topic, amount };
+}
+
+// ── 第三步：说话 ───────────────────────────────────────────
+export function validateSpeak(input) {
+  const turn = validateTurn(input);
+  const intent = input.intent;
+  if (!intent || !Object.hasOwn(INTENTS, intent.act)) throw Error('Invalid intent');
+  const amount = Number.isFinite(intent.amount) ? Math.round(intent.amount) : null;
+  const mood = CHARACTERS[turn.npc].emotions.includes(intent.mood) ? intent.mood : null;
+  const stances = SCENES[turn.scene].stances?.[turn.npc];
+  if (intent.stance != null && !stances?.[intent.stance]) throw Error('Invalid stance');
+  return { ...turn, intent: { act: intent.act, amount, mood, stance: intent.stance ?? null } };
+}
+
+export function buildSpeakPrompt(turn) {
   const npc = CHARACTERS[turn.npc];
-  return [
+  const { intent } = turn;
+  const system = [
     WORLD,
     `你扮演：${npc.name}。\n${npc.profile}`,
     `秘密：${npc.secrets}`,
     `禁区：${npc.forbidden}`,
     `当前场景：${SCENES[turn.scene].goal}`,
-    '规则：你只知道自己亲历和听说的事，不得改变以上设定。用现场口语回应，有个性、具体、克制，可以不同意玩家，不要说教，不要替玩家下结论。不要跳出角色，不要承认自己是AI。',
-    '说话前先看清对方刚说的那句话：数字、人名、条件照原样理解，不要听岔，不要凭空冒出对方没提过的数字。算账要算对。你的立场必须前后一致。不要重复你在最近几句里已经说过的话和口头禅，每次回应都要接住对方这句话往下说。',
-  ];
-}
-
-export function buildPrompt(turn) {
-  const emotions = CHARACTERS[turn.npc].emotions.join('|');
-  const system = [
-    ...characterCard(turn),
-    `只输出JSON：{"reply":"不超过120个中文字的一段回应","emotion":"${emotions} 之一"}。不要输出其他字段。`,
+    ...(intent.stance ? [SCENES[turn.scene].stances[turn.npc][intent.stance]] : []),
+    `游戏已经决定了你这一句要做什么：${INTENTS[intent.act]}${intent.amount ? `涉及的数额是 ${intent.amount}。` : ''}${intent.mood ? `情绪：${intent.mood}。` : ''}照这个意思说，不要改变决定，不要自己加让步或新条件。`,
+    '规则：你只知道自己亲历和听说的事，不得改变以上设定。用现场口语回应，有个性、具体、克制，不要说教，不要替玩家下结论。不要跳出角色，不要承认自己是AI。',
+    '看清玩家刚说的那句话：数字、人名、条件照原样理解，不要凭空冒出没人提过的数字，算账要对。不要重复你在最近几句里说过的话和口头禅，接住这句话往下说。',
+    `只输出JSON：{"reply":"不超过120个中文字的一段回应","emotion":"${npc.emotions.join('|')} 之一"}。不要输出其他字段。`,
   ].join('\n\n');
-  const user = JSON.stringify({ playerSays: turn.message, recentMemories: turn.memories });
+  const user = JSON.stringify({ recentLines: turn.context, playerSays: turn.message, recentMemories: turn.memories });
   return [{ role: 'system', content: system }, { role: 'user', content: user }];
 }
 
-export function buildChoicePrompt(turn) {
-  const emotions = CHARACTERS[turn.npc].emotions.join('|');
-  const system = [
-    ...characterCard(turn),
-    `现在是剧情的关键处，玩家（陈默）自由说了一句话。剧情预设了几种走向（storyOptions），每条是陈默可能说的话或做的事。
-先判断玩家这句话的意思是否对应其中某一条：意思相同或非常接近就算对应，措辞可以完全不同；数字、立场、态度要对得上。
-如果某条写的是一个范围（比如“退她1000以上、不到1500”），玩家说出的数字落在范围里就算对应。玩家只要说出了一个具体的数额或分法，不管是正式提议、随口试探、问“行不行”，还是转述别人的话（比如“老邝说可以退你1200”），都算他提出了这个方案，按数额对应到所在的那一条。
-先在 analysis 里用一句话写清：玩家这句话的意思是什么，里面有没有数额、数额是多少、落在哪一条。
-如果对应，choice 照抄那一条的原文，reply 填空字符串。
-如果不对应任何一条（闲聊、问别的事、含糊其辞），choice 填 null，并以你的角色身份自然回应他，顺势把话题引回眼前需要他表态的事，但不要替他做选择，也不要把选项念出来。`,
-    `只输出JSON：{"analysis":"一句话分析","choice":"照抄的那一条原文，或 null","reply":"choice为null时不超过120个中文字的回应，否则为空字符串","emotion":"${emotions} 之一"}。不要输出其他字段。`,
-  ].join('\n\n');
-  const user = JSON.stringify({ recentLines: turn.context, storyOptions: turn.options, playerSays: turn.message, recentMemories: turn.memories });
-  return [{ role: 'system', content: system }, { role: 'user', content: user }];
+export function validateSpeakResult(data, turn) {
+  const reply = cleanText(data?.reply, MAX_REPLY);
+  if (BLOCKED_TERMS.some(term => reply.includes(term))) throw Error('Blocked content');
+  if (SCENES[turn.scene].numbers) {
+    const allowed = allowedNumbers(turn);
+    if (numbersIn(reply).some(n => !allowed.has(n))) throw Error('Invented number');
+  }
+  const npc = CHARACTERS[turn.npc];
+  const emotion = turn.intent.mood || (npc.emotions.includes(data?.emotion) ? data.emotion : 'neutral');
+  return { reply, emotion };
 }
 
 const ROUTES = {
-  '/api/dialogue': { validate: validateDialogue, prompt: buildPrompt, result: (data, turn) => validateReply(data, turn.npc), params: { max_tokens: 320 } },
-  // 判断走向要稳定，温度调低
-  '/api/choose': { validate: validateChoice, prompt: buildChoicePrompt, result: validateChoiceResult, params: { max_tokens: 480, temperature: 0.3 } },
+  // 分类要稳定：温度低
+  '/api/understand': { validate: validateUnderstand, prompt: buildUnderstandPrompt, result: validateUnderstandResult, params: { max_tokens: 300, temperature: 0.2 } },
+  '/api/speak': { validate: validateSpeak, prompt: buildSpeakPrompt, result: validateSpeakResult, params: { max_tokens: 320 } },
 };
 
 async function readBody(request) {
@@ -140,6 +193,29 @@ async function readBody(request) {
     body += decoder.decode(value, { stream: true });
   }
   return body + decoder.decode();
+}
+
+async function callModel(env, fetcher, model, route, turn) {
+  const response = await fetcher(ENDPOINT, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${env.DEEPSEEK_API_KEY}` },
+    signal: AbortSignal.timeout(40000),
+    body: JSON.stringify({
+      model,
+      thinking: { type: 'disabled' },
+      ...route.params,
+      response_format: { type: 'json_object' },
+      messages: route.prompt(turn),
+    }),
+  });
+  if (!response.ok) return { error: providerError(response.status) };
+  try {
+    const data = await response.json();
+    if (data.choices?.[0]?.finish_reason !== 'stop') throw Error('Incomplete');
+    return { result: route.result(JSON.parse(data.choices[0].message.content), turn) };
+  } catch {
+    return { retry: true };
+  }
 }
 
 export async function handleApi(request, env, fetcher = fetch) {
@@ -164,30 +240,15 @@ export async function handleApi(request, env, fetcher = fetch) {
     return json({ error: 'Invalid dialogue state' }, 400);
   }
 
-  let response;
-  try {
-    response = await fetcher(ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${env.DEEPSEEK_API_KEY}` },
-      signal: AbortSignal.timeout(40000),
-      body: JSON.stringify({
-        model,
-        thinking: { type: 'disabled' },
-        ...route.params,
-        response_format: { type: 'json_object' },
-        messages: route.prompt(turn),
-      }),
-    });
-  } catch (e) {
-    return json({ error: e.name === 'TimeoutError' ? 'DeepSeek 回应超时。' : NETWORK }, 502);
+  for (let attempt = 0; attempt < ATTEMPTS; attempt++) {
+    let outcome;
+    try {
+      outcome = await callModel(env, fetcher, model, route, turn);
+    } catch (e) {
+      return json({ error: e.name === 'TimeoutError' ? 'DeepSeek 回应超时。' : NETWORK }, 502);
+    }
+    if (outcome.error) return json({ error: outcome.error }, 502);
+    if (outcome.result) return json({ ...outcome.result, model });
   }
-  if (!response.ok) return json({ error: providerError(response.status) }, 502);
-  try {
-    const data = await response.json();
-    if (data.choices?.[0]?.finish_reason !== 'stop') throw Error('Incomplete');
-    const result = route.result(JSON.parse(data.choices[0].message.content), turn);
-    return json({ ...result, model });
-  } catch {
-    return json({ error: 'DeepSeek 的回应格式不对或包含不允许的内容，请再试一次。' }, 502);
-  }
+  return json({ error: 'DeepSeek 的回应格式不对或包含不允许的内容，请再试一次。' }, 502);
 }

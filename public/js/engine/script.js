@@ -3,7 +3,9 @@
 // 一段脚本是步骤数组，步骤类型：
 //   { s: 说话人, e?: 表情, t: 文本 | (state)=>文本 }   台词（s 为 v_* 时是内心声音）
 //   { fx: {...} }                                    结算效果（见 state.js applyFx）
-//   { choice: [{ t, fx?, goto?, when? }] }           剧情走向；玩家自由输入，由 AI 判断对应哪一条。when(state) 为假时不参与
+//   { choice: [{ t, on?, fx?, goto?, when? }] }      剧情走向。玩家自由输入，AI 归类成行为后按 on 匹配（见 matchOption）；
+//                                                    t 是一句示范说法（测试和文档用）。when(state) 为假时不参与；
+//                                                    once: true 的选项走过一次就不再出现（之后由 NPC 性格规则接话）
 //   { label: '名字' } / { goto: '名字' }               跳转
 //   { call: '脚本id' }                                转到另一段脚本继续（不返回）
 //   { if: (state)=>bool, goto: '名字' }               条件跳转
@@ -12,6 +14,14 @@
 //   { end: true }                                    脚本结束
 import { applyFx } from './state.js';
 import { SCRIPTS } from './story.js';
+
+const pickedKey = (run, index) => `picked:${run.id}:${run.pc}:${index}`;
+
+// 选项现在能不能走：when 条件成立，且 once 的选项还没走过
+function isOpen(state, run, index) {
+  const c = SCRIPTS[run.id][run.pc].choice[index];
+  return (!c.when || c.when(state)) && !(c.once && state.flags[pickedKey(run, index)]);
+}
 
 export function startScript(id) {
   if (!SCRIPTS[id]) throw Error(`Unknown script ${id}`);
@@ -52,7 +62,7 @@ export function nextStep(state, run) {
     if (st.choice) {
       const options = st.choice
         .map((c, index) => ({ index, text: c.t }))
-        .filter(o => !st.choice[o.index].when || st.choice[o.index].when(state));
+        .filter(o => isOpen(state, run, o.index));
       return { type: 'choice', options };
     }
     if (st.chat) { run.pc = Infinity; return { type: 'chat', ...st.chat }; }
@@ -67,7 +77,8 @@ export function choose(state, run, index) {
   const st = SCRIPTS[run.id][run.pc];
   if (!st?.choice) throw Error('Not at a choice');
   const option = st.choice[index];
-  if (!option || (option.when && !option.when(state))) throw Error('Invalid choice');
+  if (!option || !isOpen(state, run, index)) throw Error('Invalid choice');
+  if (option.once) state.flags[pickedKey(run, index)] = true;
   if (option.fx) run.events.push(...applyFx(state, option.fx));
   if (option.goto) jump(run, option.goto); else run.pc++;
   return option.t;
@@ -76,7 +87,38 @@ export function choose(state, run, index) {
 // 所有走向都没有分支和效果时，玩家说什么剧情都一样往下走，不必问 AI。
 export function choiceIsFree(run) {
   const st = SCRIPTS[run.id][run.pc];
-  return !!st?.choice && st.choice.every(c => !c.fx && !c.goto);
+  return !!st?.choice && st.choice.every(c => !c.fx && !c.goto && !c.on);
+}
+
+// 选项的 on：一个或几个匹配条件，满足任意一个就走这条。条件写法：
+//   '*'                                  什么话都算（放在最后，当作“其他”）
+//   { act: 'ask', topic: '话题' }         玩家问到这个话题（话题原文会发给 AI 做归类）
+//   { act: 'propose', min?, max? }       玩家提出的数额落在范围里（含两端）
+//   { act: 'support' } 等                只看行为
+const asList = v => (v === undefined ? [] : Array.isArray(v) ? v : [v]);
+
+function matches(m, said) {
+  if (m === '*') return true;
+  if (m.act !== said.act) return false;
+  if (m.topic && m.topic !== said.topic) return false;
+  if (m.min !== undefined && !(said.amount >= m.min)) return false;
+  if (m.max !== undefined && !(said.amount <= m.max)) return false;
+  return true;
+}
+
+// 当前选项步骤上，第一个和玩家这句话对得上的选项（原始下标），没有则 -1。'*' 只在别的都对不上时才算。
+export function matchOption(state, run, said) {
+  const open = SCRIPTS[run.id][run.pc].choice.map((c, index) => ({ c, index })).filter(({ index }) => isOpen(state, run, index));
+  const hit = open.find(({ c }) => asList(c.on).some(m => m !== '*' && matches(m, said)))
+    || open.find(({ c }) => asList(c.on).includes('*'));
+  return hit ? hit.index : -1;
+}
+
+// 当前选项步骤上要让 AI 认的话题
+export function choiceTopics(state, run) {
+  const st = SCRIPTS[run.id][run.pc];
+  const topics = st.choice.filter((c, index) => isOpen(state, run, index)).flatMap(c => asList(c.on)).map(m => m.topic).filter(Boolean);
+  return [...new Set(topics)];
 }
 
 // 测试与调试用：按给定选项序列把脚本跑完，返回所有台词。选项用完后总选最后一个（通常是“离开”）。

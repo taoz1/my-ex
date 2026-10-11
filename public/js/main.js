@@ -1,8 +1,9 @@
 // 入口：游戏循环、输入、对话 / 手机 / 开车流程、存档。
 import { createState, applyFx, travel, rememberChat, serialize, deserialize } from './engine/state.js';
 import { MAPS, DESTINATIONS, ARRIVALS } from './engine/maps.js';
-import { interaction, CHOICE_SCENES } from './engine/story.js';
-import { startScript, nextStep, choose, choiceIsFree } from './engine/script.js';
+import { interaction, CHOICE_SCENES, STANCES } from './engine/story.js';
+import { startScript, nextStep, choose, choiceIsFree, matchOption, choiceTopics } from './engine/script.js';
+import { react } from './engine/minds.js';
 import { movePlayer, nearestTarget, updateApproach } from './engine/world.js';
 import { SPEAKERS } from './engine/catalog.js';
 import { draw, debug } from './render.js';
@@ -137,6 +138,7 @@ function remember(speakerId, text) {
 
 function advance() {
   const run = talk.run;
+  if (!run) { closeBox(); return; } // 手机闲聊道别后没有脚本可接
   const prevMap = state.map;
   const step = nextStep(state, run);
   flushEvents(run.events);
@@ -164,15 +166,29 @@ function advance() {
   }
 }
 
-// ── 剧情关键处：自由输入 ─────────────
-// 不列出选项。玩家说的话由 AI 判断对应哪个剧情走向；都不对应时，对方按角色回应一句，剧情停在原处。
+// ── 玩家说话：理解 → 决定 → 说话 ─────
+// 剧情关键处（choose）和自由闲聊（chat）走同一条路：
+//   1. 理解：/api/understand 让 AI 把这句话归成一种行为（act），附带话题和数额
+//   2. 决定：游戏逻辑定 NPC 怎么反应。剧情关键处先找脚本里对得上的选项（script.js 的 matchOption），
+//      对不上时按 NPC 的性格规则定一个意图（minds.js 的 react）
+//   3. 说话：/api/speak 让 AI 按这个意图用角色口吻说出来
 function enterChoice(options) {
   talk.mode = 'choose';
   talk.options = options;
+  showInput(choiceIsFree(talk.run) || ai.connected);
+}
+
+function enterChat(npc, scene) {
+  talk.mode = 'chat';
+  talk.chat = { npc, scene };
+  if (!talk.phone) setPortrait(npc, 'neutral');
+  showInput(ai.connected);
+}
+
+function showInput(ok) {
   $('#chat-form').hidden = false;
   $('#close-dialogue').hidden = false;
-  const free = choiceIsFree(talk.run);
-  setChatStatus(free || ai.connected ? '轮到你说话了。' : `AI 未连接：${ai.reason}`, !free && !ai.connected);
+  setChatStatus(ok ? '轮到你说话了。按 Esc 或 × 结束对话。' : `AI 未连接：${ai.reason}`, !ok);
   $('#chat-input').focus();
 }
 
@@ -184,61 +200,50 @@ function takeChoice(index, said) {
   advance();
 }
 
-async function sendChoice(message) {
+// 正在跟谁说、在哪个场景
+function partner() {
+  if (talk.mode === 'chat') return talk.chat;
+  return { npc: talk.lastNpc, scene: CHOICE_SCENES[talk.run.id] };
+}
+
+async function playerSays(message) {
+  message = message.trim();
+  const mode = talk.mode;
+  if (!message || talk.busy || (mode !== 'choose' && mode !== 'chat')) return;
+  const atChoice = mode === 'choose';
   appendLine('chen', message);
-  if (choiceIsFree(talk.run)) { takeChoice(talk.options[0].index, message); return; }
-  const npc = talk.lastNpc;
-  const scene = CHOICE_SCENES[talk.run.id];
-  const result = await askAi('/api/choose', {
-    npc, scene, message,
-    memories: (state.memories[npc] || []).slice(-6),
-    context: talk.lines,
-    options: talk.options.map(o => o.text),
-  });
-  if (!result || talk.mode !== 'choose') return;
-  if (result.choice !== null) {
-    takeChoice(talk.options[result.choice].index, message);
-    return;
+  if (atChoice && choiceIsFree(talk.run)) { takeChoice(talk.options[0].index, message); return; }
+
+  const { npc, scene } = partner();
+  if (!npc || !scene) { appendError('这里没有可以接话的人。'); return; }
+  const turn = { npc, scene, message, memories: (state.memories[npc] || []).slice(-6), context: talk.lines };
+
+  const said = await askAi('/api/understand', { ...turn, topics: atChoice ? choiceTopics(state, talk.run) : [] });
+  if (!said || talk.mode !== mode) return;
+  if (atChoice) {
+    const index = matchOption(state, talk.run, said);
+    if (index >= 0) { takeChoice(index, message); return; }
   }
+
+  const intent = { ...react(state, npc, said, { atChoice }), stance: STANCES[scene]?.[npc]?.(state) ?? null };
+  const result = await askAi('/api/speak', { ...turn, intent });
+  if (!result || talk.mode !== mode) return;
   if (!talk.phone) setPortrait(npc, result.emotion);
   appendLine(npc, result.reply);
   remember('chen', message);
   remember(npc, result.reply);
   if (talk.phone) state.phone.log.push(`你：${message}`, `${SPEAKERS[npc].name}：${result.reply}`);
   rememberChat(state, npc, `陈默：“${message}” ${SPEAKERS[npc].name}：“${result.reply}”`);
-  setChatStatus('轮到你说话了。');
   save();
-}
-
-// ── AI 自由对话 ──────────────────────
-function enterChat(npc, scene) {
-  talk.mode = 'chat';
-  talk.chat = { npc, scene };
-  if (!talk.phone) setPortrait(npc, 'neutral');
-  $('#chat-form').hidden = false;
-  $('#close-dialogue').hidden = false;
-  setChatStatus(ai.connected ? 'AI 角色会按自己的性格和知道的事回应你。按 Esc 或 × 结束。' : `AI 未连接：${ai.reason}`, !ai.connected);
-  $('#chat-input').focus();
-}
-
-async function sendChat(message) {
-  const { npc, scene } = talk.chat;
-  appendLine('chen', message);
-  const result = await askAi('/api/dialogue', { npc, scene, message, memories: (state.memories[npc] || []).slice(-6) });
-  if (!result || !talk.chat) return; // 等待期间对话已关闭
-  if (!talk.phone) setPortrait(npc, result.emotion);
-  appendLine(npc, result.reply);
-  if (talk.phone) state.phone.log.push(`你：${message}`, `${SPEAKERS[npc].name}：${result.reply}`);
-  rememberChat(state, npc, `陈默：“${message}” ${SPEAKERS[npc].name}：“${result.reply}”`);
-  setChatStatus('AI 回应完成。');
-  save();
-}
-
-function say(text) {
-  text = text.trim();
-  if (!text || talk.busy) return;
-  if (talk.mode === 'choose') sendChoice(text);
-  else if (talk.mode === 'chat') sendChat(text);
+  if (intent.act === 'goodbye') {
+    // 闲聊里道别：收起输入框，再按一下就结束
+    talk.mode = 'script';
+    $('#chat-form').hidden = true;
+    talk.waiting = true;
+    $('#continue-hint').hidden = false;
+  } else {
+    setChatStatus('轮到你说话了。按 Esc 或 × 结束对话。');
+  }
 }
 
 // 调用服务端 AI；失败时在对话框里写明原因并返回 null（不会编造回应）。
@@ -438,7 +443,7 @@ $('#chat-form').onsubmit = e => {
   const input = $('#chat-input');
   const text = input.value;
   input.value = '';
-  say(text);
+  playerSays(text);
 };
 $('#travel-list').onclick = e => { const b = e.target.closest('[data-dest]'); if (b) driveTo(b.dataset.dest); };
 $('#travel-cancel').onclick = closeTravel;

@@ -2,6 +2,7 @@
 import { CLAIMS, EVIDENCE, ANCHORS, VERSION_TOPICS } from './catalog.js';
 import { QUESTS } from './quests.js';
 import { MAPS } from './maps.js';
+import { changeTrust } from './minds.js';
 
 export const SAVE_VERSION = 1;
 export const STAT_KEYS = ['attachment', 'clarity', 'doubt', 'cred'];
@@ -26,6 +27,7 @@ export function createState() {
     stories: [],       // 第一幕日常中听过的炫富故事
     mapTime: 0,        // 进入当前地图后经过的秒数
     npcPos: {},        // 当前地图上走动过的 NPC 位置，离开地图时清空
+    minds: {},         // npcId -> { trust }：NPC 对陈默的心态（见 minds.js）
     ended: false,
   };
 }
@@ -42,6 +44,7 @@ export function applyFx(state, fx = {}) {
     }
   }
   if (fx.flags) Object.assign(state.flags, fx.flags);
+  for (const [npc, delta] of Object.entries(fx.trust || {})) changeTrust(state, npc, delta);
   for (const id of list(fx.claim)) {
     if (!CLAIMS[id]) throw Error(`Unknown claim ${id}`);
     if (!state.claims[id]) {
