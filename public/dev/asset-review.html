@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第二批地图美术复核</title>
+<style>
+body{margin:0;background:#152024;color:#f0e4cd;font:14px system-ui,sans-serif}header{padding:12px;position:sticky;top:0;background:#152024;z-index:1}button,label{margin:4px}button{padding:7px 10px;background:#303f45;color:inherit;border:1px solid #6b7c7b;cursor:pointer}button[aria-pressed=true]{background:#665439}canvas{display:block;width:100%;max-width:1536px;height:auto;image-rendering:pixelated}#status{margin:5px}.legend{color:#b8c9c6}
+</style>
+<header><strong>第二批地图美术复核</strong><div id="maps"></div><label><input id="blocks" type="checkbox" checked>碰撞方块</label><label><input id="people" type="checkbox" checked>角色站位</label><span class="legend">红：不可通行；黄：互动点；青：NPC；绿：出生点。人物站位汇总所有剧情阶段。</span><div id="status" role="status"></div></header>
+<canvas width="1536" height="1024" aria-label="地图美术与碰撞叠加图"></canvas>
+<script type="module">
+import { MAPS } from '../js/engine/maps.js';
+import { PLACEMENTS as act2 } from '../js/engine/acts/act2.js';
+import { PLACEMENTS as act4 } from '../js/engine/acts/act4.js';
+import { PLACEMENTS as act5 } from '../js/engine/acts/act5.js';
+import { PLACEMENTS as finale } from '../js/engine/acts/finale.js';
+const ids=['casino_suite','qingqing_house_b','financial_district','mansion_hills','chen_home','police_station','seaside_restaurant','club_gym'];
+const canvas=document.querySelector('canvas'),ctx=canvas.getContext('2d'),cache=new Map();
+const blocks=document.querySelector('#blocks'),people=document.querySelector('#people'),status=document.querySelector('#status');
+let selected=new URLSearchParams(location.search).get('map');if(!ids.includes(selected))selected=ids[0];
+const image=async path=>{if(!cache.has(path)){const img=new Image();cache.set(path,new Promise(resolve=>{img.onload=()=>resolve(img);img.onerror=()=>resolve(null);img.src=path;}));}return cache.get(path);};
+const marker=(x,y,color,text)=>{ctx.fillStyle=color;ctx.beginPath();ctx.arc(x,y,9,0,Math.PI*2);ctx.fill();ctx.font='15px system-ui';ctx.lineWidth=4;ctx.strokeStyle='#111';ctx.strokeText(text,x+12,y+5);ctx.fillText(text,x+12,y+5);};
+async function render(){
+ const id=selected,map=MAPS[id],bg=await image(`/assets/maps/${map.art||id}.png`);if(selected!==id)return;
+ ctx.clearRect(0,0,1536,1024);ctx.imageSmoothingEnabled=false;if(bg)ctx.drawImage(bg,0,0,1536,1024);
+ if(blocks.checked){ctx.font='12px monospace';ctx.lineWidth=2;for(const b of map.blocks){ctx.fillStyle='#ff303030';ctx.fillRect(b.x,b.y,b.w,b.h);ctx.strokeStyle='#ff4545';ctx.strokeRect(b.x,b.y,b.w,b.h);}for(let x=0;x<1536;x+=128)for(let y=0;y<1024;y+=128){ctx.fillStyle='#ffffff';ctx.fillText(`${x},${y}`,x+2,y+14);}}
+ const seen=new Set();if(people.checked)for(const placement of [act2,act4,act5,finale])for(const n of placement[id]||[]){const key=`${n.id}:${n.x},${n.y}`;if(seen.has(key))continue;seen.add(key);const sheet=await image(`/assets/sprites/${n.id}.png`);if(selected!==id)return;const scale=map.scale||1,size=84*scale;if(sheet)ctx.drawImage(sheet,0,0,sheet.width/4,sheet.height,n.x-size/2,n.y-size+10*scale,size,size);marker(n.x,n.y,'#39dded',n.label);}
+ for(const s of map.spots)marker(s.x,s.y,'#ffe256',`${s.id} (${s.x},${s.y})`);
+ marker(map.spawn.x,map.spawn.y,'#65f18e','spawn');
+ status.textContent=`${map.name} · ${id} · ${bg?'1536×1024 PNG 已载入':'图片尚未生成'} · ${map.blocks.length} 个碰撞方块`;
+ document.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.id===id)));
+}
+for(const id of ids){const b=document.createElement('button');b.textContent=MAPS[id].name;b.dataset.id=id;b.onclick=()=>{selected=id;render();};document.querySelector('#maps').append(b);}
+blocks.onchange=people.onchange=()=>render();render();
+</script>
+</html>

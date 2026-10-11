@@ -11,8 +11,8 @@ export const PLACEMENTS = {
     { id: 'eric', label: '冯逸', x: 760, y: 470, when: s => during('A5_26', 'A5_28B')(s) && s.flags.eric_called && !s.flags.eric_met },
   ],
   chen_home: [
-    { id: 'xiaowu', label: '小吴', x: 1000, y: 540, when: during('A5_24', 'A5_28B') },
-    { id: 'tony', label: 'Tony', x: 400, y: 820, when: during('A5_28B') },
+    { id: 'xiaowu', label: '小吴', x: 990, y: 510, when: during('A5_24', 'A5_28B') },
+    { id: 'tony', label: 'Tony', x: 660, y: 700, when: during('A5_28B') },
   ],
 };
 

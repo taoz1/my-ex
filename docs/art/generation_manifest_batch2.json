@@ -1,0 +1,1406 @@
+{
+  "source_document": "docs/art/文生图素材清单_第二批.md",
+  "batch_label": "第二批",
+  "mode": "built-in image_gen",
+  "source_commit": "2859db7cad949fab10d558b97be6f1514a407ca1",
+  "decisions": {
+    "zhaohui": "transparent bust portrait with subtle video compression texture",
+    "postprocessing": "user previously approved nearest-neighbor sizing and sprite alignment",
+    "house_b_additional_props": "pending user confirmation; original prompt retained; no new investigation props painted without an answer"
+  },
+  "assets": [
+    {
+      "path": "assets/portraits/xiaowen_neutral.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. A Chinese woman around 40, short neat hair, cream knit sweater, small fine lines when she smiles, sharp but warm eyes. Neutral expression.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-30bf4c00-6b5f-4b3f-8686-4589851ff37c.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. A Chinese woman around 40, short neat hair, cream knit sweater, small fine lines when she smiles, sharp but warm eyes. Neutral expression.\nInput image 1 is STYLE REFERENCE ONLY: match its crisp pixel clusters, shading, outline treatment and warm muted palette. Create the distinct NEW character described above; do not copy the reference man's face, hair, clothing, age or gender. Single centered dialogue bust, complete head and shoulders visible, square PNG, real alpha transparency outside the character, no backdrop, no border. Keep the requested age and personality visible; do not beautify everyone into the same young face.\nRequired file: assets/portraits/xiaowen_neutral.png. Required final canvas: 1024x1024.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/portraits/chen_mo_neutral.png"
+      ],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/portraits/akang_neutral.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. A Chinese man in his 40s, round face, buzz cut, plaid shirt, holding a thermos, sensible down-to-earth expression. Neutral expression.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-62b48da8-e4a9-4d2a-956d-b24b79349c64.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. A Chinese man in his 40s, round face, buzz cut, plaid shirt, holding a thermos, sensible down-to-earth expression. Neutral expression.\nInput image 1 is STYLE REFERENCE ONLY: match its crisp pixel clusters, shading, outline treatment and warm muted palette. Create the distinct NEW character described above; do not copy the reference man's face, hair, clothing, age or gender. Single centered dialogue bust, complete head and shoulders visible, square PNG, real alpha transparency outside the character, no backdrop, no border. Keep the requested age and personality visible; do not beautify everyone into the same young face.\nRequired file: assets/portraits/akang_neutral.png. Required final canvas: 1024x1024.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/portraits/chen_mo_neutral.png"
+      ],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/portraits/shenman_neutral.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. A Chinese woman in her 40s, a screenwriter, shoulder-length bob, thin-rimmed glasses, loose linen shirt, curious observing eyes. Neutral expression.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-cdade8f4-26b2-44fc-8d81-d619eb0a9d15.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. A Chinese woman in her 40s, a screenwriter, shoulder-length bob, thin-rimmed glasses, loose linen shirt, curious observing eyes. Neutral expression.\nInput image 1 is STYLE REFERENCE ONLY: match its crisp pixel clusters, shading, outline treatment and warm muted palette. Create the distinct NEW character described above; do not copy the reference man's face, hair, clothing, age or gender. Single centered dialogue bust, complete head and shoulders visible, square PNG, real alpha transparency outside the character, no backdrop, no border. Keep the requested age and personality visible; do not beautify everyone into the same young face.\nRequired file: assets/portraits/shenman_neutral.png. Required final canvas: 1024x1024.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/portraits/chen_mo_neutral.png"
+      ],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/portraits/azhen_neutral.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. A Chinese woman in her 40s, permed curly hair, bright lipstick, magenta blazer, eager salesperson smile. Neutral expression.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-d621f6a1-5f46-4771-bf4a-8814329d462e.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. A Chinese woman in her 40s, permed curly hair, bright lipstick, magenta blazer, eager salesperson smile. Neutral expression.\nInput image 1 is STYLE REFERENCE ONLY: match its crisp pixel clusters, shading, outline treatment and warm muted palette. Create the distinct NEW character described above; do not copy the reference man's face, hair, clothing, age or gender. Single centered dialogue bust, complete head and shoulders visible, square PNG, real alpha transparency outside the character, no backdrop, no border. Keep the requested age and personality visible; do not beautify everyone into the same young face.\nRequired file: assets/portraits/azhen_neutral.png. Required final canvas: 1024x1024.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/portraits/chen_mo_neutral.png"
+      ],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/portraits/linda_neutral.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. A Chinese woman around 50, luxury real estate agent, hair in a neat bun, dark skirt suit, pearl earrings, professional and reserved. Neutral expression.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-b6db810b-403f-473e-b645-03cf7dacf05a.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. A Chinese woman around 50, luxury real estate agent, hair in a neat bun, dark skirt suit, pearl earrings, professional and reserved. Neutral expression.\nInput image 1 is STYLE REFERENCE ONLY: match its crisp pixel clusters, shading, outline treatment and warm muted palette. Create the distinct NEW character described above; do not copy the reference man's face, hair, clothing, age or gender. Single centered dialogue bust, complete head and shoulders visible, square PNG, real alpha transparency outside the character, no backdrop, no border. Keep the requested age and personality visible; do not beautify everyone into the same young face.\nRequired file: assets/portraits/linda_neutral.png. Required final canvas: 1024x1024.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/portraits/chen_mo_neutral.png"
+      ],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/portraits/laozhong_neutral.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. A Chinese man around 50, restaurant owner, a bit heavy, still wearing an apron, deeply furrowed brow, angry. Neutral expression.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-918212c5-99dc-487d-9222-deb225a7f756.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. A Chinese man around 50, restaurant owner, a bit heavy, still wearing an apron, deeply furrowed brow, angry. Neutral expression.\nInput image 1 is STYLE REFERENCE ONLY: match its crisp pixel clusters, shading, outline treatment and warm muted palette. Create the distinct NEW character described above; do not copy the reference man's face, hair, clothing, age or gender. Single centered dialogue bust, complete head and shoulders visible, square PNG, real alpha transparency outside the character, no backdrop, no border. Keep the requested age and personality visible; do not beautify everyone into the same young face.\nRequired file: assets/portraits/laozhong_neutral.png. Required final canvas: 1024x1024.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/portraits/chen_mo_neutral.png"
+      ],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/portraits/michael_neutral.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. A Chinese man in his 40s, accountant, side-parted short hair, rimless glasses, light blue shirt, calm and precise. Neutral expression.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-a5ce6e1b-8fa3-4f7e-a180-4de330ff0393.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. A Chinese man in his 40s, accountant, side-parted short hair, rimless glasses, light blue shirt, calm and precise. Neutral expression.\nInput image 1 is STYLE REFERENCE ONLY: match its crisp pixel clusters, shading, outline treatment and warm muted palette. Create the distinct NEW character described above; do not copy the reference man's face, hair, clothing, age or gender. Single centered dialogue bust, complete head and shoulders visible, square PNG, real alpha transparency outside the character, no backdrop, no border. Keep the requested age and personality visible; do not beautify everyone into the same young face.\nRequired file: assets/portraits/michael_neutral.png. Required final canvas: 1024x1024.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/portraits/chen_mo_neutral.png"
+      ],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/portraits/xiaomo_neutral.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. A young Chinese man in his 20s, slim, hoodie, nervous, avoiding eye contact. Neutral expression.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-6d86902e-3fc3-4810-b38b-0e22bca61e13.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. A young Chinese man in his 20s, slim, hoodie, nervous, avoiding eye contact. Neutral expression.\nInput image 1 is STYLE REFERENCE ONLY: match its crisp pixel clusters, shading, outline treatment and warm muted palette. Create the distinct NEW character described above; do not copy the reference man's face, hair, clothing, age or gender. Single centered dialogue bust, complete head and shoulders visible, square PNG, real alpha transparency outside the character, no backdrop, no border. Keep the requested age and personality visible; do not beautify everyone into the same young face.\nRequired file: assets/portraits/xiaomo_neutral.png. Required final canvas: 1024x1024.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/portraits/chen_mo_neutral.png"
+      ],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/portraits/zhaohui_neutral.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. A tired Chinese woman in her 40s, hair loosely tied, worn puffer jacket, wary guarded eyes, seen on a video call screen. Neutral expression.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-590de0a8-d6e0-44b9-b5bf-8a52454ee1ae.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. A tired Chinese woman in her 40s, hair loosely tied, worn puffer jacket, wary guarded eyes, seen on a video call screen. Neutral expression.\nInput image 1 is STYLE REFERENCE ONLY: match its crisp pixel clusters, shading, outline treatment and warm muted palette. Create the distinct NEW character described above; do not copy the reference man's face, hair, clothing, age or gender. Single centered dialogue bust, complete head and shoulders visible, square PNG, real alpha transparency outside the character, no backdrop, no border. Keep the requested age and personality visible; do not beautify everyone into the same young face.\nUser-confirmed clarification: transparent isolated bust, subtle low-quality video-call compression/scanline texture only on her figure. No rectangular call screen or frame, no background. She looks wary and exhausted.\nRequired file: assets/portraits/zhaohui_neutral.png. Required final canvas: 1024x1024.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/portraits/chen_mo_neutral.png"
+      ],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/portraits/coco_neutral.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. A Chinese woman around 30, nail salon owner, highlighted hair, flashy long manicured nails, shrewd smile. Neutral expression.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-6040ef3d-b119-4e7e-9d08-958a0e5401e0.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. A Chinese woman around 30, nail salon owner, highlighted hair, flashy long manicured nails, shrewd smile. Neutral expression.\nInput image 1 is STYLE REFERENCE ONLY: match its crisp pixel clusters, shading, outline treatment and warm muted palette. Create the distinct NEW character described above; do not copy the reference man's face, hair, clothing, age or gender. Single centered dialogue bust, complete head and shoulders visible, square PNG, real alpha transparency outside the character, no backdrop, no border. Keep the requested age and personality visible; do not beautify everyone into the same young face.\nRequired file: assets/portraits/coco_neutral.png. Required final canvas: 1024x1024.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/portraits/chen_mo_neutral.png"
+      ],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/portraits/ramirez_neutral.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. A Latino male police officer in his 40s, dark uniform, mustache, neutral unreadable expression. Neutral expression.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-e24972b5-5b85-402d-8a1c-f8ac399e6d8f.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. A Latino male police officer in his 40s, dark uniform, mustache, neutral unreadable expression. Neutral expression.\nInput image 1 is STYLE REFERENCE ONLY: match its crisp pixel clusters, shading, outline treatment and warm muted palette. Create the distinct NEW character described above; do not copy the reference man's face, hair, clothing, age or gender. Single centered dialogue bust, complete head and shoulders visible, square PNG, real alpha transparency outside the character, no backdrop, no border. Keep the requested age and personality visible; do not beautify everyone into the same young face.\nAny badge or uniform insignia is a simple abstract shape only, no readable agency lettering or real emblem.\nRequired file: assets/portraits/ramirez_neutral.png. Required final canvas: 1024x1024.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/portraits/chen_mo_neutral.png"
+      ],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/portraits/kim_neutral.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. A Korean-American female police officer in her 30s, dark uniform, hair tied back, sharp eyes with a hint of a smile. Neutral expression.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-69833d26-95d3-4eb3-8342-45398ef3fab2.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. A Korean-American female police officer in her 30s, dark uniform, hair tied back, sharp eyes with a hint of a smile. Neutral expression.\nInput image 1 is STYLE REFERENCE ONLY: match its crisp pixel clusters, shading, outline treatment and warm muted palette. Create the distinct NEW character described above; do not copy the reference man's face, hair, clothing, age or gender. Single centered dialogue bust, complete head and shoulders visible, square PNG, real alpha transparency outside the character, no backdrop, no border. Keep the requested age and personality visible; do not beautify everyone into the same young face.\nAny badge or uniform insignia is a simple abstract shape only, no readable agency lettering or real emblem.\nRequired file: assets/portraits/kim_neutral.png. Required final canvas: 1024x1024.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/portraits/chen_mo_neutral.png"
+      ],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/portraits/eric_neutral.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. A Chinese man in his 30s, gym regular, muscular, tight athletic t-shirt, expensive watch, arrogant. Neutral expression.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-0fe8de76-1c1e-4d08-b2b7-f32b24a14f5e.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. A Chinese man in his 30s, gym regular, muscular, tight athletic t-shirt, expensive watch, arrogant. Neutral expression.\nInput image 1 is STYLE REFERENCE ONLY: match its crisp pixel clusters, shading, outline treatment and warm muted palette. Create the distinct NEW character described above; do not copy the reference man's face, hair, clothing, age or gender. Single centered dialogue bust, complete head and shoulders visible, square PNG, real alpha transparency outside the character, no backdrop, no border. Keep the requested age and personality visible; do not beautify everyone into the same young face.\nRequired file: assets/portraits/eric_neutral.png. Required final canvas: 1024x1024.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/portraits/chen_mo_neutral.png"
+      ],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/portraits/harlow_neutral.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. A white woman in her 40s, federal agent, short hair, charcoal suit, restrained and professional. Neutral expression.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-9418338c-d88a-4808-b26d-e7c47be1467a.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. A white woman in her 40s, federal agent, short hair, charcoal suit, restrained and professional. Neutral expression.\nInput image 1 is STYLE REFERENCE ONLY: match its crisp pixel clusters, shading, outline treatment and warm muted palette. Create the distinct NEW character described above; do not copy the reference man's face, hair, clothing, age or gender. Single centered dialogue bust, complete head and shoulders visible, square PNG, real alpha transparency outside the character, no backdrop, no border. Keep the requested age and personality visible; do not beautify everyone into the same young face.\nAny badge or uniform insignia is a simple abstract shape only, no readable agency lettering or real emblem.\nRequired file: assets/portraits/harlow_neutral.png. Required final canvas: 1024x1024.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/portraits/chen_mo_neutral.png"
+      ],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/portraits/xiaowu_neutral.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. A Chinese man around 30, restaurant worker uniform, timid and anxious. Neutral expression.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-6b4578f0-4643-4cfa-81f5-ce7a1013d7c2.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. A Chinese man around 30, restaurant worker uniform, timid and anxious. Neutral expression.\nInput image 1 is STYLE REFERENCE ONLY: match its crisp pixel clusters, shading, outline treatment and warm muted palette. Create the distinct NEW character described above; do not copy the reference man's face, hair, clothing, age or gender. Single centered dialogue bust, complete head and shoulders visible, square PNG, real alpha transparency outside the character, no backdrop, no border. Keep the requested age and personality visible; do not beautify everyone into the same young face.\nRequired file: assets/portraits/xiaowu_neutral.png. Required final canvas: 1024x1024.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/portraits/chen_mo_neutral.png"
+      ],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/sprites/shenman.png",
+      "size": [
+        1024,
+        256
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down RPG character sprite sheet, transparent background, 4 frames in a single row, evenly spaced: facing down, facing left, facing right, facing up. Full-body standing pose, same size, feet aligned. A Chinese woman in her 40s, a screenwriter, shoulder-length bob, thin-rimmed glasses, loose linen shirt, curious observing eyes.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-daa7f81d-1494-489c-8f3e-229297146a6c.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down RPG character sprite sheet, transparent background, 4 frames in a single row, evenly spaced: facing down, facing left, facing right, facing up. Full-body standing pose, same size, feet aligned. A Chinese woman in her 40s, a screenwriter, shoulder-length bob, thin-rimmed glasses, loose linen shirt, curious observing eyes.\nInput image 1 is the canonical identity and clothing reference for shenman. Preserve exactly this character's age, face, hairstyle, glasses/jewelry, clothing colors and key details; adapt to full-body overhead 3/4 RPG pixel-art sprites.\nExactly FOUR distinct complete figures in ONE horizontal row, broad transparent gutters, same scale, feet on the same baseline. Strict left-to-right frame order: DOWN/front toward viewer; LEFT profile facing image left; RIGHT profile facing image right; UP/back facing away. Standing poses, no walk animation. All hair, limbs and shoes inside each frame. No other row, no extra figures, no labels, no numbers, no ground or shadow. Actual transparent alpha, crisp pixel clusters matching the reference. Final PNG 1024x256, four 256x256 cells.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/portraits/shenman_neutral.png"
+      ],
+      "generated_size": [
+        1983,
+        793
+      ],
+      "frame_boxes": [
+        [
+          75,
+          12,
+          180,
+          244
+        ],
+        [
+          339,
+          13,
+          428,
+          244
+        ],
+        [
+          595,
+          13,
+          684,
+          244
+        ],
+        [
+          843,
+          12,
+          948,
+          244
+        ]
+      ],
+      "frame_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "final_size": [
+        1024,
+        256
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/sprites/linda.png",
+      "size": [
+        1024,
+        256
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down RPG character sprite sheet, transparent background, 4 frames in a single row, evenly spaced: facing down, facing left, facing right, facing up. Full-body standing pose, same size, feet aligned. A Chinese woman around 50, luxury real estate agent, hair in a neat bun, dark skirt suit, pearl earrings, professional and reserved.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-9e0ef91d-5bba-4375-96e7-c4be3e293fb4.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down RPG character sprite sheet, transparent background, 4 frames in a single row, evenly spaced: facing down, facing left, facing right, facing up. Full-body standing pose, same size, feet aligned. A Chinese woman around 50, luxury real estate agent, hair in a neat bun, dark skirt suit, pearl earrings, professional and reserved.\nInput image 1 is the canonical identity and clothing reference for linda. Preserve exactly this character's age, face, hairstyle, glasses/jewelry, clothing colors and key details; adapt to full-body overhead 3/4 RPG pixel-art sprites.\nExactly FOUR distinct complete figures in ONE horizontal row, broad transparent gutters, same scale, feet on the same baseline. Strict left-to-right frame order: DOWN/front toward viewer; LEFT profile facing image left; RIGHT profile facing image right; UP/back facing away. Standing poses, no walk animation. All hair, limbs and shoes inside each frame. No other row, no extra figures, no labels, no numbers, no ground or shadow. Actual transparent alpha, crisp pixel clusters matching the reference. Final PNG 1024x256, four 256x256 cells.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/portraits/linda_neutral.png"
+      ],
+      "generated_size": [
+        2172,
+        724
+      ],
+      "frame_boxes": [
+        [
+          78,
+          13,
+          177,
+          244
+        ],
+        [
+          338,
+          12,
+          430,
+          244
+        ],
+        [
+          594,
+          12,
+          686,
+          244
+        ],
+        [
+          847,
+          12,
+          945,
+          244
+        ]
+      ],
+      "frame_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "final_size": [
+        1024,
+        256
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/sprites/azhen.png",
+      "size": [
+        1024,
+        256
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down RPG character sprite sheet, transparent background, 4 frames in a single row, evenly spaced: facing down, facing left, facing right, facing up. Full-body standing pose, same size, feet aligned. A Chinese woman in her 40s, permed curly hair, bright lipstick, magenta blazer, eager salesperson smile.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-5512ecc9-a77f-40c4-ad12-f207ca18409d.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down RPG character sprite sheet, transparent background, 4 frames in a single row, evenly spaced: facing down, facing left, facing right, facing up. Full-body standing pose, same size, feet aligned. A Chinese woman in her 40s, permed curly hair, bright lipstick, magenta blazer, eager salesperson smile.\nInput image 1 is the canonical identity and clothing reference for azhen. Preserve exactly this character's age, face, hairstyle, glasses/jewelry, clothing colors and key details; adapt to full-body overhead 3/4 RPG pixel-art sprites.\nExactly FOUR distinct complete figures in ONE horizontal row, broad transparent gutters, same scale, feet on the same baseline. Strict left-to-right frame order: DOWN/front toward viewer; LEFT profile facing image left; RIGHT profile facing image right; UP/back facing away. Standing poses, no walk animation. All hair, limbs and shoes inside each frame. No other row, no extra figures, no labels, no numbers, no ground or shadow. Actual transparent alpha, crisp pixel clusters matching the reference. Final PNG 1024x256, four 256x256 cells.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/portraits/azhen_neutral.png"
+      ],
+      "generated_size": [
+        2172,
+        724
+      ],
+      "frame_boxes": [
+        [
+          76,
+          12,
+          179,
+          244
+        ],
+        [
+          333,
+          12,
+          435,
+          244
+        ],
+        [
+          590,
+          12,
+          690,
+          244
+        ],
+        [
+          844,
+          14,
+          948,
+          244
+        ]
+      ],
+      "frame_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "final_size": [
+        1024,
+        256
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/sprites/coco.png",
+      "size": [
+        1024,
+        256
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down RPG character sprite sheet, transparent background, 4 frames in a single row, evenly spaced: facing down, facing left, facing right, facing up. Full-body standing pose, same size, feet aligned. A Chinese woman around 30, nail salon owner, highlighted hair, flashy long manicured nails, shrewd smile.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-fb774559-d8d8-4ecb-8dff-198272f0feeb.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down RPG character sprite sheet, transparent background, 4 frames in a single row, evenly spaced: facing down, facing left, facing right, facing up. Full-body standing pose, same size, feet aligned. A Chinese woman around 30, nail salon owner, highlighted hair, flashy long manicured nails, shrewd smile.\nInput image 1 is the canonical identity and clothing reference for coco. Preserve exactly this character's age, face, hairstyle, glasses/jewelry, clothing colors and key details; adapt to full-body overhead 3/4 RPG pixel-art sprites.\nExactly FOUR distinct complete figures in ONE horizontal row, broad transparent gutters, same scale, feet on the same baseline. Strict left-to-right frame order: DOWN/front toward viewer; LEFT profile facing image left; RIGHT profile facing image right; UP/back facing away. Standing poses, no walk animation. All hair, limbs and shoes inside each frame. No other row, no extra figures, no labels, no numbers, no ground or shadow. Actual transparent alpha, crisp pixel clusters matching the reference. Final PNG 1024x256, four 256x256 cells.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/portraits/coco_neutral.png"
+      ],
+      "generated_size": [
+        2172,
+        724
+      ],
+      "frame_boxes": [
+        [
+          74,
+          12,
+          182,
+          244
+        ],
+        [
+          334,
+          12,
+          433,
+          244
+        ],
+        [
+          590,
+          12,
+          689,
+          244
+        ],
+        [
+          844,
+          15,
+          948,
+          244
+        ]
+      ],
+      "frame_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "final_size": [
+        1024,
+        256
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/sprites/eric.png",
+      "size": [
+        1024,
+        256
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down RPG character sprite sheet, transparent background, 4 frames in a single row, evenly spaced: facing down, facing left, facing right, facing up. Full-body standing pose, same size, feet aligned. A Chinese man in his 30s, gym regular, muscular, tight athletic t-shirt, expensive watch, arrogant.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-08d143fb-4f33-49f9-bea0-39009b8adbab.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down RPG character sprite sheet, transparent background, 4 frames in a single row, evenly spaced: facing down, facing left, facing right, facing up. Full-body standing pose, same size, feet aligned. A Chinese man in his 30s, gym regular, muscular, tight athletic t-shirt, expensive watch, arrogant.\nInput image 1 is the canonical identity and clothing reference for eric. Preserve exactly this character's age, face, hairstyle, glasses/jewelry, clothing colors and key details; adapt to full-body overhead 3/4 RPG pixel-art sprites.\nExactly FOUR distinct complete figures in ONE horizontal row, broad transparent gutters, same scale, feet on the same baseline. Strict left-to-right frame order: DOWN/front toward viewer; LEFT profile facing image left; RIGHT profile facing image right; UP/back facing away. Standing poses, no walk animation. All hair, limbs and shoes inside each frame. No other row, no extra figures, no labels, no numbers, no ground or shadow. Actual transparent alpha, crisp pixel clusters matching the reference. Final PNG 1024x256, four 256x256 cells.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/portraits/eric_neutral.png"
+      ],
+      "generated_size": [
+        2172,
+        724
+      ],
+      "frame_boxes": [
+        [
+          75,
+          13,
+          180,
+          244
+        ],
+        [
+          349,
+          12,
+          419,
+          244
+        ],
+        [
+          605,
+          12,
+          675,
+          244
+        ],
+        [
+          842,
+          13,
+          950,
+          244
+        ]
+      ],
+      "frame_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "final_size": [
+        1024,
+        256
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/sprites/xiaowu.png",
+      "size": [
+        1024,
+        256
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down RPG character sprite sheet, transparent background, 4 frames in a single row, evenly spaced: facing down, facing left, facing right, facing up. Full-body standing pose, same size, feet aligned. A Chinese man around 30, restaurant worker uniform, timid and anxious.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-1fede1d7-fbe8-423e-a049-7d7fe912d831.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down RPG character sprite sheet, transparent background, 4 frames in a single row, evenly spaced: facing down, facing left, facing right, facing up. Full-body standing pose, same size, feet aligned. A Chinese man around 30, restaurant worker uniform, timid and anxious.\nInput image 1 is the canonical identity and clothing reference for xiaowu. Preserve exactly this character's age, face, hairstyle, glasses/jewelry, clothing colors and key details; adapt to full-body overhead 3/4 RPG pixel-art sprites.\nExactly FOUR distinct complete figures in ONE horizontal row, broad transparent gutters, same scale, feet on the same baseline. Strict left-to-right frame order: DOWN/front toward viewer; LEFT profile facing image left; RIGHT profile facing image right; UP/back facing away. Standing poses, no walk animation. All hair, limbs and shoes inside each frame. No other row, no extra figures, no labels, no numbers, no ground or shadow. Actual transparent alpha, crisp pixel clusters matching the reference. Final PNG 1024x256, four 256x256 cells.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/portraits/xiaowu_neutral.png"
+      ],
+      "generated_size": [
+        2172,
+        724
+      ],
+      "frame_boxes": [
+        [
+          75,
+          16,
+          181,
+          244
+        ],
+        [
+          337,
+          12,
+          431,
+          244
+        ],
+        [
+          593,
+          12,
+          686,
+          244
+        ],
+        [
+          843,
+          16,
+          948,
+          244
+        ]
+      ],
+      "frame_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "final_size": [
+        1024,
+        256
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/maps/casino_suite.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "transparent": false,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down 3/4 view RPG interior map, no characters. A large luxury hotel suite in a desert casino resort at night: floor-to-ceiling windows along the top edge showing the desert and neon lights, a king bed at the upper left, a long sofa at the upper right with a coffee table in front, an air-conditioning vent above the sofa, a small bar counter at the lower left, a bathroom area at the lower right, the suite door at the bottom center. Clear walkable floor space in the middle.",
+      "layout_notes": "现在占位图的布局：上方一整排落地窗；左上大床（约 x200–620, y180–440）；右上沙发（x900–1280, y200–340）+ 茶几；左下吧台；右下浴室；底部中间是房门。",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-8a52026d-7574-4276-a288-12cdc7550926.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down 3/4 view RPG interior map, no characters. A large luxury hotel suite in a desert casino resort at night: floor-to-ceiling windows along the top edge showing the desert and neon lights, a king bed at the upper left, a long sofa at the upper right with a coffee table in front, an air-conditioning vent above the sofa, a small bar counter at the lower left, a bathroom area at the lower right, the suite door at the bottom center. Clear walkable floor space in the middle.\nInput image 1 is STYLE AND CAMERA REFERENCE ONLY, not a layout reference. Match its unified overhead 3/4 RPG perspective, crisp pixel-detail density and warm muted teal shadows. Build the NEW setting and exact arrangement specified above. Full-bleed 1536x1024 scene, opaque. No people, no human silhouettes, no readable text, numbers, signage, logos or watermarks. Main walking corridors must be broad and continuous; furniture remains separated by visible walkable floor.\nDocument layout constraints (coordinates refer to the final 1536x1024 canvas): 现在占位图的布局：上方一整排落地窗；左上大床（约 x200–620, y180–440）；右上沙发（x900–1280, y200–340）+ 茶几；左下吧台；右下浴室；底部中间是房门。\nFront entry opening centered on the bottom edge, with a clear walkable route north into the room. Cut-away walls must never hide walkable floor or interactive furniture.\nRequired file: assets/maps/casino_suite.png. Required final canvas: 1536x1024.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/maps/qingqing_house_a.png"
+      ],
+      "generated_size": [
+        1536,
+        1024
+      ],
+      "final_size": [
+        1536,
+        1024
+      ],
+      "final_mode": "RGB"
+    },
+    {
+      "path": "assets/maps/qingqing_house_b.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "transparent": false,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down 3/4 view RPG interior map, no characters. A rented suburban house interior, cut-away view: top row has three rooms side by side (master bedroom with a bed, nightstand and wardrobe on the left; a small nanny room with a single bed and cardboard boxes in the middle; a study with a desk on the right), each with a doorway opening downward. Below them an open living room with a TV on the left wall, a sofa, a security camera in the upper-left corner of the living room, a dining table in the middle, a kitchen on the right, and the front door at the bottom center.",
+      "layout_notes": "现在占位图的布局：上排三间房：主卧（x60–660）、保姆房（x690–1100）、书房（x1130–1476），y90–430；门洞朝下。下面是客厅：左墙电视、沙发、左上角摄像头、中间餐桌、右边厨房；大门在底部中间。",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-65923567-4474-4107-9db4-6efd04c1398d.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down 3/4 view RPG interior map, no characters. A rented suburban house interior, cut-away view: top row has three rooms side by side (master bedroom with a bed, nightstand and wardrobe on the left; a small nanny room with a single bed and cardboard boxes in the middle; a study with a desk on the right), each with a doorway opening downward. Below them an open living room with a TV on the left wall, a sofa, a security camera in the upper-left corner of the living room, a dining table in the middle, a kitchen on the right, and the front door at the bottom center.\nInput image 1 is STYLE AND CAMERA REFERENCE ONLY, not a layout reference. Match its unified overhead 3/4 RPG perspective, crisp pixel-detail density and warm muted teal shadows. Build the NEW setting and exact arrangement specified above. Full-bleed 1536x1024 scene, opaque. No people, no human silhouettes, no readable text, numbers, signage, logos or watermarks. Main walking corridors must be broad and continuous; furniture remains separated by visible walkable floor.\nDocument layout constraints (coordinates refer to the final 1536x1024 canvas): 现在占位图的布局：上排三间房：主卧（x60–660）、保姆房（x690–1100）、书房（x1130–1476），y90–430；门洞朝下。下面是客厅：左墙电视、沙发、左上角摄像头、中间餐桌、右边厨房；大门在底部中间。\nFront entry opening centered on the bottom edge, with a clear walkable route north into the room. Cut-away walls must never hide walkable floor or interactive furniture.\nRequired file: assets/maps/qingqing_house_b.png. Required final canvas: 1536x1024.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/maps/qingqing_house_a.png"
+      ],
+      "generated_size": [
+        1536,
+        1024
+      ],
+      "final_size": [
+        1536,
+        1024
+      ],
+      "final_mode": "RGB"
+    },
+    {
+      "path": "assets/maps/financial_district.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "transparent": false,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down 3/4 view RPG exterior map, no characters. A downtown financial district street: along the top edge three tall building fronts side by side (a glass office tower on the left, a stone federal building in the middle, a classical courthouse with columns on the right), each with an entrance at street level. A wide sidewalk below them, then a street with a parked sedan on the left, a bench at the lower middle. Daytime, crisp shadows.",
+      "layout_notes": "现在占位图的布局：上方三栋楼：左“投行”玻璃大楼（x0–600）、中联邦大楼（x640–1060）、右法院（x1100–1536），y0–420；楼下人行道；左边停着你的车。",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-2584c284-a498-4179-b387-7c9e2d150107.png",
+      "generation_prompt": "Use case: lighting-weather. Edit target: the supplied pixel-art financial-district RPG map. Change ONLY time-of-day lighting to clear DAYTIME, as the asset document specifically requires, with crisp natural sun shadows and visible neutral stone/asphalt colors. Keep exactly the same overhead 3/4 camera, composition, buildings, entrances, sidewalk, road, sedan, bench, trees, lamps, physical dimensions and pixel-cluster style. The glass office tower remains left, stone federal building center, columned courthouse right. Full-bleed opaque 1536x1024 PNG. Warm restrained daylight with muted teal shadows, not night or dusk. Do not add people, readable text, signs, logos or any new objects.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/maps/financial_district.png"
+      ],
+      "generated_size": [
+        1536,
+        1024
+      ],
+      "final_size": [
+        1536,
+        1024
+      ],
+      "final_mode": "RGB",
+      "discarded_sources": [
+        "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-211425f8-dac4-453e-a2d0-3b5756d41c9f.png"
+      ]
+    },
+    {
+      "path": "assets/maps/mansion_hills.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "transparent": false,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down 3/4 view RPG interior map, no characters. An empty luxury hillside mansion during an open house: floor-to-ceiling windows along the top edge with a hill view, a grand spiral staircase at the upper right, a fireplace on the left wall, a long marble dining table under a crystal chandelier at the top middle, a leather sofa set in the lower middle, a marble kitchen island at the right, a crate of second-hand power tools in the lower right corner, the entrance at the bottom center.",
+      "layout_notes": "现在占位图的布局：上方落地窗；右上旋转楼梯；左墙壁炉；上中长餐桌+水晶吊灯；中下真皮沙发；右边大理石岛台；右下角一箱二手工具；入口在底部中间。",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-cd94353f-edd4-4f0a-8569-1b0904371a6d.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down 3/4 view RPG interior map, no characters. An empty luxury hillside mansion during an open house: floor-to-ceiling windows along the top edge with a hill view, a grand spiral staircase at the upper right, a fireplace on the left wall, a long marble dining table under a crystal chandelier at the top middle, a leather sofa set in the lower middle, a marble kitchen island at the right, a crate of second-hand power tools in the lower right corner, the entrance at the bottom center.\nInput image 1 is STYLE AND CAMERA REFERENCE ONLY, not a layout reference. Match its unified overhead 3/4 RPG perspective, crisp pixel-detail density and warm muted teal shadows. Build the NEW setting and exact arrangement specified above. Full-bleed 1536x1024 scene, opaque. No people, no human silhouettes, no readable text, numbers, signage, logos or watermarks. Main walking corridors must be broad and continuous; furniture remains separated by visible walkable floor.\nDocument layout constraints (coordinates refer to the final 1536x1024 canvas): 现在占位图的布局：上方落地窗；右上旋转楼梯；左墙壁炉；上中长餐桌+水晶吊灯；中下真皮沙发；右边大理石岛台；右下角一箱二手工具；入口在底部中间。\nFront entry opening centered on the bottom edge, with a clear walkable route north into the room. Cut-away walls must never hide walkable floor or interactive furniture.\nRequired file: assets/maps/mansion_hills.png. Required final canvas: 1536x1024.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/maps/qingqing_house_a.png"
+      ],
+      "generated_size": [
+        1536,
+        1024
+      ],
+      "final_size": [
+        1536,
+        1024
+      ],
+      "final_mode": "RGB"
+    },
+    {
+      "path": "assets/maps/chen_home.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "transparent": false,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down 3/4 view RPG interior map, no characters. A modest older rented house interior, cut-away view: top row has your bedroom (bed, small desk with a laptop) on the left, a bathroom in the middle, and a roommate's bedroom on the right. Below, a plain living room with an old sofa on the left, a dining table on the right, the front door at the bottom center with a small doorbell by it. Lived-in, a bit lonely.",
+      "layout_notes": "现在占位图的布局：上排：左你的房间（床、书桌）、中浴室、右小吴的房间；下面客厅：左旧沙发、右餐桌；大门在底部中间，门边有门铃。",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-3ec74014-5347-4095-ae8f-d256fc602806.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down 3/4 view RPG interior map, no characters. A modest older rented house interior, cut-away view: top row has your bedroom (bed, small desk with a laptop) on the left, a bathroom in the middle, and a roommate's bedroom on the right. Below, a plain living room with an old sofa on the left, a dining table on the right, the front door at the bottom center with a small doorbell by it. Lived-in, a bit lonely.\nInput image 1 is STYLE AND CAMERA REFERENCE ONLY, not a layout reference. Match its unified overhead 3/4 RPG perspective, crisp pixel-detail density and warm muted teal shadows. Build the NEW setting and exact arrangement specified above. Full-bleed 1536x1024 scene, opaque. No people, no human silhouettes, no readable text, numbers, signage, logos or watermarks. Main walking corridors must be broad and continuous; furniture remains separated by visible walkable floor.\nDocument layout constraints (coordinates refer to the final 1536x1024 canvas): 现在占位图的布局：上排：左你的房间（床、书桌）、中浴室、右小吴的房间；下面客厅：左旧沙发、右餐桌；大门在底部中间，门边有门铃。\nFront entry opening centered on the bottom edge, with a clear walkable route north into the room. Cut-away walls must never hide walkable floor or interactive furniture.\nRequired file: assets/maps/chen_home.png. Required final canvas: 1536x1024.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/maps/qingqing_house_a.png"
+      ],
+      "generated_size": [
+        1536,
+        1024
+      ],
+      "final_size": [
+        1536,
+        1024
+      ],
+      "final_mode": "RGB"
+    },
+    {
+      "path": "assets/maps/police_station.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "transparent": false,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down 3/4 view RPG interior map, no characters. A local police station interior: a notice board along the top wall, a front reception counter at the upper left, a glass-walled interview room at the upper right with a table and chairs, a row of waiting benches at the lower left, the entrance at the bottom center. Fluorescent lighting, neutral institutional colors.",
+      "layout_notes": "现在占位图的布局：上墙布告栏；左上报案柜台；右上询问室（玻璃隔断，x900–1476, y90–470）；左下等候长椅；入口在底部中间。",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-252cd84a-46b1-45e0-8033-395581ddebc7.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down 3/4 view RPG interior map, no characters. A local police station interior: a notice board along the top wall, a front reception counter at the upper left, a glass-walled interview room at the upper right with a table and chairs, a row of waiting benches at the lower left, the entrance at the bottom center. Fluorescent lighting, neutral institutional colors.\nInput image 1 is STYLE AND CAMERA REFERENCE ONLY, not a layout reference. Match its unified overhead 3/4 RPG perspective, crisp pixel-detail density and warm muted teal shadows. Build the NEW setting and exact arrangement specified above. Full-bleed 1536x1024 scene, opaque. No people, no human silhouettes, no readable text, numbers, signage, logos or watermarks. Main walking corridors must be broad and continuous; furniture remains separated by visible walkable floor.\nDocument layout constraints (coordinates refer to the final 1536x1024 canvas): 现在占位图的布局：上墙布告栏；左上报案柜台；右上询问室（玻璃隔断，x900–1476, y90–470）；左下等候长椅；入口在底部中间。\nFront entry opening centered on the bottom edge, with a clear walkable route north into the room. Cut-away walls must never hide walkable floor or interactive furniture.\nRequired file: assets/maps/police_station.png. Required final canvas: 1536x1024.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/maps/qingqing_house_a.png"
+      ],
+      "generated_size": [
+        1536,
+        1024
+      ],
+      "final_size": [
+        1536,
+        1024
+      ],
+      "final_mode": "RGB"
+    },
+    {
+      "path": "assets/maps/seaside_restaurant.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "transparent": false,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down 3/4 view RPG interior map, no characters. A quiet seaside restaurant at dusk: large windows along the top edge facing the ocean, three dining tables spread across the upper half (one by the window in the middle), a bar counter at the lower right, the entrance at the bottom center. Warm low lighting, melancholic mood.",
+      "layout_notes": "现在占位图的布局：上方大窗对着海；上半部三张餐桌（中间那张靠窗）；右下吧台；入口在底部中间。",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-eee800c8-9d3d-4fd1-a9ed-be546f7a8572.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down 3/4 view RPG interior map, no characters. A quiet seaside restaurant at dusk: large windows along the top edge facing the ocean, three dining tables spread across the upper half (one by the window in the middle), a bar counter at the lower right, the entrance at the bottom center. Warm low lighting, melancholic mood.\nInput image 1 is STYLE AND CAMERA REFERENCE ONLY, not a layout reference. Match its unified overhead 3/4 RPG perspective, crisp pixel-detail density and warm muted teal shadows. Build the NEW setting and exact arrangement specified above. Full-bleed 1536x1024 scene, opaque. No people, no human silhouettes, no readable text, numbers, signage, logos or watermarks. Main walking corridors must be broad and continuous; furniture remains separated by visible walkable floor.\nDocument layout constraints (coordinates refer to the final 1536x1024 canvas): 现在占位图的布局：上方大窗对着海；上半部三张餐桌（中间那张靠窗）；右下吧台；入口在底部中间。\nFront entry opening centered on the bottom edge, with a clear walkable route north into the room. Cut-away walls must never hide walkable floor or interactive furniture.\nRequired file: assets/maps/seaside_restaurant.png. Required final canvas: 1536x1024.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/maps/qingqing_house_a.png"
+      ],
+      "generated_size": [
+        1536,
+        1024
+      ],
+      "final_size": [
+        1536,
+        1024
+      ],
+      "final_mode": "RGB"
+    },
+    {
+      "path": "assets/maps/club_gym.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "transparent": false,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down 3/4 view RPG interior map, no characters. An upscale members-only gym: a mirror wall along the top edge, a row of treadmills at the upper left, weight machines at the upper right, a lounge area at the lower left, a juice bar at the lower right, the entrance at the bottom center. Sleek and expensive.",
+      "layout_notes": "现在占位图的布局：上墙镜子；左上跑步机；右上器械区；左下休息区；右下果汁吧；入口在底部中间。",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-1005bd2a-688f-4b6d-bec4-6a1951d9e495.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down 3/4 view RPG interior map, no characters. An upscale members-only gym: a mirror wall along the top edge, a row of treadmills at the upper left, weight machines at the upper right, a lounge area at the lower left, a juice bar at the lower right, the entrance at the bottom center. Sleek and expensive.\nInput image 1 is STYLE AND CAMERA REFERENCE ONLY, not a layout reference. Match its unified overhead 3/4 RPG perspective, crisp pixel-detail density and warm muted teal shadows. Build the NEW setting and exact arrangement specified above. Full-bleed 1536x1024 scene, opaque. No people, no human silhouettes, no readable text, numbers, signage, logos or watermarks. Main walking corridors must be broad and continuous; furniture remains separated by visible walkable floor.\nDocument layout constraints (coordinates refer to the final 1536x1024 canvas): 现在占位图的布局：上墙镜子；左上跑步机；右上器械区；左下休息区；右下果汁吧；入口在底部中间。\nFront entry opening centered on the bottom edge, with a clear walkable route north into the room. Cut-away walls must never hide walkable floor or interactive furniture.\nRequired file: assets/maps/club_gym.png. Required final canvas: 1536x1024.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/maps/qingqing_house_a.png"
+      ],
+      "generated_size": [
+        1536,
+        1024
+      ],
+      "final_size": [
+        1536,
+        1024
+      ],
+      "final_mode": "RGB"
+    },
+    {
+      "path": "assets/items/phone_chat.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a smartphone showing a messaging app with several chat bubbles, no readable text.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-937db826-5edd-4600-a908-292ab13b3272.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a smartphone showing a messaging app with several chat bubbles, no readable text.\nSingle centered game evidence item on actual transparent alpha background, complete silhouette visible. Final PNG 1024x1024. Match crisp 16-bit pixel clusters and warm limited muted-teal palette. Replace all writing, handwriting, dates, bank numbers, amounts, signatures and screen labels with abstract illegible strokes or solid small rectangular placeholder bars. Absolutely no readable letters, words, digits, timestamps or real brand/agency logos. The game will overlay all narrative text later. Any explicitly requested emblem or seal is an abstract geometric mark, never a real emblem. Any explicitly requested question mark or recording dot is a graphical icon only.\nRequired file: assets/items/phone_chat.png. Required final canvas: 1024x1024.",
+      "reference_images": [],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/items/qin_letter.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a handwritten letter on lined paper with a detention center envelope beside it, no readable text.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-2a602237-b4fc-461c-8194-270abf9d230d.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a handwritten letter on lined paper with a detention center envelope beside it, no readable text.\nSingle centered game evidence item on actual transparent alpha background, complete silhouette visible. Final PNG 1024x1024. Match crisp 16-bit pixel clusters and warm limited muted-teal palette. Replace all writing, handwriting, dates, bank numbers, amounts, signatures and screen labels with abstract illegible strokes or solid small rectangular placeholder bars. Absolutely no readable letters, words, digits, timestamps or real brand/agency logos. The game will overlay all narrative text later. Any explicitly requested emblem or seal is an abstract geometric mark, never a real emblem. Any explicitly requested question mark or recording dot is a graphical icon only.\nRequired file: assets/items/qin_letter.png. Required final canvas: 1024x1024.",
+      "reference_images": [],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/items/lease.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a two-page residential lease with a signature line and a set of house keys on top, no readable text.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-53a1611e-f29c-498a-92cf-15726d44c566.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a two-page residential lease with a signature line and a set of house keys on top, no readable text.\nSingle centered game evidence item on actual transparent alpha background, complete silhouette visible. Final PNG 1024x1024. Match crisp 16-bit pixel clusters and warm limited muted-teal palette. Replace all writing, handwriting, dates, bank numbers, amounts, signatures and screen labels with abstract illegible strokes or solid small rectangular placeholder bars. Absolutely no readable letters, words, digits, timestamps or real brand/agency logos. The game will overlay all narrative text later. Any explicitly requested emblem or seal is an abstract geometric mark, never a real emblem. Any explicitly requested question mark or recording dot is a graphical icon only.\nRequired file: assets/items/lease.png. Required final canvas: 1024x1024.",
+      "reference_images": [],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/items/lawfirm_folder.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a navy document folder with a small embossed law firm emblem (abstract shape), no readable text.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-95569eea-5fc9-4f25-97e1-8fabb6494b4d.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a navy document folder with a small embossed law firm emblem (abstract shape), no readable text.\nSingle centered game evidence item on actual transparent alpha background, complete silhouette visible. Final PNG 1024x1024. Match crisp 16-bit pixel clusters and warm limited muted-teal palette. Replace all writing, handwriting, dates, bank numbers, amounts, signatures and screen labels with abstract illegible strokes or solid small rectangular placeholder bars. Absolutely no readable letters, words, digits, timestamps or real brand/agency logos. The game will overlay all narrative text later. Any explicitly requested emblem or seal is an abstract geometric mark, never a real emblem. Any explicitly requested question mark or recording dot is a graphical icon only.\nRequired file: assets/items/lawfirm_folder.png. Required final canvas: 1024x1024.",
+      "reference_images": [],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/items/utility_bill.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a utility bill envelope and statement on a desk, no readable text.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-fc0c9fe2-678c-4757-8f17-beb282db9897.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a utility bill envelope and statement on a desk, no readable text.\nSingle centered game evidence item on actual transparent alpha background, complete silhouette visible. Final PNG 1024x1024. Match crisp 16-bit pixel clusters and warm limited muted-teal palette. Replace all writing, handwriting, dates, bank numbers, amounts, signatures and screen labels with abstract illegible strokes or solid small rectangular placeholder bars. Absolutely no readable letters, words, digits, timestamps or real brand/agency logos. The game will overlay all narrative text later. Any explicitly requested emblem or seal is an abstract geometric mark, never a real emblem. Any explicitly requested question mark or recording dot is a graphical icon only.\nThe statement and envelope are isolated item art; do not include a desk or a rectangular scene background.\nRequired file: assets/items/utility_bill.png. Required final canvas: 1024x1024.",
+      "reference_images": [],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/items/member_form.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a membership form clipped to a clipboard next to a skincare bottle, no readable text.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-5b16ccb9-2241-4b71-8115-d3e24c1c8aa4.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a membership form clipped to a clipboard next to a skincare bottle, no readable text.\nSingle centered game evidence item on actual transparent alpha background, complete silhouette visible. Final PNG 1024x1024. Match crisp 16-bit pixel clusters and warm limited muted-teal palette. Replace all writing, handwriting, dates, bank numbers, amounts, signatures and screen labels with abstract illegible strokes or solid small rectangular placeholder bars. Absolutely no readable letters, words, digits, timestamps or real brand/agency logos. The game will overlay all narrative text later. Any explicitly requested emblem or seal is an abstract geometric mark, never a real emblem. Any explicitly requested question mark or recording dot is a graphical icon only.\nRequired file: assets/items/member_form.png. Required final canvas: 1024x1024.",
+      "reference_images": [],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/items/fake_screenshot.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a phone screen showing a banking app with a large frozen balance (numbers blurred, no readable text), with slightly mismatched pixels.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-57922d52-7d9c-4930-98cd-63968c5f7384.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a phone screen showing a banking app with a large frozen balance (numbers blurred, no readable text), with slightly mismatched pixels.\nSingle centered game evidence item on actual transparent alpha background, complete silhouette visible. Final PNG 1024x1024. Match crisp 16-bit pixel clusters and warm limited muted-teal palette. Replace all writing, handwriting, dates, bank numbers, amounts, signatures and screen labels with abstract illegible strokes or solid small rectangular placeholder bars. Absolutely no readable letters, words, digits, timestamps or real brand/agency logos. The game will overlay all narrative text later. Any explicitly requested emblem or seal is an abstract geometric mark, never a real emblem. Any explicitly requested question mark or recording dot is a graphical icon only.\nRequired file: assets/items/fake_screenshot.png. Required final canvas: 1024x1024.",
+      "reference_images": [],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/items/transfer_timeline.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a printed spreadsheet with rows of dates and amounts highlighted in yellow, no readable text.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-55f6108f-aa34-4b37-b919-5b82050859fa.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a printed spreadsheet with rows of dates and amounts highlighted in yellow, no readable text.\nSingle centered game evidence item on actual transparent alpha background, complete silhouette visible. Final PNG 1024x1024. Match crisp 16-bit pixel clusters and warm limited muted-teal palette. Replace all writing, handwriting, dates, bank numbers, amounts, signatures and screen labels with abstract illegible strokes or solid small rectangular placeholder bars. Absolutely no readable letters, words, digits, timestamps or real brand/agency logos. The game will overlay all narrative text later. Any explicitly requested emblem or seal is an abstract geometric mark, never a real emblem. Any explicitly requested question mark or recording dot is a graphical icon only.\nRequired file: assets/items/transfer_timeline.png. Required final canvas: 1024x1024.",
+      "reference_images": [],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/items/pattern_card.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: an index card pinned with a red pushpin, a simple question-mark doodle, no readable text.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-71cf275e-8db7-42ec-ac01-63a47d0d4a04.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: an index card pinned with a red pushpin, a simple question-mark doodle, no readable text.\nSingle centered game evidence item on actual transparent alpha background, complete silhouette visible. Final PNG 1024x1024. Match crisp 16-bit pixel clusters and warm limited muted-teal palette. Replace all writing, handwriting, dates, bank numbers, amounts, signatures and screen labels with abstract illegible strokes or solid small rectangular placeholder bars. Absolutely no readable letters, words, digits, timestamps or real brand/agency logos. The game will overlay all narrative text later. Any explicitly requested emblem or seal is an abstract geometric mark, never a real emblem. Any explicitly requested question mark or recording dot is a graphical icon only.\nRequired file: assets/items/pattern_card.png. Required final canvas: 1024x1024.",
+      "reference_images": [],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/items/luna_photo.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: an old printed photo of three people at a seaside restaurant, all faces turned away or out of focus, one young woman in profile, no readable text.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-246b6e02-b144-4f7a-b41f-7a3cc28c31a2.png",
+      "generation_prompt": "Use case: precise-object-edit with identity reference. Image 1 is the old printed photo edit target; preserve the worn off-white paper, folds, cracks, tilt, seaside restaurant, sunset, food, pixel style and true alpha outside the photo. Image 2 is the facial identity reference for the central young woman ONLY. The story canon explicitly says the three people are THREE CHINESE WOMEN: young female travel blogger Luna, young Qingqing, and Qingqing's older mother. Replace the short-haired male-looking person on the LEFT with a young adult Chinese woman viewed from behind, with shoulder-length hair, her face turned away. The MIDDLE young woman has Qingqing's profile nose and chin from image 2, long black hair half tied back and pearl stud earrings; she is turning her face away, only a soft side profile visible, neck completely free of tattoos. The older woman on the RIGHT remains seen from behind/out of focus. No frontal recognizable face for Luna or the mother, no man, no Qin Yue, exactly three women, no added people. No readable text, digits, logos or watermarks. A single 1024x1024 PNG, actual transparent background around the photograph.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/items/luna_photo.png",
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/portraits/qingqing_neutral.png"
+      ],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA",
+      "correction_reason": "Story canon and phone_content.js identify all three photo subjects as women; retain profile-only young woman and unidentifiable Luna/mother."
+    },
+    {
+      "path": "assets/items/court_file.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a thick stack of legal documents with colored tabs and a court seal (abstract), no readable text.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-f44ec0ec-0d0e-488b-bbb8-049aadc4b4d0.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a thick stack of legal documents with colored tabs and a court seal (abstract), no readable text.\nSingle centered game evidence item on actual transparent alpha background, complete silhouette visible. Final PNG 1024x1024. Match crisp 16-bit pixel clusters and warm limited muted-teal palette. Replace all writing, handwriting, dates, bank numbers, amounts, signatures and screen labels with abstract illegible strokes or solid small rectangular placeholder bars. Absolutely no readable letters, words, digits, timestamps or real brand/agency logos. The game will overlay all narrative text later. Any explicitly requested emblem or seal is an abstract geometric mark, never a real emblem. Any explicitly requested question mark or recording dot is a graphical icon only.\nRequired file: assets/items/court_file.png. Required final canvas: 1024x1024.",
+      "reference_images": [],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/items/zhaohui_list.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a handwritten list of names and bank numbers on a notebook page, ink smudged, no readable text.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-af57182a-1cda-4bfa-a4de-e19aba6b5401.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a handwritten list of names and bank numbers on a notebook page, ink smudged, no readable text.\nSingle centered game evidence item on actual transparent alpha background, complete silhouette visible. Final PNG 1024x1024. Match crisp 16-bit pixel clusters and warm limited muted-teal palette. Replace all writing, handwriting, dates, bank numbers, amounts, signatures and screen labels with abstract illegible strokes or solid small rectangular placeholder bars. Absolutely no readable letters, words, digits, timestamps or real brand/agency logos. The game will overlay all narrative text later. Any explicitly requested emblem or seal is an abstract geometric mark, never a real emblem. Any explicitly requested question mark or recording dot is a graphical icon only.\nRequired file: assets/items/zhaohui_list.png. Required final canvas: 1024x1024.",
+      "reference_images": [],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/items/money_flow.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a corkboard with red strings connecting small cards and a pie chart pinned in the middle, no readable text.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-08dc6df1-b721-4397-af2a-e8c836385ee8.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a corkboard with red strings connecting small cards and a pie chart pinned in the middle, no readable text.\nSingle centered game evidence item on actual transparent alpha background, complete silhouette visible. Final PNG 1024x1024. Match crisp 16-bit pixel clusters and warm limited muted-teal palette. Replace all writing, handwriting, dates, bank numbers, amounts, signatures and screen labels with abstract illegible strokes or solid small rectangular placeholder bars. Absolutely no readable letters, words, digits, timestamps or real brand/agency logos. The game will overlay all narrative text later. Any explicitly requested emblem or seal is an abstract geometric mark, never a real emblem. Any explicitly requested question mark or recording dot is a graphical icon only.\nRequired file: assets/items/money_flow.png. Required final canvas: 1024x1024.",
+      "reference_images": [],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/items/call_log.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a phone screen showing a call history list with one highlighted entry, no readable text.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-ee357a98-f471-4bc0-bd08-01dbb606553a.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a phone screen showing a call history list with one highlighted entry, no readable text.\nSingle centered game evidence item on actual transparent alpha background, complete silhouette visible. Final PNG 1024x1024. Match crisp 16-bit pixel clusters and warm limited muted-teal palette. Replace all writing, handwriting, dates, bank numbers, amounts, signatures and screen labels with abstract illegible strokes or solid small rectangular placeholder bars. Absolutely no readable letters, words, digits, timestamps or real brand/agency logos. The game will overlay all narrative text later. Any explicitly requested emblem or seal is an abstract geometric mark, never a real emblem. Any explicitly requested question mark or recording dot is a graphical icon only.\nRequired file: assets/items/call_log.png. Required final canvas: 1024x1024.",
+      "reference_images": [],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/items/transfer_records.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a phone screen showing a list of small money transfers, no readable text.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-5b585a3d-d972-4034-9a41-8abe9a580e39.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a phone screen showing a list of small money transfers, no readable text.\nSingle centered game evidence item on actual transparent alpha background, complete silhouette visible. Final PNG 1024x1024. Match crisp 16-bit pixel clusters and warm limited muted-teal palette. Replace all writing, handwriting, dates, bank numbers, amounts, signatures and screen labels with abstract illegible strokes or solid small rectangular placeholder bars. Absolutely no readable letters, words, digits, timestamps or real brand/agency logos. The game will overlay all narrative text later. Any explicitly requested emblem or seal is an abstract geometric mark, never a real emblem. Any explicitly requested question mark or recording dot is a graphical icon only.\nRequired file: assets/items/transfer_records.png. Required final canvas: 1024x1024.",
+      "reference_images": [],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/items/your_bag.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: an old canvas messenger bag with a folded shirt and a razor sticking out.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-dec9f001-910e-42a1-b1ce-3d4398fba77d.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: an old canvas messenger bag with a folded shirt and a razor sticking out.\nSingle centered game evidence item on actual transparent alpha background, complete silhouette visible. Final PNG 1024x1024. Match crisp 16-bit pixel clusters and warm limited muted-teal palette. Replace all writing, handwriting, dates, bank numbers, amounts, signatures and screen labels with abstract illegible strokes or solid small rectangular placeholder bars. Absolutely no readable letters, words, digits, timestamps or real brand/agency logos. The game will overlay all narrative text later. Any explicitly requested emblem or seal is an abstract geometric mark, never a real emblem. Any explicitly requested question mark or recording dot is a graphical icon only.\nRequired file: assets/items/your_bag.png. Required final canvas: 1024x1024.",
+      "reference_images": [],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/items/coco_note.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a nail salon business card with a scribbled note on the back, no readable text.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-0d82a3ef-590f-40b7-b9cd-4549aca391a7.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a nail salon business card with a scribbled note on the back, no readable text.\nSingle centered game evidence item on actual transparent alpha background, complete silhouette visible. Final PNG 1024x1024. Match crisp 16-bit pixel clusters and warm limited muted-teal palette. Replace all writing, handwriting, dates, bank numbers, amounts, signatures and screen labels with abstract illegible strokes or solid small rectangular placeholder bars. Absolutely no readable letters, words, digits, timestamps or real brand/agency logos. The game will overlay all narrative text later. Any explicitly requested emblem or seal is an abstract geometric mark, never a real emblem. Any explicitly requested question mark or recording dot is a graphical icon only.\nRequired file: assets/items/coco_note.png. Required final canvas: 1024x1024.",
+      "reference_images": [],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/items/door_footage.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a doorbell camera still frame, fisheye view of a front porch with two blurred figures, no readable text.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-90aafcf8-b4f1-4e15-9a8c-bd5334f569b8.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a doorbell camera still frame, fisheye view of a front porch with two blurred figures, no readable text.\nSingle centered game evidence item on actual transparent alpha background, complete silhouette visible. Final PNG 1024x1024. Match crisp 16-bit pixel clusters and warm limited muted-teal palette. Replace all writing, handwriting, dates, bank numbers, amounts, signatures and screen labels with abstract illegible strokes or solid small rectangular placeholder bars. Absolutely no readable letters, words, digits, timestamps or real brand/agency logos. The game will overlay all narrative text later. Any explicitly requested emblem or seal is an abstract geometric mark, never a real emblem. Any explicitly requested question mark or recording dot is a graphical icon only.\nExactly two indistinct blurred figures on the porch, faces unidentifiable. No timestamps or readable camera UI.\nRequired file: assets/items/door_footage.png. Required final canvas: 1024x1024.",
+      "reference_images": [],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/items/statement.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a handwritten statement on plain paper with a pen lying across it, no readable text.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-4d43bf60-5e26-49f3-bf5b-713ef25f148f.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a handwritten statement on plain paper with a pen lying across it, no readable text.\nSingle centered game evidence item on actual transparent alpha background, complete silhouette visible. Final PNG 1024x1024. Match crisp 16-bit pixel clusters and warm limited muted-teal palette. Replace all writing, handwriting, dates, bank numbers, amounts, signatures and screen labels with abstract illegible strokes or solid small rectangular placeholder bars. Absolutely no readable letters, words, digits, timestamps or real brand/agency logos. The game will overlay all narrative text later. Any explicitly requested emblem or seal is an abstract geometric mark, never a real emblem. Any explicitly requested question mark or recording dot is a graphical icon only.\nRequired file: assets/items/statement.png. Required final canvas: 1024x1024.",
+      "reference_images": [],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/items/recording.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a smartphone showing a voice recorder waveform, red record dot.",
+      "layout_notes": "",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-7feca5df-7cc6-45f7-9102-07078805da23.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a smartphone showing a voice recorder waveform, red record dot.\nSingle centered game evidence item on actual transparent alpha background, complete silhouette visible. Final PNG 1024x1024. Match crisp 16-bit pixel clusters and warm limited muted-teal palette. Replace all writing, handwriting, dates, bank numbers, amounts, signatures and screen labels with abstract illegible strokes or solid small rectangular placeholder bars. Absolutely no readable letters, words, digits, timestamps or real brand/agency logos. The game will overlay all narrative text later. Any explicitly requested emblem or seal is an abstract geometric mark, never a real emblem. Any explicitly requested question mark or recording dot is a graphical icon only.\nRequired file: assets/items/recording.png. Required final canvas: 1024x1024.",
+      "reference_images": [],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    }
+  ],
+  "validation": {
+    "documented_files": 49,
+    "total_project_pngs": 86,
+    "first_batch_unchanged": true,
+    "project_tests_passed": 39,
+    "build_passed": true,
+    "map_review": "Eight browser overlay screenshots saved in docs/art/batch2_map_review_*.jpg",
+    "maps_without_placeholder": true
+  }
+}

@@ -8,19 +8,19 @@ export const PLACEMENTS = {
     { id: 'qingqing', label: '晴晴', x: 580, y: 720, when: during('A2_09') },
   ],
   casino_suite: [
-    { id: 'qingqing', label: '晴晴', x: 520, y: 520, when: during('A2_10') },
+    { id: 'qingqing', label: '晴晴', x: 620, y: 460, when: during('A2_10') },
   ],
   qingqing_house_b: [
     { id: 'qingqing', label: '晴晴', x: 640, y: 560, when: s => during('A2_11', 'A2_14B')(s) && !(s.quest === 'A2_14' && s.flags.a2_sent_away) },
-    { id: 'fangjie', label: '芳姐', x: 1000, y: 540, when: during('A2_11', 'A2_14B') },
-    { id: 'shenman', label: '沈曼', x: 400, y: 820, when: during('A2_11') },
+    { id: 'fangjie', label: '芳姐', x: 935, y: 410, when: during('A2_11', 'A2_14B') },
+    { id: 'shenman', label: '沈曼', x: 620, y: 710, when: during('A2_11') },
   ],
   financial_district: [
-    { id: 'qingqing', label: '晴晴', x: 300, y: 520, when: s => s.quest === 'A2_12' && !s.flags.a2_upstairs },
+    { id: 'qingqing', label: '晴晴', x: 370, y: 540, when: s => s.quest === 'A2_12' && !s.flags.a2_upstairs },
   ],
   mansion_hills: [
     { id: 'qingqing', label: '晴晴', x: 900, y: 420, when: during('A2_13') },
-    { id: 'linda', label: 'Linda 郭', x: 600, y: 760, when: during('A2_13') },
+    { id: 'linda', label: 'Linda 郭', x: 850, y: 715, when: during('A2_13') },
   ],
   chinatown_street: [
     { id: 'azhen', label: '阿珍', x: 1390, y: 400, when: after('A2_14') },

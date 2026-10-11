@@ -57,3 +57,20 @@ test('every map has its artwork file under assets/maps (placeholder maps excepte
     assert.ok(existsSync(file), `${id}: missing assets/maps/${map.art || id}.png`);
   }
 });
+
+test('second-batch scenes keep conditional NPCs on reachable floor', () => {
+  const scenes = ['casino_suite', 'qingqing_house_b', 'financial_district', 'mansion_hills', 'chen_home', 'police_station', 'seaside_restaurant', 'club_gym'];
+  for (const id of scenes) {
+    const map = MAPS[id];
+    const cells = reachable(map, map.spawn);
+    for (const quest of QUEST_ORDER) {
+      const state = { ...createState(), map: id, quest };
+      state.phone.contacts.push('coco');
+      Object.assign(state.flags, { eric_called: true, a4_called: true });
+      for (const npc of npcsOnMap(state)) {
+        assert.ok(!blocked(map, npc.x, npc.y), `${id}: ${npc.id} stands inside furniture in ${quest}`);
+        assert.ok(nearAny(cells, npc), `${id}: conditional ${npc.id} unreachable in ${quest}`);
+      }
+    }
+  }
+});

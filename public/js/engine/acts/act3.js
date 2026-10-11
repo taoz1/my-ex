@@ -6,7 +6,7 @@ import { say, N, has, during } from './common.js';
 export const PLACEMENTS = {
   qingqing_house_b: [
     { id: 'qingqing', label: '晴晴', x: 640, y: 560, when: during('A3_19B') },
-    { id: 'fangjie', label: '芳姐', x: 1000, y: 540, when: during('A3_15', 'A3_20') },
+    { id: 'fangjie', label: '芳姐', x: 935, y: 410, when: during('A3_15', 'A3_20') },
   ],
 };
 

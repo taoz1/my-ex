@@ -5,7 +5,7 @@ import { say, N, has, during } from './common.js';
 
 export const PLACEMENTS = {
   seaside_restaurant: [
-    { id: 'qingqing', label: '晴晴', x: 770, y: 480, when: s => s.quest === 'F_29B' },
+    { id: 'qingqing', label: '晴晴', x: 770, y: 400, when: s => s.quest === 'F_29B' },
   ],
 };
 
