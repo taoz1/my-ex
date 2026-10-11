@@ -306,7 +306,7 @@ export const SCRIPTS = {
     say('qingqing', '我找梅姨算过了，这个阶段家里不能有男人。你那些东西我收起来了……现在也找不到了。'),
     { fx: { claim: 'meiyi_gua' } },
     say('v_detective', '你的东西“找不到了”。'),
-    { fx: { quest: 'A4_21', actBreak: 3, phone: { pending: null }, note: '第三幕结束。她拉黑了你大部分的账号，只在要钱的时候出现。' } },
+    { fx: { quest: 'A4_21', actBreak: 3, phone: { pending: 'a4_21_call', from: 'qingqing' }, note: '第三幕结束。她拉黑了你大部分的账号，只在要钱的时候出现。' } },
   ],
 
   a3_cold: [

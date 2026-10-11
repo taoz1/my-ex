@@ -1,6 +1,7 @@
 // 手机内容：联系人、搜索结果、法院卷宗。编剧直接改这里。
 // 人名地名全部虚构；失踪者的下落在任何内容里都不揭晓。
 import { questAtLeast } from '../quests.js';
+import { CASE_NO } from './heist_content.js';
 
 // 联系人。scene 是和他自由聊天时用的 AI 场景（backend/npc-cards.mjs 的 SCENES），可以随剧情变化。
 export const CONTACTS = {
@@ -29,6 +30,16 @@ export const CONTACTS = {
   michael: { name: '麦可', hint: '账户被冻，要她退钱', npc: 'michael', scene: 'a3_frozen', script: friendCall('michael') },
   xiaomo: { name: '小莫', hint: '只收了三千多，也被冻了', npc: 'xiaomo', scene: 'a3_frozen', script: friendCall('xiaomo') },
 };
+
+// 第四幕起：从她的手机里抄来的号码、朋友给的联系方式、网上找到的同学
+Object.assign(CONTACTS, {
+  zhaohui: { name: '赵慧', hint: '国内 · 她也在找晴晴', npc: 'zhaohui', scene: 'a4_zhaohui', script: s => (s.flags.zhaohui_trust ? null : 'a4_zhaohui') },
+  tongxue: { name: '老同学', hint: '她初中的同学', npc: 'tongxue', scene: 'a4_classmate', script: s => (s.flags.classmate_done ? null : 'a4_classmate') },
+  // 只有剧情、没有自由聊天的联系人：npc 为 null
+  father: { name: '“爸”', hint: '她父亲，国内的号码', npc: null, script: s => (s.flags.father_called ? 'a4_father_after' : 'a4_father') },
+  rico: { name: 'Rico', hint: 'WhatsApp', npc: null, script: () => 'a4_rico' },
+  coco: { name: 'Coco', hint: '华埠美甲店，她的“闺蜜”', npc: 'coco', scene: 'coco_shop' },
+});
 
 // 二十八天期间（她第一次解释之后），三个朋友各有一通电话
 function friendCall(id) {
@@ -161,4 +172,76 @@ export const SEARCH_RESULTS = [
 
 // 法院公开卷宗：案号 -> { title, pages: [{ heading, paras: [{ text, key?, label?, fx? }] }], onComplete }
 // 带 key 的是关键段落，玩家要自己找出来钉到线索板；其余是程序性内容。
-export const COURT_CASES = {};
+const qinCaseKeys = [['秦岳'], ['qin', 'yue'], ['damon', 'qin']];
+
+SEARCH_RESULTS.push(
+  {
+    id: 'qin_case_news',
+    keys: qinCaseKeys,
+    when: s => questAtLeast(s, 'A4_21B'),
+    title: '联邦检察官起诉一名持多国护照的男子：婚姻欺诈、伪造证件',
+    source: '湾区本地新闻 · 2024年11月',
+    snippet: `案号 ${CASE_NO}……`,
+    text: `联邦检察官对一名持多国护照的男子提起诉讼，罪名包括婚姻欺诈和使用伪造证件。该男子于2024年10月在湾城一家酒店被捕。\n案号：${CASE_NO}。卷宗可在联邦法院公开案件系统查阅。`,
+    fx: { jot: { id: `case:${CASE_NO}`, text: `案号 ${CASE_NO}（秦岳的卷宗）` } },
+  },
+  {
+    id: 'classmate_post',
+    keys: [['许嘉晴', '深圳'], ['许嘉晴', '同学'], ['许嘉晴', '中学'], ['许嘉晴', '县'], ['许嘉晴', '宾馆'], ['许嘉晴', '酒店'], ['许嘉晴', '英国']],
+    when: s => questAtLeast(s, 'A4_23'),
+    title: '“我那个爱面子的初中同学”',
+    source: '个人博客 · 2024年',
+    snippet: '她爸在我们县城开小宾馆，她却总说家里是做五星酒店的……',
+    text: '我有个初中同学，家里在县城开小宾馆，爸妈很早就离了。她从小就爱面子，买不起的东西也要买。后来去深圳读了一年私立高中，回来整个人都变了。\n（博主在评论区留了联系方式：“认识她的可以私信我。”）',
+    fx: { contact: 'tongxue' },
+  },
+);
+
+// 法院公开卷宗：案号 -> 页面。带 key 的是关键段落，要玩家自己找出来钉到线索板。
+export const COURT_CASES = {
+  [CASE_NO]: {
+    title: 'United States v. QIN Yue（秦岳）',
+    pages: [
+      { heading: '封面 · Caption', paras: [
+        { text: `美国联邦地区法院 · 湾城分院。案号 ${CASE_NO}。美利坚合众国 诉 QIN Yue（又名 “Damon”）。` },
+        { text: '辩护律师：联邦公设辩护人办公室。首次出庭日期：2024年11月。' },
+        { text: '本文件为公开记录。部分个人信息已依法隐去。' },
+      ] },
+      { heading: '起诉书 · Counts', paras: [
+        { text: '第一项：婚姻欺诈（Marriage Fraud）。第二项：使用伪造或冒用的身份证件。' },
+        { text: '被告在美国境内至少使用过四个不同的身份，包括一本外国护照和一个中文身份。', key: 'identities', label: '多套身份' },
+        { text: '被告请求保释，被驳回。理由：存在逃跑风险。' },
+      ] },
+      { heading: '事实 · 入境', paras: [
+        { text: '以下事实摘自宣誓证词（Affidavit），第1至3条为程序性说明。' },
+        { text: '2024年2月，被告与“人员一”（女，年龄与被告相仿）、“人员二”（女，24岁）在同一天从南方边境入境，分乘不同车辆。', key: 'entry', label: '2024年2月，三人同日入境' },
+        { text: '入境后三人在湾城租住同一处房屋。' },
+      ] },
+      { heading: '事实 · 婚姻与身份申请', paras: [
+        { text: '2024年5月，被告与一名美国公民（陈女士）登记结婚。', key: 'marriage', label: '5月和陈女士结婚' },
+        { text: '2024年8月，被告以该婚姻为由申请永久居留身份。' },
+        { text: '陈女士称，婚后被告很少回家，她“不知道他还有别的身份”。' },
+      ] },
+      { heading: '事实 · 第4条', paras: [
+        { text: '4. 被告的中文身份与南屿的一起案件有关：2024年6月末，两名受害者被诱骗至南屿圣罗莎港后遭绑架。家属支付约41万美元等值的虚拟货币赎金后，二人遇害。', key: 'kidnap', label: '南屿绑架案：赎金之后，两人遇害' },
+        { text: '其中一名受害者为美国公民，因此联邦调查局介入。' },
+        { text: '该案件的调查仍在进行中，相关细节依法不予公开。' },
+      ] },
+      { heading: '事实 · 逮捕', paras: [
+        { text: '2024年10月，探员在湾城一家酒店逮捕被告。' },
+        { text: '逮捕时“人员二”在场，未被逮捕。卷宗中未见对“人员二”的指控。', key: 'her_role', label: '被捕时她在场，没有被指控' },
+        { text: '“人员二”的证件姓名：XU Jiaqing（许嘉晴）。', key: 'her_name', label: '人员二：许嘉晴' },
+      ] },
+      { heading: '事实 · 资产', paras: [
+        { text: '探员未发现被告名下有任何不动产、私人飞机或车辆。', key: 'assets', label: '没有房产、没有私人飞机' },
+        { text: '查获并没收价值约十三万美元的虚拟货币。' },
+      ] },
+      { heading: '事实 · 第26条', paras: [
+        { text: '26. 我查阅了与该护照相关的国际刑警组织红色通缉令。根据该通缉令，QIN 被控非法吸收公众存款……' },
+        { text: '（这是她给你看过的那一段。）' },
+      ] },
+    ],
+    onComplete: { evidence: 'court_file', flags: { read_file: true } },
+    then: 'a4_21_collapse',
+  },
+};

@@ -11,6 +11,8 @@
 //   { if: (state)=>bool, goto: '名字' }               条件跳转
 //   { check: 'clarity', min: 30, goto: '名字' }       属性检定，成功则跳转
 //   { chat: { npc, scene } }                         脚本结束，转入 AI 自由对话
+//   { do: (state)=>{} }                              直接改状态（只用于少数算分的地方）
+//   { open: 'heist' | 小游戏 id }                    打开一个玩法界面（放在脚本最后）
 //   { end: true }                                    脚本结束
 import { applyFx } from './state.js';
 import { SCRIPTS } from './story.js';
@@ -42,6 +44,8 @@ export function nextStep(state, run) {
     const st = steps[run.pc];
     if (st.label !== undefined) { run.pc++; continue; }
     if (st.fx) { run.events.push(...applyFx(state, st.fx)); run.pc++; continue; }
+    if (st.do) { st.do(state); run.pc++; continue; }
+    if (st.open) { run.pc++; return { type: 'open', id: st.open }; }
     if (st.if) { if (st.if(state)) jump(run, st.goto); else run.pc++; continue; }
     if (st.check) {
       if (state.stats[st.check] >= st.min) jump(run, st.goto); else run.pc++;
@@ -123,18 +127,21 @@ export function choiceTopics(state, run) {
 }
 
 // 测试与调试用：按给定选项序列把脚本跑完，返回所有台词。选项用完后总选最后一个（通常是“离开”）。
+// 遇到 open（玩法界面）记下来继续往下跑。
 export function runScript(state, id, picks = []) {
   const run = startScript(id);
   const lines = [];
+  const opened = [];
   let pick = 0;
   for (;;) {
     const step = nextStep(state, run);
     if (step.type === 'line') { lines.push(step); continue; }
+    if (step.type === 'open') { opened.push(step.id); continue; }
     if (step.type === 'choice') {
       const index = picks[pick++] ?? step.options[step.options.length - 1].index;
       choose(state, run, index);
       continue;
     }
-    return { lines, last: step, events: run.events };
+    return { lines, last: step, events: run.events, opened };
   }
 }

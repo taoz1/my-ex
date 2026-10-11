@@ -9,6 +9,9 @@ import { SPEAKERS, AI_NPCS } from './engine/catalog.js';
 import { draw, debug } from './render.js';
 import { renderPanels, escapeHtml } from './panels.js';
 import { bindPhone, openPhone as openPhoneUI, closePhone, phoneOpen } from './phone_ui.js';
+import { bindInspect, openInspect, openPuzzle, inspectOpen, closeInspect } from './inspect_ui.js';
+import { startHeist, tick as heistTick, endHeist } from './engine/heist.js';
+import { PUZZLES } from './engine/content/puzzles.js';
 import { CONTACTS, contactScene } from './engine/phone.js';
 import { portraitImage, portraitLoading, uiImage, preload } from './assets.js';
 
@@ -163,6 +166,9 @@ function advance() {
     enterChoice(step.options);
   } else if (step.type === 'chat') {
     enterChat(step.npc, step.scene);
+  } else if (step.type === 'open') {
+    closeBox();
+    openUi(step.id);
   } else {
     closeBox();
   }
@@ -214,6 +220,7 @@ async function playerSays(message) {
   if (!message || talk.busy || (mode !== 'choose' && mode !== 'chat')) return;
   const atChoice = mode === 'choose';
   appendLine('chen', message);
+  state.lastSaid = { act: null, topic: null, length: message.length };
   if (atChoice && choiceIsFree(talk.run)) { takeChoice(talk.options[0].index, message); return; }
 
   const { npc, scene } = partner();
@@ -222,6 +229,7 @@ async function playerSays(message) {
 
   const said = await askAi('/api/understand', { ...turn, topics: atChoice ? choiceTopics(state, talk.run) : [] });
   if (!said || talk.mode !== mode) return;
+  state.lastSaid = { act: said.act, topic: said.topic, length: message.length };
   if (atChoice) {
     const index = matchOption(state, talk.run, said);
     if (index >= 0) { takeChoice(index, message); return; }
@@ -360,13 +368,16 @@ function act() {
   if (result.toast) toast(result.toast);
   if (result.menu === 'travel') openTravel();
   if (result.phoneApp) openPhoneUI(result.phoneApp);
+  if (result.inspect) { keys.clear(); openInspect(result.inspect); }
+  if (result.heistEnd) finishHeist();
   if (result.travel) { travel(state, result.travel); onMapChanged(); save(); }
   if (result.script) playScript(result.script);
 }
 
 // ── 主循环 ───────────────────────────
 function update(dt) {
-  if (!started || talk.open || !$('#travel').hidden || phoneOpen()) return;
+  if (!started || talk.open || !$('#travel').hidden || phoneOpen() || inspectOpen()) return;
+  if (state.heist?.active && heistTick(state, dt)) { finishHeist(); return; }
   let dx = 0, dy = 0;
   if (keys.has('arrowleft') || keys.has('a')) dx--;
   if (keys.has('arrowright') || keys.has('d')) dx++;
@@ -382,10 +393,40 @@ function update(dt) {
   if (saveTimer > 5) { saveTimer = 0; save(); }
 }
 
+// ── 玩法界面 ─────────────────────────
+function openUi(id) {
+  if (id === 'heist') {
+    startHeist(state);
+    toast('她出门了。');
+    save();
+  } else if (PUZZLES[id]) {
+    openPuzzle(id);
+  }
+}
+
+// 潜入结束：时间到了，或者你自己去门口等她
+function finishHeist() {
+  if (inspectOpen()) closeInspect();
+  endHeist(state);
+  save();
+  playScript('a4_21_return');
+}
+
+function renderHud() {
+  const hud = $('#heist-hud');
+  const on = !!state.heist?.active && !inspectOpen();   // 调查界面里有自己的时钟
+  hud.hidden = !on;
+  if (on) {
+    const m = state.heist.minutes;
+    hud.textContent = `她出门了 · 还剩 ${Math.floor(m / 60)}:${String(Math.floor(m % 60)).padStart(2, '0')}`;
+  }
+}
+
 function frame(now) {
   const dt = Math.min((now - last) / 1000, 0.05);
   last = now;
   update(dt);
+  renderHud();
   draw(ctx, state, talk.open ? null : target, now);
   requestAnimationFrame(frame);
 }
@@ -451,6 +492,10 @@ addEventListener('keydown', e => {
     if (e.key === 'Escape') closePhone();
     return;
   }
+  if (inspectOpen()) {
+    if (e.key === 'Escape') closeInspect();
+    return;
+  }
   if (e.target.matches('input')) {
     if (e.key === 'Escape' && (talk.mode === 'chat' || talk.mode === 'choose')) closeBox();
     return;
@@ -484,6 +529,14 @@ $('#chat-form').onsubmit = e => {
 $('#travel-list').onclick = e => { const b = e.target.closest('[data-dest]'); if (b) driveTo(b.dataset.dest); };
 $('#travel-cancel').onclick = closeTravel;
 $('#phone-btn').onclick = openPhone;
+bindInspect({
+  getState: () => state,
+  afterFx(events) { for (const e of events) toast(e); renderPanels(state); save(); },
+  // 小游戏解开之后接着演剧情
+  onClose(was) {
+    if (was?.kind === 'puzzle' && was.solved && PUZZLES[was.id].then) playScript(PUZZLES[was.id].then);
+  },
+});
 bindPhone({
   getState: () => state,
   playPhoneScript,

@@ -20,6 +20,12 @@ export const SPEAKERS = {
   laozhong: { name: '老钟', role: '帮她换过汇的朋友', color: '#b07a4f', portrait: 'laozhong' },
   michael: { name: '麦可', role: '帮她换过汇的朋友', color: '#5f8fa8', portrait: 'michael' },
   xiaomo: { name: '小莫', role: '帮她换过汇的朋友', color: '#8fa85f', portrait: 'xiaomo' },
+  // 第四幕
+  zhaohui: { name: '赵慧', role: '国内 · 捞人骗局的受害者', color: '#a86f5f', portrait: 'zhaohui' },
+  tongxue: { name: '老同学', role: '她初中的同学', color: '#7f8fa8', portrait: null },
+  father: { name: '许建国', role: '电话那头 · 她的父亲', color: '#8a8070', portrait: null },
+  rico: { name: 'Rico', role: 'WhatsApp', color: '#556070', portrait: null },
+  coco: { name: 'Coco', role: '美甲师 · 她的“闺蜜”', color: '#d38fb3', portrait: 'coco' },
   narrator: { name: '', role: '旁白', color: '#9ba4ae', portrait: null },
   v_mother: { name: '妈妈的声音', role: '内心', color: '#b39ddb', portrait: null, voice: true },
   v_desire: { name: '欲望', role: '内心', color: '#e57373', portrait: null, voice: true },
@@ -28,7 +34,7 @@ export const SPEAKERS = {
 };
 
 // 由 AI 扮演、能自由对话的角色（backend/npc-cards.mjs 里有角色卡）
-export const AI_NPCS = ['qingqing', 'laokuang', 'fangjie', 'chen_mother', 'akang', 'xiaowen', 'shenman', 'azhen', 'linda', 'laozhong', 'michael', 'xiaomo'];
+export const AI_NPCS = ['qingqing', 'laokuang', 'fangjie', 'chen_mother', 'akang', 'xiaowen', 'shenman', 'azhen', 'linda', 'laozhong', 'michael', 'xiaomo', 'zhaohui', 'tongxue', 'coco'];
 
 // 证据 / 物件。img 对应 assets/items/ 下的文件名（不含扩展名）。
 export const EVIDENCE = {
@@ -48,6 +54,9 @@ export const EVIDENCE = {
   pattern_news: { name: '模式卡：新闻贴金', img: 'pattern_card', desc: '她总把新闻里的人说成自己认识的人。新闻里从来没有名字。' },
   luna_photo: { name: '三人合照', img: 'luna_photo', desc: '2023年5月：鹿鸣、一个侧着脸的年轻女子、一位年长女性。年轻女子的脖子上没有纹身。和你拍的樱花节照片放在一起，侧脸、鼻梁、下巴越看越像。' },
   k_chat: { name: '聊天截图', img: 'phone_chat', desc: '鹿鸣的朋友公开的截图。“星河妈”：“晴晴和K分手了，想出去玩几天。”署名“晴晴”的账号：“我已经到圣罗莎港啦，在酒店洗澡等你～”' },
+  court_file: { name: '秦岳的卷宗', img: 'court_file', desc: '联邦法院公开卷宗。多套身份；2024年2月同日入境；5月结婚、8月申请绿卡、10月被捕；中文身份关联南屿绑架案。她的名字只出现在入境、同住、被捕时在场。' },
+  zhaohui_list: { name: '赵慧的名单', img: 'zhaohui_list', desc: '赵慧每一笔转账的收款人：湖北、山东、东北……还有你的朋友们。' },
+  money_flow: { name: '资金线', img: 'money_flow', desc: '赵慧“捞人”的钱，约85%进了她的手里；其余在2025年5月被“秦总的朋友”取走。' },
   cash_envelope: { name: '换汇的现金', img: 'cash_envelope', desc: '人民币转进朋友的国内账户，朋友在这边把美元现金当面交给她。' },
 };
 

@@ -242,6 +242,14 @@ function onPin(e) {
   state.pinned[reading.id].push(p.key);
   const events = p.fx ? applyFx(state, p.fx) : [];
   host.afterFx([`钉到线索板：${p.label}`, ...events]);
-  if (caseComplete(state, reading.id) && kase.onComplete) fx(kase.onComplete);
+  if (caseComplete(state, reading.id)) {
+    if (kase.onComplete) fx(kase.onComplete);
+    if (kase.then) {
+      $('#reader').hidden = true;
+      reading = null;
+      host.playScript(kase.then);
+      return;
+    }
+  }
   renderReader();
 }

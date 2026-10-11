@@ -6,7 +6,10 @@ import { SCENES, ACTS, INTENTS, CHARACTERS } from '../backend/npc-cards.mjs';
 import { runScript, startScript, nextStep, choose, matchOption } from '../public/js/engine/script.js';
 import { MINDS, react, trust } from '../public/js/engine/minds.js';
 import { AI_NPCS } from '../public/js/engine/catalog.js';
-import { CONTACTS, contactScene, search, comparePhotos } from '../public/js/engine/phone.js';
+import { CONTACTS, contactScene, search, comparePhotos, findCase, caseComplete } from '../public/js/engine/phone.js';
+import { startHeist, doAction, restore, flaws, endHeist, tick as heistTick, HEIST_MINUTES } from '../public/js/engine/heist.js';
+import { CASE_NO } from '../public/js/engine/content/heist_content.js';
+import { PUZZLES, checkPuzzle } from '../public/js/engine/content/puzzles.js';
 import { QUESTS } from '../public/js/engine/quests.js';
 import { interact, drive } from './helpers.mjs';
 import { updateApproach } from '../public/js/engine/world.js';
@@ -22,16 +25,23 @@ test('every goto/call/label in every script resolves', () => {
   }
 });
 
-test('every script runs to the end on a fresh state with every first-level choice', () => {
+test('every script runs to the end on a fresh state with every open first-level choice', () => {
+  const fresh = () => {
+    const state = createState();
+    Object.assign(state.flags, { p1_talked_k: true, p1_talked_q: true });
+    state.minds.qingqing = { trust: 1 };
+    state.stats.clarity = 50;
+    return state;
+  };
   for (const id of Object.keys(SCRIPTS)) {
-    const firstChoice = SCRIPTS[id].find(s => s.choice);
-    const count = firstChoice ? firstChoice.choice.length : 1;
-    for (let i = 0; i < count; i++) {
-      const state = createState();
-      Object.assign(state.flags, { p1_talked_k: true, p1_talked_q: true });
-      state.minds.qingqing = { trust: 1 };
-      state.stats.clarity = 50;
-      const out = runScript(state, id, firstChoice ? [i] : []);
+    // 先走到第一个选项，看看此刻哪些选项是开着的
+    const run = startScript(id);
+    let step;
+    const probe = fresh();
+    do step = nextStep(probe, run); while (step.type === 'line' || step.type === 'open');
+    const open = step.type === 'choice' ? step.options.map(o => o.index) : [null];
+    for (const i of open) {
+      const out = runScript(fresh(), id, i === null ? [] : [i]);
       assert.ok(['end', 'chat'].includes(out.last.type), `${id} ended with ${out.last.type}`);
     }
   }
@@ -58,7 +68,10 @@ test('every story choice can be reached by free text', () => {
 test('every AI-voiced character has a character card, and every scene lists real characters', () => {
   for (const npc of AI_NPCS) assert.ok(CHARACTERS[npc], `${npc} has no character card`);
   for (const [id, scene] of Object.entries(SCENES)) for (const npc of scene.npcs) assert.ok(AI_NPCS.includes(npc), `${id}: ${npc} is not an AI NPC`);
-  for (const [id, c] of Object.entries(CONTACTS)) assert.ok(SCENES[contactScene(createState(), id)]?.npcs.includes(c.npc), `contact ${id}`);
+  for (const [id, c] of Object.entries(CONTACTS)) {
+    if (!c.npc) { assert.ok(c.script, `contact ${id} has neither a character nor a script`); continue; }
+    assert.ok(SCENES[contactScene(createState(), id)]?.npcs.includes(c.npc), `contact ${id}`);
+  }
 });
 
 test('NPC reaction rules only use acts and intents the server knows', () => {
@@ -319,6 +332,84 @@ function playActThree(state) {
 
 test('full playthrough: act three', () => {
   playActThree(playActTwo(playActOne()));
+});
+
+function playActFour(state) {
+  runScript(state, state.phone.pending);                // 她来电：帮我搬家
+  drive(state, 'qingqing_house_b');
+  const arrive = interact(state, 'qingqing');
+  assert.deepEqual(arrive.opened, ['heist']);
+  startHeist(state);
+  assert.equal(state.heist.minutes, HEIST_MINUTES);
+
+  doAction(state, 'b_boxes', 'bag');
+  doAction(state, 'b_camera', 'look');
+  doAction(state, 'b_suitcase', 'caseno');
+  doAction(state, 'b_suitcase', 'art4');
+  assert.ok(restore(state, 'b_suitcase', ['护照复印件', '英文卷宗', '照片']));
+  doAction(state, 'b_phone', 'father');
+  doAction(state, 'b_phone', 'fathernum');
+  doAction(state, 'b_phone', 'contacts');
+  assert.ok(!restore(state, 'b_phone', '相册'), 'the phone was on the chat list, not the album');
+  assert.equal(flaws(state), 1);
+  assert.equal(state.heist.minutes, 180 - 5 - 2 - 5 - 15 - 5 - 15 - 5 - 10 - 3);
+  heistTick(state, 60);
+  assert.ok(state.heist.minutes < 115);
+  endHeist(state);
+  runScript(state, 'a4_21_return');
+  assert.equal(state.quest, 'A4_21B');
+  assert.ok(state.flags.opened_suitcase && state.flags.read_phone && state.flags.bag_on_camera);
+
+  // 在法院案件系统里读完卷宗，钉齐关键段落
+  const kase = findCase(state, CASE_NO.toUpperCase().replace(':', ' : '));
+  assert.ok(kase && state.notebook.some(n => n.id === `case:${CASE_NO}`));
+  state.pinned[CASE_NO] = kase.pages.flatMap(p => p.paras).filter(p => p.key).map(p => p.key);
+  assert.ok(caseComplete(state, CASE_NO));
+  applyFx(state, kase.onComplete);
+  runScript(state, kase.then);
+  assert.ok(state.anchors.victim.overturned && state.anchors.econ_only.overturned);
+  assert.equal(state.quest, 'A4_22');
+
+  // 诈问：两次都否认 + 手机没放回原样 → 她判断你在撒谎
+  state.lastSaid = { length: 6 };
+  runScript(state, state.phone.pending, [2, 2]);
+  assert.equal(state.flags.lie_judged, true);
+  assert.equal(state.quest, 'A4_23');
+
+  runScript(state, state.phone.pending);                // 麦可给了赵慧的微信
+  const zh = runScript(state, CONTACTS.zhaohui.script(state), [0]);
+  assert.deepEqual(zh.opened, ['money_flow']);
+  const p = PUZZLES.money_flow;
+  assert.ok(!checkPuzzle('money_flow', {}).ok);
+  const out = checkPuzzle('money_flow', Object.fromEntries(p.rows.map((r, i) => [i, r.answer])));
+  assert.match(out.text, /85%/);
+  applyFx(state, p.fx);
+  runScript(state, p.then);
+  assert.equal(state.quest, 'A4_23');
+
+  readResult(state, '许嘉晴 深圳', 'classmate_post');
+  runScript(state, CONTACTS.tongxue.script(state));
+  assert.equal(state.quest, 'A5_24');
+  assert.equal(state.actBreak, 4);
+
+  runScript(state, CONTACTS.father.script(state), [0, 1]);   // 打给她父亲：说她在美国过得不好
+  assert.ok(state.flags.father_message);
+  return state;
+}
+
+test('full playthrough: act four', () => {
+  playActFour(playActThree(playActTwo(playActOne())));
+});
+
+test('the probe call: a clean answer after a clean search is believed', () => {
+  const state = createState();
+  state.flags.restore_flaws = 0;
+  state.lastSaid = { length: 4 };
+  runScript(state, 'a4_22_call', [3, 3]);
+  assert.equal(state.flags.lie_judged, false);
+  const admit = createState();
+  runScript(admit, 'a4_22_call', [1]);
+  assert.ok(admit.flags.admitted && admit.phone.blocked.includes('qingqing'));
 });
 
 test('a high-clarity player can find the Luna case early with name + keyword', () => {

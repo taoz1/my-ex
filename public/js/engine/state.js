@@ -29,6 +29,8 @@ export function createState() {
     transfers: [],     // 你转给她的钱：{ quest, amount }。转账时不提示，第五幕才会想起来
     pressure: [],      // 拉扯循环的记录：{ quest, kind }（认错 / 设界 / 沉默 / DARVO），第五幕会回看
     actBreak: null,    // 刚演完的是第几幕：显示幕间卡片后清空
+    heist: null,       // 12月4日她出门的那几个小时（见 heist.js）
+    lastSaid: null,    // 玩家刚才在剧情关键处说的话：{ act, topic, length }（诈问时算“过度解释”）
     memories: {},      // npcId -> 最近对话摘要
     notes: ['2025年2月。老邝打来电话，说租车出了点麻烦，请你去当个和事佬。'],
     stories: [],       // 第一幕日常中听过的炫富故事
