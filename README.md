@@ -2,7 +2,7 @@
 
 以纪实故事《我的前任是逃犯》为基础改编的 2D 网页 RPG。你是湾城华人圈的“和事佬”陈默，一场租车纠纷让你认识了自称富家千金的晴晴。
 
-当前可玩范围：**序章 + 第一幕「饵」**。
+当前可玩范围：**序章到结局**（序章、第一幕「饵」到第五幕「反噬」、终幕「第四个版本」、尾声和六个结局）。第二幕起的新地点暂用色块占位图，美术清单见 `docs/art/文生图素材清单_第二批.md`。
 
 ## 运行
 
@@ -41,7 +41,7 @@ npm run dev              # 打开 http://localhost:3000
 | 命令 | 作用 |
 |---|---|
 | `npm run dev` | 启动开发服务器（端口 3000，可用 `PORT` 改） |
-| `npm test` | 运行全部测试（剧情脚本、自动通关、地图可达性、API） |
+| `npm test` | 运行全部测试（剧情脚本、从序章打到结局的自动通关、地图可达性、API） |
 | `npm run check` | 语法检查 + 测试 |
 | `npm run build` | 打包成单文件 Worker：`dist/server/index.js` |
 
@@ -57,35 +57,42 @@ public/                 前端（原生 ES 模块 + Canvas 2D）
     catalog.js          说话人、证据、主张、认知锚点、版本档案话题
     quests.js           主线任务
     maps.js             地图（碰撞方块、互动点、开车目的地）
-    story.js            NPC 站位、互动规则、全部剧情脚本
+    story.js            序章 + 第一幕的站位、互动和脚本；合并 acts/ 下的各幕
+    acts/               第二幕到尾声，每幕一个文件（act2.js … finale.js）
+    content/            手机内容（联系人、搜索结果、法院卷宗）、12月4日的物件、小游戏、警局笔录题目
     script.js           剧情脚本解释器（含自由输入时的选项匹配）
+    phone.js            手机：联系人、搜索、卷宗、监狱查询的查询规则
+    heist.js            第四幕 12月4日的限时调查（计时、动作耗时、放回原样）
+    endings.js          结局判定与结局幻灯片
     minds.js            AI NPC 的“决定”：性格规则、信任值
     state.js            游戏状态、效果结算、存档
     world.js            移动与碰撞
   js/main.js            游戏循环、输入、对话 / 手机 / 开车、存档
   js/render.js          地图与人物渲染（有素材画素材，没有画占位图）
   js/panels.js          侧栏：任务说明、手机未读数
+  js/phone_ui.js        手机界面（消息、搜索、法院案件、监狱查询、证据）和卷宗阅读器
+  js/inspect_ui.js      调查界面：12月4日翻她的东西、资金线小游戏、警局笔录
 backend/
   api.mjs               /api/status、/api/understand、/api/speak（DeepSeek，服务端调用）
   npc-cards.mjs         AI NPC 角色卡与场景目标（只在服务端）
-assets/                 美术素材（见 docs/art/文生图素材清单_第一批.md）
+assets/                 美术素材（见 docs/art/ 下的两批素材清单）
 docs/story/             叙事设计文档
 tests/                  node:test 测试
 ```
 
 ## 美术素材
 
-按 `docs/art/文生图素材清单_第一批.md` 生成图片，放进 `assets/` 对应文件夹即可，文件名不要改。代码会自动加载：有图就画图，没图就用色块占位。
+按 `docs/art/文生图素材清单_第一批.md` 和 `_第二批.md` 生成图片，放进 `assets/` 对应文件夹即可，文件名不要改。代码会自动加载：有图就画图，没图就用色块占位。
 
-地图图片尺寸为 1536×1024，与地图世界坐标一致。换上地图图片后，可能需要按画面微调 `public/js/engine/maps.js` 里的碰撞方块和互动点坐标。
+地图图片尺寸为 1536×1024，与地图世界坐标一致。换上地图图片后，按画面微调 `public/js/engine/maps.js` 里的碰撞方块和互动点坐标；第二批的地图换上后，还要删掉那张地图的 `placeholder: true`。
 
 ## 写剧情
 
-剧情脚本在 `public/js/engine/story.js` 的 `SCRIPTS` 里，步骤格式见 `public/js/engine/script.js` 顶部注释。改完运行 `npm test`：测试会检查所有跳转是否有效，并自动从序章打到第一幕结束。
+序章和第一幕在 `public/js/engine/story.js`，之后每幕在 `public/js/engine/acts/` 下，步骤格式见 `public/js/engine/script.js` 顶部注释。剧情选项不会显示给玩家，玩家直接打字，选项的 `on` 写明哪种说法会触发它。改完运行 `npm test`：测试会检查所有跳转是否有效，并自动从序章一路打到结局。
 
 ## 调试
 
-地址加 `?debug`（如 `http://localhost:3000/?debug`），浏览器控制台里可以用 `__game`：`__game.state` 查看状态，`__game.driveTo('mall')` 直接开车，`__game.teleport(x, y)` 瞬移。
+地址加 `?debug`（如 `http://localhost:3000/?debug`），浏览器控制台里可以用 `__game`：`__game.state` 查看状态（可以直接改 `quest`、`flags` 跳关），`__game.driveTo('mall')` 直接开车，`__game.teleport(x, y)` 瞬移，`__game.showBlocks()` 把碰撞方块叠在地图上。
 
 ## 叙事设计文档
 
