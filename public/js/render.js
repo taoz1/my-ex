@@ -8,8 +8,8 @@ export const VIEW_W = 960;
 export const VIEW_H = 640;
 const DIRS = ['down', 'left', 'right', 'up'];
 const SPRITE_SIZE = 84;
-// 路人共用一张 8 人行走图，按序号取帧
-const GENERIC = { uncle: 0, waiter: 4 };
+// 路人和没有专属行走图的配角共用一张 8 人行走图，按序号取帧
+const GENERIC = { uncle: 0, waiter: 4, tony: 2 };
 // 调试：把碰撞方块叠在地图图片上（__game.showBlocks() 切换）
 export const debug = { blocks: false };
 
