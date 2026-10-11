@@ -9,32 +9,32 @@ const act1Ready = s => s.stories.length >= 3 && !!s.flags.exchange_decided;
 // ── NPC 站位 ────────────────────────────────────────────────
 const PLACEMENTS = {
   chinatown_street: [
-    { id: 'uncle', label: '街坊阿伯', x: 250, y: 400, color: '#8c7d6b' },
-    { id: 'waiter', label: '茶餐厅伙计', x: 300, y: 380, color: '#a36b52', when: s => s.quest !== 'P0' },
+    { id: 'uncle', label: '街坊阿伯', x: 230, y: 395, color: '#8c7d6b' },
+    { id: 'waiter', label: '茶餐厅伙计', x: 420, y: 395, color: '#a36b52', when: s => s.quest !== 'P0' },
   ],
   rental_shop: [
-    { id: 'laokuang', label: '老邝', x: 900, y: 500 },
-    { id: 'qingqing', label: '那个女人', x: 600, y: 420, when: s => s.quest === 'P0' || s.quest === 'P1' },
+    { id: 'laokuang', label: '老邝', x: 650, y: 380 },
+    { id: 'qingqing', label: '那个女人', x: 1290, y: 400, when: s => s.quest === 'P0' || s.quest === 'P1' },
   ],
   qingqing_house: [
-    { id: 'qingqing', label: '晴晴', x: 520, y: 760, when: s => ['A1_03', 'A1_05', 'A1_06', 'A1_08', 'A1_09', 'END1'].includes(s.quest) },
-    { id: 'fangjie', label: '芳姐', x: 1040, y: 630, when: s => s.quest !== 'A1_02' },
+    { id: 'qingqing', label: '晴晴', x: 580, y: 720, when: s => ['A1_03', 'A1_05', 'A1_06', 'A1_08', 'A1_09', 'END1'].includes(s.quest) },
+    { id: 'fangjie', label: '芳姐', x: 860, y: 700, when: s => s.quest !== 'A1_02' },
   ],
   mall: [
-    { id: 'qingqing', label: '晴晴', x: 900, y: 720, when: s => s.quest === 'A1_02' || (s.quest === 'A1_08' && !s.stories.includes('mall')) },
+    { id: 'qingqing', label: '晴晴', x: 1080, y: 560, when: s => s.quest === 'A1_02' || (s.quest === 'A1_08' && !s.stories.includes('mall')) },
   ],
   japantown: [
-    { id: 'qingqing', label: '晴晴', x: 620, y: 500, when: s => s.quest === 'A1_03B' },
+    { id: 'qingqing', label: '晴晴', x: 760, y: 690, when: s => s.quest === 'A1_03B' },
   ],
   parents_home: [
-    { id: 'chen_mother', label: '妈妈', x: 520, y: 470 },
-    { id: 'qingqing', label: '晴晴', x: 1010, y: 470, when: s => s.quest === 'A1_07' },
+    { id: 'chen_mother', label: '妈妈', x: 470, y: 450 },
+    { id: 'qingqing', label: '晴晴', x: 905, y: 470, when: s => s.quest === 'A1_07' },
   ],
   golf_range: [
-    { id: 'qingqing', label: '晴晴', x: 410, y: 640, when: s => s.quest === 'A1_08' && !s.stories.includes('golf') },
+    { id: 'qingqing', label: '晴晴', x: 560, y: 420, when: s => s.quest === 'A1_08' && !s.stories.includes('golf') },
   ],
   afternoon_tea: [
-    { id: 'qingqing', label: '晴晴', x: 560, y: 420, when: s => s.quest === 'A1_08' && !s.stories.includes('tea') },
+    { id: 'qingqing', label: '晴晴', x: 540, y: 400, when: s => s.quest === 'A1_08' && !s.stories.includes('tea') },
   ],
 };
 
@@ -51,7 +51,7 @@ export function interaction(state, target) {
     case 'door_rental':
       return { travel: { map: 'rental_shop' }, script: q === 'P0' ? 'p0_arrive' : null };
     case 'door_street':
-      return { travel: { map: 'chinatown_street', x: 590, y: 400 } };
+      return { travel: { map: 'chinatown_street', x: 683, y: 400 } };
     case 'car':
     case 'door_out':
       if (q === 'P0' || q === 'P1') return { toast: '先把老邝的事处理完。' };
@@ -330,7 +330,7 @@ export const SCRIPTS = {
     ] },
     say('qingqing', '你要是能真心待我……', 'lookdown'),
     N('看完樱花，你开车回到自己的住处。'),
-    { fx: { quest: 'A1_04', phone: { pending: 'a1_04_movein' }, travel: { map: 'chinatown_street', x: 420, y: 760 } } },
+    { fx: { quest: 'A1_04', phone: { pending: 'a1_04_movein' }, travel: { map: 'chinatown_street', x: 300, y: 545 } } },
   ],
 
   a1_04_movein: [

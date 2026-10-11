@@ -5,7 +5,7 @@ import { interaction, CHAT_SUGGESTIONS } from './engine/story.js';
 import { startScript, nextStep, choose } from './engine/script.js';
 import { movePlayer, nearestTarget } from './engine/world.js';
 import { SPEAKERS } from './engine/catalog.js';
-import { draw } from './render.js';
+import { draw, debug } from './render.js';
 import { renderPanels, bindPanels, escapeHtml } from './panels.js';
 import { portraitImage, uiImage, preload } from './assets.js';
 
@@ -420,5 +420,6 @@ if (new URLSearchParams(location.search).has('debug')) {
     get talk() { return talk; },
     teleport(x, y) { state.player.x = x; state.player.y = y; },
     act, driveTo, openPhone,
+    showBlocks() { debug.blocks = !debug.blocks; return debug.blocks; },
   };
 }

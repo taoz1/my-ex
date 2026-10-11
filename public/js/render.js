@@ -10,6 +10,8 @@ const DIRS = ['down', 'left', 'right', 'up'];
 const SPRITE_SIZE = 84;
 // 路人共用一张 8 人行走图，按序号取帧
 const GENERIC = { uncle: 0, waiter: 4 };
+// 调试：把碰撞方块叠在地图图片上（__game.showBlocks() 切换）
+export const debug = { blocks: false };
 
 export function camera(state) {
   const p = state.player;
@@ -29,6 +31,7 @@ export function draw(ctx, state, target, time) {
   if (bg) ctx.drawImage(bg, 0, 0, WORLD_W, WORLD_H);
   else drawPlaceholderMap(ctx, map);
 
+  if (debug.blocks && bg) drawBlockOverlay(ctx, map);
   for (const s of map.spots) drawSpot(ctx, s, target?.id === s.id, time);
 
   const people = [
@@ -56,6 +59,19 @@ function drawPlaceholderMap(ctx, map) {
       label(ctx, b.label, b.x + b.w / 2, b.y + b.h / 2 + 5, '#f1eadb', 15);
     }
   }
+}
+
+function drawBlockOverlay(ctx, map) {
+  ctx.lineWidth = 2;
+  for (const b of map.blocks) {
+    ctx.fillStyle = '#ff303040';
+    ctx.fillRect(b.x, b.y, b.w, b.h);
+    ctx.strokeStyle = '#ff3030';
+    ctx.strokeRect(b.x, b.y, b.w, b.h);
+  }
+  ctx.font = '12px monospace';
+  ctx.fillStyle = '#ffff00';
+  for (let x = 0; x < WORLD_W; x += 128) for (let y = 0; y < WORLD_H; y += 128) ctx.fillText(`${x},${y}`, x + 2, y + 12);
 }
 
 function drawSpot(ctx, s, active, time) {
