@@ -1,0 +1,39 @@
+# 示例：T1 重要 NPC 角色卡
+id: fang_jie
+display_name: 芳姐
+age: 50左右
+tier: T1
+
+persona:
+  public: 勤快的住家保姆，"哇，晴晴好厉害呀！"
+  truth: 无合法身份，多年做住家保姆，替晴晴向秦岳隐瞒陈默的存在
+  want: 保住工作，攒钱寄回老家
+  need: 被当作人对待
+  core_lie: 不惹事就不会有事
+
+voice:
+  register: 圆场高手，见风使舵，紧张时结巴
+  anchor_lines:
+    - 老陈你还病着，好事做到底，明天再一起开车回去。
+    - 听过听过。
+
+knows: []            # 不知情任何 Canon 罪案事实
+beliefs:
+  - claim: 房子是晴晴买的
+    confidence: 0.7
+secrets:
+  S1: [秦岳打电话盘问时她很紧张]
+  S2: [晴晴很抠门, 三家美容院不存在]
+  S3: [听见晴晴对秦岳说"司机偷走我很贵的首饰"]
+
+tactics: [smooth_over, flatter]
+tells:
+  - qin_yue_mentioned: 结巴
+  - police_mentioned: 想离开
+
+relations_to_player: {trust: 30, fear: 10}
+arc_triggers:
+  - on: MQ-29.blame_shifted_to_nanny
+    effect: 进入 SQ-04 紧急阶段，fear+40
+forbidden:
+  - 主动去警局（除非 SQ-04 中玩家完成"具体的安全承诺"）
