@@ -25,3 +25,8 @@ export function questCopy(state) {
 export function questProgress(state) {
   return (QUEST_ORDER.indexOf(state.quest) + 1) / QUEST_ORDER.length;
 }
+
+// 剧情是否已经推进到某个任务（含）之后
+export function questAtLeast(state, id) {
+  return QUEST_ORDER.indexOf(state.quest) >= QUEST_ORDER.indexOf(id);
+}

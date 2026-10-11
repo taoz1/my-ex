@@ -262,7 +262,8 @@ export const SCRIPTS = {
     { fx: {
       flags: { prologue_done: true },
       quest: 'A1_01',
-      phone: { pending: 'a1_01_job' },
+      phone: { pending: 'a1_01_job', from: 'qingqing' },
+      contact: 'qingqing',
       note: '你加上了她的微信。老邝说，她是老温在牢里认识的“狱友老婆”，那个狱友“来头不小”。',
     } },
     { end: true },
@@ -376,7 +377,7 @@ export const SCRIPTS = {
     ] },
     say('qingqing', '你要是能真心待我……', 'lookdown'),
     N('看完樱花，你开车回到自己的住处。'),
-    { fx: { quest: 'A1_04', phone: { pending: 'a1_04_movein' }, travel: { map: 'chinatown_street', x: 300, y: 545 } } },
+    { fx: { quest: 'A1_04', phone: { pending: 'a1_04_movein', from: 'qingqing' }, travel: { map: 'chinatown_street', x: 300, y: 545 } } },
   ],
 
   a1_04_movein: [

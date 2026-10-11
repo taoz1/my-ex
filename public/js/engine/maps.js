@@ -3,6 +3,7 @@
 // spots：可互动的点（门、车、床、物件）。
 // art：地图图片文件名（assets/maps/{art}.png），不写则与地图 id 相同。
 // scale：人物行走图的放大倍数。室内图的家具画得比街景大，人物要跟着放大，不写则为 1。
+// placeholder：还没有美术图，用 blocks 画占位图。美术到位后删掉这一行，并按画面调整 blocks / spots。
 // 调整坐标时：地址加 ?debug，在控制台运行 __game.showBlocks()，会把方块和互动点叠在地图上。
 
 export const WORLD_W = 1536;
@@ -11,6 +12,8 @@ export const WORLD_H = 1024;
 // 墙 / 建筑（深色）和家具（棕色）只影响占位图的颜色
 const wall = (x, y, w, h, label = '') => ({ x, y, w, h, c: '#2b2f36', label });
 const thing = (x, y, w, h, label = '') => ({ x, y, w, h, c: '#6b5440', label });
+// 室内外墙：左右两面墙，底边留出中间的门洞（顶墙各图自己画）
+const room = () => [wall(0, 0, 60, 1024), wall(1476, 0, 60, 1024), wall(0, 964, 700, 60), wall(836, 964, 700, 60)];
 
 export const MAPS = {
   chinatown_street: {
@@ -281,10 +284,207 @@ export const MAPS = {
     ],
     spots: [{ id: 'door_out', kind: 'car', x: 768, y: 1000, label: '离开' }],
   },
+
+  // ── 第二幕起的新地点（暂用占位图，见 docs/art/文生图素材清单_第二批.md）──────────
+  casino_suite: {
+    name: '沙漠赌场 · 套房',
+    placeholder: true,
+    scale: 1.5,
+    floor: '#6a4e5e',
+    spawn: { x: 768, y: 840 },
+    zones: [{ x: 120, y: 120, w: 1296, h: 780, c: '#7a5d6c' }],
+    blocks: [
+      wall(0, 0, 1536, 120, '落地窗 · 沙漠夜景'),
+      ...room(),
+      thing(200, 180, 420, 260, '大床'),
+      thing(900, 200, 380, 140, '沙发'),
+      thing(980, 380, 220, 90, '茶几'),
+      thing(200, 620, 260, 160, '吧台'),
+      wall(1100, 600, 316, 300, '浴室'),
+      thing(640, 140, 140, 50, '空调出风口'),
+    ],
+    spots: [
+      { id: 'suite_sofa', kind: 'object', x: 1090, y: 360, label: '你今晚睡的沙发' },
+      { id: 'door_out', kind: 'car', x: 768, y: 930, label: '离开套房' },
+    ],
+  },
+
+  qingqing_house_b: {
+    name: '晴晴的新家（橡树谷）',
+    placeholder: true,
+    scale: 1.5,
+    floor: '#7d7364',
+    spawn: { x: 768, y: 880 },
+    zones: [
+      { x: 60, y: 90, w: 600, h: 340, c: '#86786a' },    // 主卧
+      { x: 690, y: 90, w: 410, h: 340, c: '#73695d' },   // 保姆房
+      { x: 1130, y: 90, w: 346, h: 340, c: '#6f7466' },  // 书房
+    ],
+    blocks: [
+      wall(0, 0, 1536, 90),
+      ...room(),
+      wall(660, 90, 30, 340), wall(1100, 90, 30, 340),
+      wall(60, 430, 250, 30), wall(400, 430, 500, 30), wall(990, 430, 250, 30), wall(1330, 430, 146, 30),
+      thing(100, 130, 300, 180, '主卧的床'),
+      thing(410, 150, 50, 50),                // 床头柜
+      thing(480, 110, 160, 90, '衣柜'),
+      thing(720, 130, 200, 120, '保姆床'),
+      thing(950, 120, 120, 150, '纸箱'),
+      thing(1160, 120, 280, 100, '书桌'),
+      thing(80, 560, 60, 220, '电视'),
+      thing(200, 600, 360, 120, '沙发'),
+      thing(800, 620, 300, 150, '餐桌'),
+      thing(1200, 500, 250, 200, '厨房'),
+    ],
+    spots: [
+      { id: 'door_out', kind: 'car', x: 768, y: 930, label: '出门开车' },
+      { id: 'b_camera', kind: 'object', x: 120, y: 500, label: '客厅的摄像头' },
+      { id: 'b_bills', kind: 'object', x: 1300, y: 260, label: '书桌上的账单' },
+      { id: 'b_boxes', kind: 'object', x: 1000, y: 330, label: '保姆房的纸箱' },
+      { id: 'b_suitcase', kind: 'object', x: 560, y: 330, label: '主卧的行李箱' },
+      { id: 'b_phone', kind: 'object', x: 440, y: 260, label: '床头柜' },
+      { id: 'b_vanity', kind: 'object', x: 250, y: 360, label: '梳妆台的抽屉' },
+    ],
+  },
+
+  financial_district: {
+    name: '金融区',
+    placeholder: true,
+    outdoor: true,
+    floor: '#55606b',
+    spawn: { x: 200, y: 640 },
+    zones: [{ x: 0, y: 420, w: 1536, h: 140, c: '#8a8f96' }],
+    blocks: [
+      wall(0, 0, 600, 420, '“投行”大楼'),
+      wall(640, 0, 420, 420, '联邦大楼'),
+      wall(1100, 0, 436, 420, '法院'),
+      thing(600, 300, 40, 120),
+      thing(1060, 300, 40, 120),
+      thing(560, 470, 20, 30), thing(1080, 470, 20, 30),   // 灯柱底座
+      thing(100, 560, 200, 70, '你的车'),
+      thing(900, 860, 300, 70, '长椅'),
+    ],
+    spots: [
+      { id: 'car', kind: 'car', x: 200, y: 660, label: '开车' },
+      { id: 'tower_door', kind: 'door', x: 300, y: 445, label: '“投行”大楼' },
+      { id: 'tower_sign', kind: 'object', x: 500, y: 445, label: '大堂的楼层指示牌' },
+      { id: 'fed_door', kind: 'door', x: 850, y: 445, label: '联邦大楼' },
+      { id: 'court_door', kind: 'door', x: 1300, y: 445, label: '法院' },
+    ],
+  },
+
+  mansion_hills: {
+    name: '山景高地 · 豪宅',
+    placeholder: true,
+    scale: 1.5,
+    floor: '#cbbfa8',
+    spawn: { x: 768, y: 860 },
+    blocks: [
+      wall(0, 0, 1536, 110, '落地窗 · 山景'),
+      ...room(),
+      thing(1100, 110, 300, 300, '旋转楼梯'),
+      thing(160, 180, 120, 240, '壁炉'),
+      thing(400, 520, 420, 140, '真皮沙发'),
+      thing(1000, 560, 300, 150, '大理石岛台'),
+      thing(520, 160, 260, 100, '水晶吊灯下的长桌'),
+    ],
+    spots: [
+      { id: 'door_out', kind: 'car', x: 768, y: 930, label: '离开' },
+      { id: 'tools', kind: 'object', x: 1350, y: 800, label: '角落里的二手工具' },
+    ],
+  },
+
+  chen_home: {
+    name: '你的住处',
+    placeholder: true,
+    scale: 1.5,
+    floor: '#7a7468',
+    spawn: { x: 768, y: 860 },
+    zones: [
+      { x: 60, y: 90, w: 560, h: 340, c: '#857c6c' },    // 你的房间
+      { x: 916, y: 90, w: 560, h: 340, c: '#6d6a60' },   // 小吴的房间
+    ],
+    blocks: [
+      wall(0, 0, 1536, 90),
+      ...room(),
+      wall(620, 90, 296, 340, '浴室'),
+      wall(60, 430, 220, 30), wall(370, 430, 250, 30), wall(916, 430, 300, 30), wall(1306, 430, 170, 30),
+      thing(100, 130, 260, 160, '你的床'),
+      thing(420, 120, 180, 80, '书桌'),
+      thing(1200, 130, 240, 150, '小吴的床'),
+      thing(120, 620, 380, 120, '旧沙发'),
+      thing(1000, 600, 320, 160, '餐桌'),
+    ],
+    spots: [
+      { id: 'door_out', kind: 'car', x: 768, y: 930, label: '出门开车' },
+      { id: 'home_desk', kind: 'object', x: 510, y: 250, label: '你的书桌' },
+      { id: 'home_door', kind: 'object', x: 900, y: 930, label: '门口的门铃' },
+    ],
+  },
+
+  police_station: {
+    name: '湾城警察分局',
+    placeholder: true,
+    scale: 1.5,
+    floor: '#8a8f8c',
+    spawn: { x: 768, y: 860 },
+    zones: [{ x: 900, y: 90, w: 576, h: 380, c: '#777c7a' }],
+    blocks: [
+      wall(0, 0, 1536, 90, '布告栏'),
+      ...room(),
+      wall(870, 90, 30, 380), wall(900, 470, 300, 30), wall(1290, 470, 186, 30),
+      thing(200, 200, 520, 110, '报案柜台'),
+      thing(1050, 200, 260, 120, '询问室的桌子'),
+      thing(140, 600, 360, 80, '等候长椅'),
+    ],
+    spots: [
+      { id: 'door_out', kind: 'car', x: 768, y: 930, label: '离开警局' },
+      { id: 'counter', kind: 'object', x: 460, y: 345, label: '报案柜台' },
+      { id: 'interview', kind: 'object', x: 1245, y: 520, label: '询问室' },
+    ],
+  },
+
+  seaside_restaurant: {
+    name: '海滨大道 · 餐馆',
+    placeholder: true,
+    scale: 1.5,
+    floor: '#9a7f66',
+    spawn: { x: 768, y: 860 },
+    blocks: [
+      wall(0, 0, 1536, 110, '窗外是海'),
+      ...room(),
+      thing(200, 220, 220, 140, '餐桌'),
+      thing(660, 300, 220, 140, '靠窗的餐桌'),
+      thing(1100, 220, 220, 140, '餐桌'),
+      thing(1150, 620, 280, 120, '吧台'),
+    ],
+    spots: [{ id: 'door_out', kind: 'car', x: 768, y: 930, label: '离开' }],
+  },
+
+  club_gym: {
+    name: '会所 · 健身房',
+    placeholder: true,
+    scale: 1.5,
+    floor: '#5d6670',
+    spawn: { x: 768, y: 860 },
+    blocks: [
+      wall(0, 0, 1536, 110, '镜墙'),
+      ...room(),
+      thing(160, 200, 400, 120, '跑步机'),
+      thing(900, 200, 460, 120, '器械区'),
+      thing(300, 560, 300, 140, '休息区'),
+      thing(1050, 600, 300, 120, '果汁吧'),
+    ],
+    spots: [{ id: 'door_out', kind: 'car', x: 768, y: 930, label: '离开' }],
+  },
 };
 
 // 开车可去的目的地（顺序即菜单顺序）。
-export const DESTINATIONS = ['chinatown_street', 'qingqing_house', 'mall', 'parents_home', 'golf_range', 'afternoon_tea'];
+export const DESTINATIONS = [
+  'chinatown_street', 'qingqing_house', 'mall', 'parents_home', 'golf_range', 'afternoon_tea',
+  'casino_suite', 'qingqing_house_b', 'mansion_hills', 'financial_district', 'chen_home',
+  'police_station', 'club_gym', 'seaside_restaurant',
+];
 
 // 开车到达时的落点。
 export const ARRIVALS = {
@@ -294,4 +494,12 @@ export const ARRIVALS = {
   parents_home: { x: 595, y: 900 },
   golf_range: { x: 660, y: 700 },
   afternoon_tea: { x: 768, y: 940 },
+  casino_suite: { x: 768, y: 840 },
+  qingqing_house_b: { x: 768, y: 880 },
+  mansion_hills: { x: 768, y: 860 },
+  financial_district: { x: 200, y: 640 },
+  chen_home: { x: 768, y: 860 },
+  police_station: { x: 768, y: 860 },
+  club_gym: { x: 768, y: 860 },
+  seaside_restaurant: { x: 768, y: 860 },
 };

@@ -50,8 +50,9 @@ test('all coordinates stay inside the world', () => {
   }
 });
 
-test('every map has its artwork file under assets/maps', () => {
+test('every map has its artwork file under assets/maps (placeholder maps excepted)', () => {
   for (const [id, map] of Object.entries(MAPS)) {
+    if (map.placeholder) continue;
     const file = new URL(`../assets/maps/${map.art || id}.png`, import.meta.url);
     assert.ok(existsSync(file), `${id}: missing assets/maps/${map.art || id}.png`);
   }

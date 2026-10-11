@@ -8,6 +8,8 @@ import { movePlayer, nearestTarget, updateApproach } from './engine/world.js';
 import { SPEAKERS } from './engine/catalog.js';
 import { draw, debug } from './render.js';
 import { renderPanels, escapeHtml } from './panels.js';
+import { bindPhone, openPhone as openPhoneUI, closePhone, phoneOpen } from './phone_ui.js';
+import { CONTACTS, contactScene } from './engine/phone.js';
 import { portraitImage, portraitLoading, uiImage, preload } from './assets.js';
 
 const SAVE_KEY = 'fourth-version-save-v1';
@@ -96,13 +98,13 @@ function openBox({ phone = false } = {}) {
   talk.lastNpc = null;
   keys.clear();
   $('#dialogue').hidden = false;
-  $('#dialogue').classList.toggle('phone', phone);
+  $('#dialogue').classList.toggle('phone', !!phone);
   $('#transcript').innerHTML = '';
   $('#chat-form').hidden = true;
   $('#close-dialogue').hidden = true;
   $('#continue-hint').hidden = true;
   $('#prompt').hidden = true;
-  if (phone) { $('#speaker').textContent = '微信 · 晴晴'; $('#speaker-role').textContent = ''; }
+  if (phone) { $('#speaker').textContent = `微信 · ${CONTACTS[phone]?.name || SPEAKERS[phone]?.name || ''}`; $('#speaker-role').textContent = ''; }
 }
 
 function closeBox() {
@@ -154,7 +156,7 @@ function advance() {
     if (!talk.phone) setPortrait(step.speaker, step.emotion);
     appendLine(step.speaker, step.text);
     remember(step.speaker, step.text);
-    if (talk.phone) state.phone.log.push(`${SPEAKERS[step.speaker]?.name || ''}：${step.text}`);
+    logPhone(`${SPEAKERS[step.speaker]?.name || ''}：${step.text}`);
     talk.waiting = true;
     $('#continue-hint').hidden = false;
   } else if (step.type === 'choice') {
@@ -196,7 +198,7 @@ function takeChoice(index, said) {
   talk.mode = 'script';
   choose(state, talk.run, index);
   remember('chen', said);
-  if (talk.phone) state.phone.log.push(`你：${said}`);
+  logPhone(`你：${said}`);
   advance();
 }
 
@@ -232,7 +234,8 @@ async function playerSays(message) {
   appendLine(npc, result.reply);
   remember('chen', message);
   remember(npc, result.reply);
-  if (talk.phone) state.phone.log.push(`你：${message}`, `${SPEAKERS[npc].name}：${result.reply}`);
+  logPhone(`你：${message}`);
+  logPhone(`${SPEAKERS[npc].name}：${result.reply}`);
   rememberChat(state, npc, `陈默：“${message}” ${SPEAKERS[npc].name}：“${result.reply}”`);
   save();
   if (intent.act === 'goodbye') {
@@ -288,22 +291,38 @@ function appendError(text) {
 }
 
 // ── 手机 ─────────────────────────────
+// 手机界面在 phone_ui.js；这里处理它要求的“播放一段手机剧情”“和某人聊天”。
 function openPhone() {
-  if (talk.open || !started) return;
+  if (talk.open || !started || !$('#travel').hidden) return;
   if (!state.phone.unlocked) { toast('还没有新消息。'); return; }
+  keys.clear();
+  openPhoneUI('messages');
+}
+
+function playPhoneScript() {
   state.phone.unread = 0;
-  if (state.phone.pending) {
-    playScript(state.phone.pending, { phone: true });
-    return;
-  }
-  openBox({ phone: true });
-  const history = state.phone.log.slice(-12);
-  if (!history.length) appendLine('narrator', '没有新消息。');
+  playScript(state.phone.pending, { phone: state.phone.from || 'qingqing' });
+}
+
+function logPhone(line) {
+  if (!talk.phone) return;
+  (state.phone.logs[talk.phone] ??= []).push(line);
+}
+
+function openContact(id) {
+  openBox({ phone: id });
+  const history = (state.phone.logs[id] || []).slice(-12);
+  if (!history.length) appendLine('narrator', '还没有聊天记录。');
   for (const line of history) {
     const mine = line.startsWith('你：');
     appendLine(mine ? 'chen' : 'narrator', mine ? line.slice(2) : line);
   }
-  enterChat('qingqing', 'a1_job_wechat');
+  if (state.phone.blocked.includes(id)) {
+    appendError('消息发不出去：你已被对方拉黑。');
+    $('#close-dialogue').hidden = false;
+    return;
+  }
+  enterChat(CONTACTS[id].npc, contactScene(state, id));
 }
 
 // ── 开车 ─────────────────────────────
@@ -342,7 +361,7 @@ function act() {
 
 // ── 主循环 ───────────────────────────
 function update(dt) {
-  if (!started || talk.open || !$('#travel').hidden) return;
+  if (!started || talk.open || !$('#travel').hidden || phoneOpen()) return;
   let dx = 0, dy = 0;
   if (keys.has('arrowleft') || keys.has('a')) dx--;
   if (keys.has('arrowright') || keys.has('d')) dx++;
@@ -415,6 +434,10 @@ async function checkAi() {
 
 // ── 事件绑定 ─────────────────────────
 addEventListener('keydown', e => {
+  if (phoneOpen()) {
+    if (e.key === 'Escape') closePhone();
+    return;
+  }
   if (e.target.matches('input')) {
     if (e.key === 'Escape' && (talk.mode === 'chat' || talk.mode === 'choose')) closeBox();
     return;
@@ -448,6 +471,12 @@ $('#chat-form').onsubmit = e => {
 $('#travel-list').onclick = e => { const b = e.target.closest('[data-dest]'); if (b) driveTo(b.dataset.dest); };
 $('#travel-cancel').onclick = closeTravel;
 $('#phone-btn').onclick = openPhone;
+bindPhone({
+  getState: () => state,
+  playPhoneScript,
+  openContact,
+  afterFx(events) { for (const e of events) toast(e); renderPanels(state); save(); },
+});
 $('#btn-new').onclick = () => startGame(true);
 $('#btn-continue').onclick = () => startGame(false);
 $('#btn-act-close').onclick = () => { $('#act-end').hidden = true; };

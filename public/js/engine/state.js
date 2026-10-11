@@ -21,7 +21,11 @@ export function createState() {
     anchors: {},       // id -> { overturned }
     versions: {},      // topic -> [{ audience, text }]
     destinations: ['chinatown_street'],
-    phone: { unlocked: false, pending: null, unread: 0, log: [] },
+    // contacts：已加的联系人；blocked：把你拉黑的人；logs：每个联系人的聊天记录；pending：待读的一段剧情（脚本 id）
+    phone: { unlocked: false, pending: null, from: null, unread: 0, contacts: [], blocked: [], logs: {} },
+    notebook: [],      // 记下的号码、案号、名字：{ id, text }
+    pinned: {},        // 卷宗 id -> 已钉到线索板的关键段落
+    searched: [],      // 读过的搜索结果 id
     memories: {},      // npcId -> 最近对话摘要
     notes: ['2025年2月。老邝打来电话，说租车出了点麻烦，请你去当个和事佬。'],
     stories: [],       // 第一幕日常中听过的炫富故事
@@ -65,6 +69,31 @@ export function applyFx(state, fx = {}) {
       events.push(`获得：${EVIDENCE[id].name}`);
     }
   }
+  for (const id of list(fx.overturn)) {
+    if (state.anchors[id] && !state.anchors[id].overturned) {
+      state.anchors[id].overturned = true;
+      events.push(`认知被推翻：${ANCHORS[id].title}`);
+    }
+  }
+  for (const id of list(fx.overturnClaim)) {
+    if (state.claims[id]) state.claims[id].status = 'overturned';
+  }
+  for (const item of list(fx.jot)) {
+    if (!state.notebook.some(n => n.id === item.id)) {
+      state.notebook.push(item);
+      events.push(`记下：${item.text}`);
+    }
+  }
+  for (const id of list(fx.contact)) {
+    if (!state.phone.contacts.includes(id)) {
+      state.phone.contacts.push(id);
+      state.phone.unlocked = true;
+    }
+  }
+  for (const id of list(fx.block)) {
+    if (!state.phone.blocked.includes(id)) state.phone.blocked.push(id);
+  }
+  for (const id of list(fx.unblock)) state.phone.blocked = state.phone.blocked.filter(b => b !== id);
   for (const id of list(fx.anchor)) {
     if (!ANCHORS[id]) throw Error(`Unknown anchor ${id}`);
     if (!state.anchors[id]) {
@@ -93,12 +122,13 @@ export function applyFx(state, fx = {}) {
   if (fx.phone) {
     state.phone.unlocked = true;
     if (fx.phone.pending !== undefined) state.phone.pending = fx.phone.pending;
+    if (fx.phone.from !== undefined) state.phone.from = fx.phone.from;
     if (fx.phone.pending) {
       state.phone.unread += 1;
       events.push('手机：有新消息');
     }
   }
-  if (fx.phoneLog) state.phone.log.push(...list(fx.phoneLog));
+
   if (fx.travel) travel(state, fx.travel);
   if (fx.quest) {
     if (!QUESTS[fx.quest]) throw Error(`Unknown quest ${fx.quest}`);
@@ -137,7 +167,15 @@ export function deserialize(text) {
   if (!data || data.version !== SAVE_VERSION || !QUESTS[data.quest] || !MAPS[data.map]) {
     throw Error('Incompatible save');
   }
-  return { ...createState(), ...data };
+  const state = { ...createState(), ...data };
+  // 旧存档：只有晴晴一个聊天记录
+  state.phone = { ...createState().phone, ...data.phone };
+  if (data.phone?.log) {
+    state.phone.logs = { qingqing: data.phone.log };
+    delete state.phone.log;
+  }
+  if (state.phone.unlocked && !state.phone.contacts.length) state.phone.contacts = ['qingqing'];
+  return state;
 }
 
 function list(value) {
