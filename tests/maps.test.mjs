@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { existsSync } from 'node:fs';
 import { MAPS, ARRIVALS, WORLD_W, WORLD_H } from '../public/js/engine/maps.js';
 import { blocked } from '../public/js/engine/world.js';
 import { npcsOnMap } from '../public/js/engine/story.js';
@@ -46,5 +47,12 @@ test('every spot and every NPC (in every quest) can be reached', () => {
 test('all coordinates stay inside the world', () => {
   for (const [id, map] of Object.entries(MAPS)) {
     for (const b of map.blocks) assert.ok(b.x >= 0 && b.y >= 0 && b.x + b.w <= WORLD_W && b.y + b.h <= WORLD_H, `${id} block out of bounds`);
+  }
+});
+
+test('every map has its artwork file under assets/maps', () => {
+  for (const [id, map] of Object.entries(MAPS)) {
+    const file = new URL(`../assets/maps/${map.art || id}.png`, import.meta.url);
+    assert.ok(existsSync(file), `${id}: missing assets/maps/${map.art || id}.png`);
   }
 });

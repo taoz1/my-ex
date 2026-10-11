@@ -25,7 +25,7 @@ export function draw(ctx, state, target, time) {
   ctx.save();
   ctx.translate(-Math.round(cam.x), -Math.round(cam.y));
 
-  const bg = mapImage(state.map);
+  const bg = mapImage(map.art || state.map);
   if (bg) ctx.drawImage(bg, 0, 0, WORLD_W, WORLD_H);
   else drawPlaceholderMap(ctx, map);
 

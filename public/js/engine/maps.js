@@ -1,6 +1,7 @@
 // 地图定义。所有地图统一 1536×1024 世界坐标，与 assets/maps/*.png 尺寸一致。
 // blocks：不可通行的方块（也是没有美术图时的占位绘制）。
 // spots：可互动的点（门、车、床、物件）。
+// art：地图图片文件名（assets/maps/{art}.png），不写则与地图 id 相同。
 // 美术图到位后，只需要按图微调 blocks 和 spots 的坐标。
 
 export const WORLD_W = 1536;
@@ -58,6 +59,7 @@ export const MAPS = {
 
   qingqing_house: {
     name: '晴晴家',
+    art: 'qingqing_house_a',
     floor: '#7a6f62',
     spawn: { x: 768, y: 900 },
     zones: [
@@ -104,6 +106,7 @@ export const MAPS = {
 
   japantown: {
     name: '邻市日本城',
+    art: 'japantown_sakura',
     outdoor: true,
     floor: '#a8a088',
     spawn: { x: 768, y: 900 },
@@ -120,6 +123,7 @@ export const MAPS = {
 
   parents_home: {
     name: '父母家',
+    art: 'chen_parents_home',
     floor: '#8a7560',
     spawn: { x: 768, y: 900 },
     blocks: [
