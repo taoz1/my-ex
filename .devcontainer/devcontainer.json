@@ -1,0 +1,14 @@
+{
+  "name": "第四个版本",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm",
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": { "label": "第四个版本", "onAutoForward": "openPreview" }
+  },
+  "postAttachCommand": "npm run dev",
+  "secrets": {
+    "DEEPSEEK_API_KEY": {
+      "description": "DeepSeek API key for AI NPC dialogue. Stored as a Codespaces secret; never committed."
+    }
+  }
+}

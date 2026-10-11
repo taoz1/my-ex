@@ -1,0 +1,50 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { MAPS, ARRIVALS, WORLD_W, WORLD_H } from '../public/js/engine/maps.js';
+import { blocked } from '../public/js/engine/world.js';
+import { npcsOnMap } from '../public/js/engine/story.js';
+import { createState } from '../public/js/engine/state.js';
+import { QUEST_ORDER } from '../public/js/engine/quests.js';
+
+const CELL = 16;
+const REACH = 76;
+
+// 从起点出发能走到的格子
+function reachable(map, start) {
+  const seen = new Set();
+  const queue = [[Math.round(start.x / CELL), Math.round(start.y / CELL)]];
+  while (queue.length) {
+    const [cx, cy] = queue.pop();
+    const key = `${cx},${cy}`;
+    if (seen.has(key) || blocked(map, cx * CELL, cy * CELL)) continue;
+    seen.add(key);
+    queue.push([cx + 1, cy], [cx - 1, cy], [cx, cy + 1], [cx, cy - 1]);
+  }
+  return [...seen].map(k => k.split(',').map(n => Number(n) * CELL));
+}
+
+const nearAny = (cells, p) => cells.some(([x, y]) => Math.hypot(x - p.x, y - p.y) < REACH - 8);
+
+test('spawn and arrival points are walkable', () => {
+  for (const [id, map] of Object.entries(MAPS)) {
+    assert.ok(!blocked(map, map.spawn.x, map.spawn.y), `${id} spawn blocked`);
+    if (ARRIVALS[id]) assert.ok(!blocked(map, ARRIVALS[id].x, ARRIVALS[id].y), `${id} arrival blocked`);
+  }
+});
+
+test('every spot and every NPC (in every quest) can be reached', () => {
+  for (const [id, map] of Object.entries(MAPS)) {
+    const cells = reachable(map, map.spawn);
+    for (const s of map.spots) assert.ok(nearAny(cells, s), `${id}: spot ${s.id} unreachable`);
+    for (const quest of QUEST_ORDER) {
+      const state = { ...createState(), map: id, quest };
+      for (const n of npcsOnMap(state)) assert.ok(nearAny(cells, n), `${id}: ${n.id} unreachable in ${quest}`);
+    }
+  }
+});
+
+test('all coordinates stay inside the world', () => {
+  for (const [id, map] of Object.entries(MAPS)) {
+    for (const b of map.blocks) assert.ok(b.x >= 0 && b.y >= 0 && b.x + b.w <= WORLD_W && b.y + b.h <= WORLD_H, `${id} block out of bounds`);
+  }
+});

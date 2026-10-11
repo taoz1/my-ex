@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>第四个版本</title>
+  <meta name="description" content="AI NPC 驱动的都市开放世界 RPG。你是湾城华人圈的和事佬，一场租车纠纷让你认识了她。">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23141a24'/%3E%3Ctext x='16' y='23' font-size='18' text-anchor='middle' fill='%23e8b24a'%3E4%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <header>
+    <div><span class="kicker">湾城 · Bay City</span><h1>第四个版本</h1></div>
+    <div class="chapter"><span id="act-label">序章</span><strong id="date-label">2025年2月</strong></div>
+  </header>
+
+  <main>
+    <section class="game-shell">
+      <div class="canvas-wrap" id="canvas-wrap">
+        <canvas id="game" width="960" height="640" aria-label="游戏地图"></canvas>
+        <div id="map-name" class="map-name"></div>
+        <div id="prompt" class="prompt" hidden></div>
+        <div id="toasts" class="toasts" role="status" aria-live="polite"></div>
+
+        <div id="dialogue" class="dialogue" hidden>
+          <div id="portrait" class="portrait"></div>
+          <div class="dialogue-main">
+            <div class="speaker-row"><strong id="speaker"></strong><span id="speaker-role" class="label"></span><button id="close-dialogue" class="close" aria-label="结束对话" hidden>×</button></div>
+            <div id="transcript" class="transcript"></div>
+            <div id="choices" class="choices"></div>
+            <div id="continue-hint" class="continue-hint" hidden>点击或按 空格 继续 ▼</div>
+            <form id="chat-form" class="chat-form" hidden>
+              <div id="suggestions" class="suggestions"></div>
+              <div class="chat-row">
+                <input id="chat-input" maxlength="160" autocomplete="off" placeholder="你想说什么……" aria-label="对话内容">
+                <button type="submit">说</button>
+              </div>
+              <p id="chat-status" class="chat-status"></p>
+            </form>
+          </div>
+        </div>
+
+        <div id="travel" class="overlay" hidden>
+          <div class="overlay-card">
+            <span class="label">开车去</span>
+            <div id="travel-list" class="travel-list"></div>
+            <button id="travel-cancel" class="ghost">不走了</button>
+          </div>
+        </div>
+
+        <div id="title-screen" class="overlay title-screen">
+          <div class="overlay-card">
+            <span class="label">AI NPC 都市 RPG</span>
+            <h2 class="game-title">第四个版本</h2>
+            <p class="tagline">你是湾城华人圈里人人都找的“和事佬”。<br>一场租车纠纷，让你认识了一个自称富家千金的女孩。</p>
+            <div class="title-actions">
+              <button id="btn-continue" hidden>继续游戏</button>
+              <button id="btn-new">新的开始</button>
+            </div>
+            <p class="disclaimer">本作改编自一篇纪实口述，所有人物、地名均为虚构。</p>
+          </div>
+        </div>
+
+        <div id="act-end" class="overlay" hidden>
+          <div class="overlay-card">
+            <span class="label">第一幕 · 饵</span>
+            <h2>完</h2>
+            <div id="act-summary" class="act-summary"></div>
+            <p class="tagline">第二幕「裂」开发中。</p>
+            <button id="btn-act-close" class="ghost">回到游戏</button>
+          </div>
+        </div>
+      </div>
+
+      <aside>
+        <nav class="tabs" role="tablist">
+          <button class="tab active" data-tab="quest">任务</button>
+          <button class="tab" data-tab="board">线索板</button>
+          <button class="tab" data-tab="versions">版本档案</button>
+          <button id="phone-btn" class="tab phone-tab">手机<span id="phone-badge" class="badge" hidden></span></button>
+        </nav>
+
+        <div class="tab-panel" data-panel="quest">
+          <span id="quest-act" class="label"></span>
+          <h2 id="quest-title"></h2>
+          <p id="quest-copy" class="quest-copy"></p>
+          <div class="progress"><span id="quest-progress"></span></div>
+          <div class="divider"></div>
+          <span class="label">陈默</span>
+          <div id="stats" class="stats"></div>
+          <div class="divider"></div>
+          <span class="label">随身笔记</span>
+          <div id="journal" class="journal"></div>
+        </div>
+
+        <div class="tab-panel board" data-panel="board" hidden>
+          <div id="board"></div>
+        </div>
+
+        <div class="tab-panel" data-panel="versions" hidden>
+          <div id="versions"></div>
+        </div>
+
+        <div class="side-footer">
+          <span id="ai-badge" class="ai-badge">检测 AI…</span>
+          <button id="reset" class="ghost small">重新开始</button>
+        </div>
+      </aside>
+    </section>
+
+    <section class="help-row">
+      <span><kbd>WASD</kbd>/<kbd>方向键</kbd> 移动</span>
+      <span><kbd>E</kbd>/<kbd>空格</kbd> 互动 · 继续</span>
+      <span><kbd>P</kbd> 手机</span>
+      <span><kbd>Esc</kbd> 结束闲聊</span>
+    </section>
+  </main>
+
+  <div class="mobile-controls" aria-label="移动控制">
+    <div class="dpad">
+      <button data-move="up">▲</button><button data-move="left">◀</button><button data-move="down">▼</button><button data-move="right">▶</button>
+    </div>
+    <button id="mobile-action" class="action">互动</button>
+  </div>
+</body>
+</html>
