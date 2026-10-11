@@ -73,7 +73,7 @@ export function interact(state, { id }) {
 // 剧情关键处的 AI 场景
 export const CHOICE_SCENES = {
   a2_09_phone: 'a2_quarrel',
-  a2_09_lure: 'a2_quarrel',
+  a2_09_lure: { scene: 'a2_quarrel', npc: 'qingqing' },
   a2_10_casino: 'a2_casino',
   a2_10_step: 'a2_daily',
   a2_11_move: 'a2_newhouse',

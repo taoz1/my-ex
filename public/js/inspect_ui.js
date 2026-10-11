@@ -3,6 +3,8 @@
 import { HEIST_OBJECTS, actionsFor, doAction, restore } from './engine/heist.js';
 import { PUZZLES, checkPuzzle } from './engine/content/puzzles.js';
 import { applyFx } from './engine/state.js';
+import { OFFICERS, STATEMENTS, questionsFor, answer, PASS_RATIO } from './engine/content/defense.js';
+import { EVIDENCE } from './engine/catalog.js';
 import { escapeHtml } from './panels.js';
 
 const $ = s => document.querySelector(s);
@@ -78,16 +80,59 @@ function renderPuzzle() {
     ${current.output ? `<p class="output">${escapeHtml(current.output)}</p>` : ''}`;
 }
 
+// ── 警局笔录：出示证据 ─────────────────────────────────────
+export function openDefense() {
+  const state = host.getState();
+  current = { kind: 'defense', questions: questionsFor(state), index: 0, score: 0, reply: '', answered: false };
+  $('#inspect').hidden = false;
+  render();
+}
+
+function renderDefense(state) {
+  const d = current;
+  if (d.index >= d.questions.length) {
+    return `<p class="output">笔录做完了。两位警官对视了一眼。</p><button class="restore" data-finish>签字，离开询问室</button>`;
+  }
+  const q = d.questions[d.index];
+  const evidence = state.evidence.map(id => `<button data-show="${id}">出示：${escapeHtml(EVIDENCE[id].name)}</button>`).join('');
+  const statements = Object.entries(STATEMENTS).map(([id, text]) => `<button data-show="${id}">说：“${escapeHtml(text)}”</button>`).join('');
+  return `<p class="clock">第 ${d.index + 1} / ${d.questions.length} 问</p>
+    <p class="output"><b>${escapeHtml(OFFICERS[q.who])}：</b>${escapeHtml(q.ask(state))}</p>
+    ${d.answered ? `<p class="output">${escapeHtml(d.reply)}</p><button class="restore" data-next>下一个问题</button>`
+      : `<div class="actions">${evidence}${statements}</div>`}`;
+}
+
 function render() {
   const state = host.getState();
-  $('#inspect-title').textContent = current.kind === 'object' ? HEIST_OBJECTS[current.id].title : PUZZLES[current.id].title;
-  $('#inspect-body').innerHTML = current.kind === 'object' ? renderObject(state) : renderPuzzle();
+  const titles = { object: () => HEIST_OBJECTS[current.id].title, puzzle: () => PUZZLES[current.id].title, defense: () => '询问室 · 笔录' };
+  $('#inspect-title').textContent = titles[current.kind]();
+  $('#inspect-body').innerHTML = current.kind === 'object' ? renderObject(state) : current.kind === 'puzzle' ? renderPuzzle() : renderDefense(state);
 }
 
 function onClick(e) {
   const state = host.getState();
   const b = e.target.closest('button');
   if (!b) return;
+  if (current.kind === 'defense') {
+    const d = current;
+    if (b.dataset.show) {
+      const out = answer(d.questions[d.index], b.dataset.show);
+      d.score += out.delta;
+      d.reply = out.text;
+      d.answered = true;
+    } else if (b.dataset.next !== undefined) {
+      d.index += 1;
+      d.answered = false;
+    } else if (b.dataset.finish !== undefined) {
+      state.flags.defense_score = d.score;
+      state.flags.defense_passed = d.score >= Math.ceil(d.questions.length * PASS_RATIO);
+      d.finished = true;
+      closeInspect();
+      return;
+    }
+    render();
+    return;
+  }
   if (current.kind === 'puzzle') {
     if (b.dataset.pick !== undefined) { current.picks[b.dataset.pick] = b.dataset.opt; render(); return; }
     if (b.dataset.check !== undefined) {

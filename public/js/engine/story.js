@@ -6,9 +6,11 @@ import { QUEST_ORDER } from './quests.js';
 import * as ACT2 from './acts/act2.js';
 import * as ACT3 from './acts/act3.js';
 import * as ACT4 from './acts/act4.js';
+import * as ACT5 from './acts/act5.js';
+import * as FINALE from './acts/finale.js';
 
 // 后面的幕优先处理互动（同一个 NPC 在不同幕有不同的戏）
-const LATER_ACTS = [ACT4, ACT3, ACT2];
+const LATER_ACTS = [FINALE, ACT5, ACT4, ACT3, ACT2];
 
 const say = (s, t, e) => ({ s, t, e });
 const N = t => say('narrator', t);

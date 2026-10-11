@@ -9,9 +9,10 @@ import { SPEAKERS, AI_NPCS } from './engine/catalog.js';
 import { draw, debug } from './render.js';
 import { renderPanels, escapeHtml } from './panels.js';
 import { bindPhone, openPhone as openPhoneUI, closePhone, phoneOpen } from './phone_ui.js';
-import { bindInspect, openInspect, openPuzzle, inspectOpen, closeInspect } from './inspect_ui.js';
+import { bindInspect, openInspect, openPuzzle, openDefense, inspectOpen, closeInspect } from './inspect_ui.js';
 import { startHeist, tick as heistTick, endHeist } from './engine/heist.js';
 import { PUZZLES } from './engine/content/puzzles.js';
+import { computeEnding, endingSlides, ENDINGS } from './engine/endings.js';
 import { CONTACTS, contactScene } from './engine/phone.js';
 import { portraitImage, portraitLoading, uiImage, preload } from './assets.js';
 
@@ -118,6 +119,12 @@ function closeBox() {
   $('#dialogue').hidden = true;
   save();
   renderPanels(state);
+  if (state.ended && !state.flags.ending_shown) {
+    state.flags.ending_shown = true;
+    save();
+    showEnding();
+    return;
+  }
   if (state.actBreak) {
     const act = state.actBreak;
     state.actBreak = null;
@@ -208,10 +215,12 @@ function takeChoice(index, said) {
   advance();
 }
 
-// 正在跟谁说、在哪个场景
+// 正在跟谁说、在哪个场景。剧情关键处可以指定接话的人（npc 为 null：没有 AI 角色接话）
 function partner() {
   if (talk.mode === 'chat') return talk.chat;
-  return { npc: talk.lastNpc, scene: CHOICE_SCENES[talk.run.id] };
+  const cs = CHOICE_SCENES[talk.run.id];
+  if (cs && typeof cs === 'object') return { npc: cs.npc, scene: cs.scene };
+  return { npc: talk.lastNpc, scene: cs };
 }
 
 async function playerSays(message) {
@@ -224,8 +233,8 @@ async function playerSays(message) {
   if (atChoice && choiceIsFree(talk.run)) { takeChoice(talk.options[0].index, message); return; }
 
   const { npc, scene } = partner();
-  if (!npc || !scene) { appendError('这里没有可以接话的人。'); return; }
-  const turn = { npc, scene, message, memories: (state.memories[npc] || []).slice(-6), context: talk.lines };
+  if (!scene) { appendError('这里没有可以接话的人。'); return; }
+  const turn = { npc, scene, message, memories: npc ? (state.memories[npc] || []).slice(-6) : [], context: talk.lines };
 
   const said = await askAi('/api/understand', { ...turn, topics: atChoice ? choiceTopics(state, talk.run) : [] });
   if (!said || talk.mode !== mode) return;
@@ -235,6 +244,12 @@ async function playerSays(message) {
     if (index >= 0) { takeChoice(index, message); return; }
   }
 
+  if (!npc) {
+    // 没有 AI 角色接话：不编回应，只提示玩家换个说法
+    appendLine('narrator', '（没有人接这句话。想想你要怎么做。）');
+    setChatStatus('轮到你说话了。按 Esc 或 × 结束对话。');
+    return;
+  }
   const intent = { ...react(state, npc, said, { atChoice }), stance: STANCES[scene]?.[npc]?.(state) ?? null };
   const result = await askAi('/api/speak', { ...turn, intent });
   if (!result || talk.mode !== mode) return;
@@ -399,6 +414,8 @@ function openUi(id) {
     startHeist(state);
     toast('她出门了。');
     save();
+  } else if (id === 'defense') {
+    openDefense();
   } else if (PUZZLES[id]) {
     openPuzzle(id);
   }
@@ -441,6 +458,15 @@ function startGame(fresh) {
   save();
   if (fresh) toast('任务：押金');
   if (!ai.connected) toast(`AI 未连接：${ai.reason}`);
+}
+
+// 结局：按状态判定，再列出每个人后来怎么样了
+function showEnding() {
+  const ending = ENDINGS[computeEnding(state)];
+  $('#ending-title').textContent = ending.title;
+  $('#ending-text').textContent = ending.text;
+  $('#ending-slides').innerHTML = endingSlides(state).map(([who, text]) => `<div><b>${escapeHtml(who)}</b>${escapeHtml(text)}</div>`).join('');
+  $('#ending').hidden = false;
 }
 
 // 幕间卡片：每幕结束时显示这一幕留下了什么
@@ -535,6 +561,7 @@ bindInspect({
   // 小游戏解开之后接着演剧情
   onClose(was) {
     if (was?.kind === 'puzzle' && was.solved && PUZZLES[was.id].then) playScript(PUZZLES[was.id].then);
+    if (was?.kind === 'defense' && was.finished) playScript('a5_24_after');
   },
 });
 bindPhone({
@@ -547,6 +574,7 @@ bindPhone({
 $('#btn-new').onclick = () => startGame(true);
 $('#btn-continue').onclick = () => startGame(false);
 $('#btn-act-close').onclick = () => { $('#act-end').hidden = true; };
+$('#btn-ending-close').onclick = () => { $('#ending').hidden = true; };
 $('#reset').onclick = () => {
   if (!confirm('确定要从头开始吗？当前进度会被覆盖。')) return;
   closeBox();

@@ -10,6 +10,8 @@ import { CONTACTS, contactScene, search, comparePhotos, findCase, caseComplete }
 import { startHeist, doAction, restore, flaws, endHeist, tick as heistTick, HEIST_MINUTES } from '../public/js/engine/heist.js';
 import { CASE_NO } from '../public/js/engine/content/heist_content.js';
 import { PUZZLES, checkPuzzle } from '../public/js/engine/content/puzzles.js';
+import { questionsFor, answer, STATEMENTS, PASS_RATIO } from '../public/js/engine/content/defense.js';
+import { computeEnding, endingSlides, evidenceScore, ENDINGS, EVIDENCE_THRESHOLD } from '../public/js/engine/endings.js';
 import { QUESTS } from '../public/js/engine/quests.js';
 import { interact, drive } from './helpers.mjs';
 import { updateApproach } from '../public/js/engine/world.js';
@@ -52,7 +54,10 @@ test('every story choice can be reached by free text', () => {
     for (const step of steps.filter(s => s.choice)) {
       const free = step.choice.every(c => !c.fx && !c.goto && !c.on);
       if (free) continue;
-      assert.ok(SCENES[CHOICE_SCENES[id]], `${id}: no scene in CHOICE_SCENES`);
+      const cs = CHOICE_SCENES[id];
+      const scene = typeof cs === 'object' ? cs.scene : cs;
+      assert.ok(SCENES[scene], `${id}: no scene in CHOICE_SCENES`);
+      if (typeof cs === 'object' && cs.npc) assert.ok(SCENES[scene].npcs.includes(cs.npc), `${id}: ${cs.npc} is not in ${scene}`);
       for (const c of step.choice) {
         assert.ok(c.on, `${id}: option “${c.t}” has no on`);
         for (const m of [c.on].flat()) {
@@ -313,13 +318,14 @@ function playActThree(state) {
   assert.equal(readResult(state, '许嘉晴', 'luna_main'), null);
   assert.equal(readResult(state, '许嘉晴', 'luna_chat'), null);
   readResult(state, '鹿鸣', 'luna_v2');
+  readResult(state, '鹿鸣', 'luna_v1');
   const next = readResult(state, '许嘉晴', 'luna_photo');
   assert.equal(next, 'a3_18_realize');
   runScript(state, next);
   assert.equal(state.quest, 'A3_19');
 
   runScript(state, CONTACTS.qingqing.script(state));   // 语音聊：版本三
-  assert.equal(state.versions.luna.length, 2);
+  assert.equal(state.versions.luna.length, 3);
   drive(state, 'qingqing_house_b');
   interact(state, 'qingqing', [0, 0, 0]);              // 相信她，回家都记下来
   assert.ok(state.flags.g_record);
@@ -399,6 +405,106 @@ function playActFour(state) {
 
 test('full playthrough: act four', () => {
   playActFour(playActThree(playActTwo(playActOne())));
+});
+
+// 模拟警局笔录：每一问出示手里有的、能反驳的证据（没有就说一句陈述）
+function doDefense(state) {
+  let score = 0;
+  const qs = questionsFor(state);
+  for (const q of qs) {
+    const pick = q.good.find(id => state.evidence.includes(id) || STATEMENTS[id]) || 'stmt_soft';
+    score += answer(q, pick).delta;
+  }
+  assert.equal(answer(qs[0], 'stmt_angry').delta, -1, 'emotional accusations cost points');
+  state.flags.defense_score = score;
+  state.flags.defense_passed = score >= Math.ceil(qs.length * PASS_RATIO);
+  return qs.length;
+}
+
+function playActFive(state) {
+  runScript(state, state.phone.pending);                // 警局来电
+  assert.equal(state.quest, 'A5_24B');
+  drive(state, 'police_station');
+  assert.deepEqual(interact(state, 'interview').opened, ['defense']);
+  assert.ok(['our_chats', 'call_log', 'transfer_records', 'your_things'].every(id => state.evidence.includes(id)));
+  const asked = doDefense(state);
+  assert.equal(asked, 6, 'she judged you lying, so the fingerprints come up too');
+  assert.ok(state.flags.defense_passed);
+  runScript(state, 'a5_24_after', [0]);                 // 追究虚假报案
+  assert.equal(state.quest, 'A5_25');
+
+  runScript(state, state.phone.pending, [2]);           // 冯逸来电：冷静地给他能核实的东西
+  assert.equal(state.quest, 'A5_26');
+  drive(state, 'chen_home');
+  interact(state, 'home_door', [0]);                    // 装门铃摄像头
+  drive(state, 'club_gym');
+  interact(state, 'eric', [0, 1]);                      // 法院卷宗 + 监狱查询
+  assert.ok(state.flags.eric_shaken);
+  runScript(state, state.phone.pending, [0]);           // 她提前打了预防针 → 许母的邀约截图
+  assert.ok(state.flags.eric_clear);
+
+  drive(state, 'chinatown_street');
+  interact(state, 'coco', [0]);                         // 帮 Coco 谈房租 → VAWA 真相
+  assert.ok(state.evidence.includes('coco_testimony') && state.evidence.includes('inference_setup'));
+  assert.equal(state.quest, 'A5_27');
+  drive(state, 'financial_district');
+  interact(state, 'fed_door');
+  assert.equal(state.quest, 'A5_28');
+
+  drive(state, 'chen_home');
+  interact(state, 'xiaowu');
+  assert.ok(state.evidence.includes('door_footage'));
+  interact(state, 'xiaowu', [2]);                       // 陪他找律师 → 书面陈述
+  interact(state, 'tony');
+  assert.equal(state.quest, 'F_29');
+  assert.equal(state.actBreak, 5);
+  return state;
+}
+
+function playFinale(state) {
+  runScript(state, state.phone.pending);
+  drive(state, 'seaside_restaurant');
+  interact(state, 'qingqing', [0, 0, 1, 2, 5]);         // 录音；三个问题；转达父亲的话
+  assert.ok(state.flags.recorded_dinner && state.flags.father_delivered && state.flags.f_not_exposed);
+  assert.equal(state.versions.luna.length, 4);
+  assert.ok(state.flags.all_versions);
+  assert.equal(state.quest, 'F_30');
+  runScript(state, state.phone.pending, [0]);           // 芳姐：具体的承诺
+  assert.ok(state.flags.fang_testify);
+  drive(state, 'police_station');
+  interact(state, 'counter', [2]);                      // 当场提交反诉材料
+  assert.equal(state.quest, 'EPI');
+  runScript(state, state.phone.pending, [0, 0]);        // 不给周志强地址；交给青苔档案
+  assert.equal(state.quest, 'END');
+  assert.ok(state.ended);
+  return state;
+}
+
+test('full playthrough: act five, the finale and an ending', () => {
+  const state = playFinale(playActFive(playActFour(playActThree(playActTwo(playActOne())))));
+  const ending = computeEnding(state);
+  assert.ok(ENDINGS[ending], ending);
+  assert.ok(evidenceScore(state).total >= EVIDENCE_THRESHOLD);
+  const slides = endingSlides(state);
+  assert.deepEqual(slides.at(-1), ['鹿鸣', '至今下落不明。']);
+});
+
+test('ending rules', () => {
+  const base = () => Object.assign(createState(), { evidence: [], versions: {} });
+  const lured = base(); lured.flags.xiaowen_lured = true;
+  assert.equal(computeEnding(lured), 'E5');
+  const hit = base(); Object.assign(hit.flags, { married: true, hit_her: true, defense_passed: true });
+  assert.equal(computeEnding(hit), 'E4');
+  hit.pressure = [{}, {}, {}]; hit.evidence.push('coco_testimony');
+  assert.equal(computeEnding(hit), 'E4R');
+  const home = base(); Object.assign(home.flags, { father_delivered: true, f_not_exposed: true, eric_clear: true });
+  Object.assign(home.stats, { clarity: 80, attachment: 40 });
+  assert.equal(computeEnding(home), 'E6');
+  home.stats.attachment = 80;
+  assert.equal(computeEnding(home), 'E1', 'too attached for the hidden ending');
+  const next = base();
+  assert.equal(computeEnding(next), 'E3', 'Eric not persuaded and too little evidence');
+  for (const e of Object.values(ENDINGS)) assert.ok(!/鹿鸣.*(死了|还活着|找到了)/.test(e.text), 'no ending reveals what happened to her');
 });
 
 test('the probe call: a clean answer after a clean search is believed', () => {

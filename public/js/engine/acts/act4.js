@@ -27,8 +27,8 @@ export function interact(state, { id }) {
 export const CHOICE_SCENES = {
   a4_22_call: 'a4_probe',
   a4_zhaohui: 'a4_zhaohui',
-  a4_father: 'a4_classmate',
-  a4_rico: 'a4_classmate',
+  a4_father: { scene: 'inner', npc: null },
+  a4_rico: { scene: 'inner', npc: null },
 };
 
 export const STANCES = {};

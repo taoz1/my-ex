@@ -104,8 +104,21 @@ export function allowedNumbers(turn) {
 }
 
 // ── 第一步：理解 ───────────────────────────────────────────
+// 理解这一步不需要扮演谁：npc 可以为空（比如对警官说话、自己拿主意）
 export function validateUnderstand(input) {
-  return { ...validateTurn(input), topics: cleanList(input.topics ?? [], MAX_TOPICS, 60) };
+  const withNpc = input?.npc ? input : { ...input, npc: null };
+  if (withNpc.npc === null) {
+    if (!SCENES[withNpc.scene]) throw Error('Invalid scene');
+    return {
+      npc: null,
+      scene: withNpc.scene,
+      message: cleanText(withNpc.message, MAX_MESSAGE),
+      memories: [],
+      context: cleanList(withNpc.context ?? [], MAX_CONTEXT, 300),
+      topics: cleanList(withNpc.topics ?? [], MAX_TOPICS, 60),
+    };
+  }
+  return { ...validateTurn(withNpc), topics: cleanList(withNpc.topics ?? [], MAX_TOPICS, 60) };
 }
 
 export function buildUnderstandPrompt(turn) {
@@ -113,7 +126,7 @@ export function buildUnderstandPrompt(turn) {
   const system = [
     WORLD,
     `当前场景：${scene.goal}`,
-    `你的任务：只做分类，不扮演角色。判断玩家（陈默）对${CHARACTERS[turn.npc].name}说的这句话属于哪一种行为（act）：\n${Object.entries(ACTS).map(([k, v]) => `- ${k}：${v}`).join('\n')}`,
+    `你的任务：只做分类，不扮演角色。判断玩家（陈默）${turn.npc ? `对${CHARACTERS[turn.npc].name}` : ''}说的这句话属于哪一种行为（act）：\n${Object.entries(ACTS).map(([k, v]) => `- ${k}：${v}`).join('\n')}`,
     turn.topics.length ? `如果玩家是在问或谈下面某个话题，topic 照抄那个话题，否则为 null：\n${turn.topics.map(t => `- ${t}`).join('\n')}` : 'topic 一律为 null。',
     scene.amount ? `如果玩家说出了数额，amount 填数字，口径是：${scene.amount}。没有数额时为 null。` : 'amount 一律为 null。',
     '先在 analysis 里用一句话写清玩家的意思（有数额就写出数额）。只输出JSON：{"analysis":"一句话","act":"上面的某个键","topic":"照抄的话题或null","amount":数字或null}。',

@@ -26,6 +26,18 @@ export const SPEAKERS = {
   father: { name: '许建国', role: '电话那头 · 她的父亲', color: '#8a8070', portrait: null },
   rico: { name: 'Rico', role: 'WhatsApp', color: '#556070', portrait: null },
   coco: { name: 'Coco', role: '美甲师 · 她的“闺蜜”', color: '#d38fb3', portrait: 'coco' },
+  // 第五幕
+  police: { name: '湾城警察分局', role: '来电', color: '#5d7fa3', portrait: null },
+  ramirez: { name: 'Ramirez 警官', role: '湾城警察分局', color: '#5d7fa3', portrait: 'ramirez' },
+  kim: { name: 'Kim 警官', role: '湾城警察分局', color: '#7d9fb3', portrait: 'kim' },
+  eric: { name: '冯逸', role: '她手机里的“老公”', color: '#a3825d', portrait: 'eric' },
+  harlow: { name: 'Harlow 探员', role: '联邦调查局', color: '#4d6a80', portrait: 'harlow' },
+  xiaowu: { name: '小吴', role: '你的房客', color: '#8a9a6a', portrait: 'xiaowu' },
+  tony: { name: 'Tony Russo', role: '邻居', color: '#9a7a6a', portrait: null },
+  unknown: { name: '陌生号码', role: '来电', color: '#777', portrait: null },
+  // 终幕与尾声
+  zhouzhiqiang: { name: '周志强', role: '电话那头 · 赵慧的丈夫', color: '#8a6a5a', portrait: null },
+  qingtai: { name: '青苔档案', role: '纪实写作的博主', color: '#5a8a6a', portrait: null },
   narrator: { name: '', role: '旁白', color: '#9ba4ae', portrait: null },
   v_mother: { name: '妈妈的声音', role: '内心', color: '#b39ddb', portrait: null, voice: true },
   v_desire: { name: '欲望', role: '内心', color: '#e57373', portrait: null, voice: true },
@@ -34,7 +46,7 @@ export const SPEAKERS = {
 };
 
 // 由 AI 扮演、能自由对话的角色（backend/npc-cards.mjs 里有角色卡）
-export const AI_NPCS = ['qingqing', 'laokuang', 'fangjie', 'chen_mother', 'akang', 'xiaowen', 'shenman', 'azhen', 'linda', 'laozhong', 'michael', 'xiaomo', 'zhaohui', 'tongxue', 'coco'];
+export const AI_NPCS = ['qingqing', 'laokuang', 'fangjie', 'chen_mother', 'akang', 'xiaowen', 'shenman', 'azhen', 'linda', 'laozhong', 'michael', 'xiaomo', 'zhaohui', 'tongxue', 'coco', 'eric', 'xiaowu'];
 
 // 证据 / 物件。img 对应 assets/items/ 下的文件名（不含扩展名）。
 export const EVIDENCE = {
@@ -57,6 +69,17 @@ export const EVIDENCE = {
   court_file: { name: '秦岳的卷宗', img: 'court_file', desc: '联邦法院公开卷宗。多套身份；2024年2月同日入境；5月结婚、8月申请绿卡、10月被捕；中文身份关联南屿绑架案。她的名字只出现在入境、同住、被捕时在场。' },
   zhaohui_list: { name: '赵慧的名单', img: 'zhaohui_list', desc: '赵慧每一笔转账的收款人：湖北、山东、东北……还有你的朋友们。' },
   money_flow: { name: '资金线', img: 'money_flow', desc: '赵慧“捞人”的钱，约85%进了她的手里；其余在2025年5月被“秦总的朋友”取走。' },
+  our_chats: { name: '你们的聊天记录', img: 'phone_chat', desc: '从第一幕起自动存下来的微信：她叫你“老公”，说“我发现自己离不开你了”，让你搬过去住。' },
+  call_log: { name: '12月4日的通话记录', img: 'call_log', desc: '12月4日下午，她打来电话：“你能不能过来帮我搬个家？”' },
+  transfer_records: { name: '转账记录', img: 'transfer_records', desc: '九到十一月，她找你“借”的那几笔小钱：一百、两百、三百美元。' },
+  your_things: { name: '你的包', img: 'your_bag', desc: '12月4日你拎走的包：几件衣服、剃须刀。都是她说“找不到了”的你的东西。' },
+  inference_setup: { name: '推论卡：一个局？', img: 'pattern_card', desc: '12月4日叫你去搬家、借故出门三个小时、指纹、监控、你拎包出门……会不会从一开始就是一个局？（无法确认）' },
+  coco_testimony: { name: 'Coco 的话', img: 'coco_note', desc: '“幸好你当初没有跟她结婚。”她跟 Coco 说过：结婚以后故意激怒对方、逼他动手，再以家暴受害者的身份去申请身份。' },
+  door_footage: { name: '门铃录像', img: 'door_footage', desc: '四月初的录像：她带着一个男人在你家门口喊：“陈默诈骗了我几百万美金！”' },
+  xiaowu_statement: { name: '小吴的书面陈述', img: 'statement', desc: '小吴写下了那天看到的事。' },
+  pattern_audience: { name: '模式卡：表演给新观众', img: 'pattern_card', desc: '她在你家门口喊的话，是喊给身边那个男人听的：“你看我没骗你，真的有陈默这个人。”' },
+  dinner_recording: { name: '晚餐的录音', img: 'recording', desc: '最后一次见面，她讲的“全部的真相”。你在口袋里录下了全程。' },
+  fang_statement: { name: '芳姐的证词', img: 'statement', desc: '“那段时间家里从来没有过一百万的珠宝。”“她跟秦岳哭诉，说那个司机冲到她家，偷走了她很贵的首饰。”' },
   cash_envelope: { name: '换汇的现金', img: 'cash_envelope', desc: '人民币转进朋友的国内账户，朋友在这边把美元现金当面交给她。' },
 };
 
@@ -94,6 +117,12 @@ export const CLAIMS = {
   coin_wife: { who: 'qingqing', topic: 'qin_assets', text: '百亿数字币被没收的那个人，他老婆她认识，一起喝过下午茶。' },
   luna_v3: { who: 'qingqing', topic: 'luna', text: '那些消息是老秦拿她的手机发的；她被软禁了，她和老秦都在英国，没去南屿；接机的是一个叫 Rico 的人。' },
   meiyi_gua: { who: 'qingqing', topic: 'money', text: '梅姨算过：这个阶段家里不能有男人。你的东西“找不到了”。' },
+  // 第五幕
+  jewelry: { who: 'qingqing', topic: 'money', text: '（报警）她的司机12月4日非法进入住所，偷走了价值一百万美元的珠宝。' },
+  chen_scam: { who: 'qingqing', topic: 'money', text: '（在你家门口）“陈默诈骗了我几百万美金！”' },
+  // 终幕
+  luna_v4: { who: 'qingqing', topic: 'luna', text: '鹿鸣是“外围”；在伦敦介绍了“坤哥”；派对的香槟被下了药；秦岳知道后说“那我就要搞她”，抢走她的手机、软禁她，邀约都是秦岳发的；鹿鸣“没死，被暹湾一个军方大佬看上了”。' },
+  fang_blame: { who: 'qingqing', topic: 'money', text: '“误会啦……我现在怀疑是保姆偷的。”' },
   money_cut: { who: 'qingqing', topic: 'money', text: '“本来老秦说这些钱全部给我的，就是因为你太笨，在阿珍面前把咱俩的关系暴露了。”' },
 };
 

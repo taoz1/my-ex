@@ -32,13 +32,25 @@ export const QUESTS = {
   A4_22: { act: '第四幕 · 卷宗', title: '你有没有打开过我的行李箱？', date: '2025年12月5日', copy: '她打来电话。看看手机。' },
   A4_23: { act: '第四幕 · 卷宗', title: '重新认识她', date: '2025年12月', copy: '联系赵慧；搜一搜她的同学和过去。（手机）' },
   A5_24: { act: '第五幕 · 反噬', title: '一百万美元的珠宝', date: '2026年1月', copy: '警局打来电话。看看手机。' },
+  A5_24B: { act: '第五幕 · 反噬', title: '笔录', date: '2026年1月', copy: '去湾城警察分局做笔录（询问室）。' },
+  A5_25: { act: '第五幕 · 反噬', title: '陌生号码', date: '2026年1月', copy: '一个陌生号码打来电话。看看手机。' },
+  A5_26: { act: '第五幕 · 反噬', title: '幸好你没有跟她结婚', date: '2026年2月', copy: s => (s.phone.contacts.includes('coco') ? '去华埠，找她的“闺蜜” Coco 聊聊。她的美甲店就在街上。' : '一个陌生人给你留了言。看看手机。') },
+  A5_27: { act: '第五幕 · 反噬', title: '这里是美国', date: '2026年3月', copy: '去金融区的联邦大楼，找卷宗里的那位探员。' },
+  A5_28: { act: '第五幕 · 反噬', title: '上门', date: '2026年4月初', copy: '回家。' },
+  A5_28B: { act: '第五幕 · 反噬', title: '门外的人', date: '2026年4月初', copy: '问问小吴和邻居 Tony；去警察分局的报案柜台问问那天的事。' },
+  F_29: { act: '终幕 · 第四个版本', title: '最后的晚餐', date: '2026年4月', copy: '她重新加了你的微信。看看手机。' },
+  F_29B: { act: '终幕 · 第四个版本', title: '最后的晚餐', date: '2026年4月', copy: '去海滨大道的餐馆。她在靠窗的位置等你。' },
+  F_30: { act: '终幕 · 第四个版本', title: '撤案', date: '2026年4月', copy: s => (s.phone.pending ? '先看看手机。' : '陪她去警察分局撤案（报案柜台）。') },
+  EPI: { act: '尾声 · 遣返', title: '遣返', date: '2026年7–8月', copy: '七月。看看手机。' },
+  END: { act: '尾声', title: '结局', date: '2026年8月', copy: '故事讲完了。' },
 };
 
 export const QUEST_ORDER = Object.keys(QUESTS);
 
 export function questCopy(state) {
   const q = QUESTS[state.quest];
-  return q.copy.replace('{stories}', String(state.stories.length));
+  const copy = typeof q.copy === 'function' ? q.copy(state) : q.copy;
+  return copy.replace('{stories}', String(state.stories.length));
 }
 
 export function questProgress(state) {

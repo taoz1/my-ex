@@ -28,7 +28,7 @@ export const CHOICE_SCENES = {
   a3_xiaomo: 'a3_frozen',
   a3_17_news: 'a3_qingqing',
   a3_xiaowen_invite: 'xiaowen_chat',
-  a3_19_meet: 'a3_qingqing',
+  a3_19_meet: { scene: 'a3_qingqing', npc: 'qingqing' },
   a3_20_block: 'a3_qingqing',
 };
 
