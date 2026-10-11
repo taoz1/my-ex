@@ -13,8 +13,9 @@ const PLACEMENTS = {
     { id: 'waiter', label: '茶餐厅伙计', x: 420, y: 395, color: '#a36b52', when: s => s.quest !== 'P0' },
   ],
   rental_shop: [
-    { id: 'laokuang', label: '老邝', x: 650, y: 380 },
-    { id: 'qingqing', label: '那个女人', x: 1290, y: 400, when: s => s.quest === 'P0' || s.quest === 'P1' },
+    // 序章：玩家进门后，老邝主动走过来诉苦
+    { id: 'laokuang', label: '老邝', x: 650, y: 380, approach: { when: s => s.quest === 'P0', script: 'p0_arrive', delay: 0.6 } },
+    { id: 'qingqing', label: '那个女人', x: 950, y: 365, when: s => s.quest === 'P0' || s.quest === 'P1' },
   ],
   qingqing_house: [
     { id: 'qingqing', label: '晴晴', x: 580, y: 720, when: s => ['A1_03', 'A1_05', 'A1_06', 'A1_08', 'A1_09', 'END1'].includes(s.quest) },
@@ -38,8 +39,16 @@ const PLACEMENTS = {
   ],
 };
 
+// state.npcPos 里是本次进图后走动过的 NPC 的位置（离开地图时清空）
 export function npcsOnMap(state) {
-  return (PLACEMENTS[state.map] || []).filter(n => !n.when || n.when(state));
+  return (PLACEMENTS[state.map] || [])
+    .filter(n => !n.when || n.when(state))
+    .map(n => (state.npcPos?.[n.id] ? { ...n, ...state.npcPos[n.id] } : n));
+}
+
+// 当前地图上要主动找玩家搭话的 NPC（PLACEMENTS 里带 approach 且条件满足）
+export function approachingNpc(state) {
+  return npcsOnMap(state).find(n => n.approach && n.approach.when(state)) || null;
 }
 
 // ── 互动规则 ────────────────────────────────────────────────
@@ -49,7 +58,7 @@ export function interaction(state, target) {
   const m = state.map;
   switch (target.id) {
     case 'door_rental':
-      return { travel: { map: 'rental_shop' }, script: q === 'P0' ? 'p0_arrive' : null };
+      return { travel: { map: 'rental_shop' } };
     case 'door_street':
       return { travel: { map: 'chinatown_street', x: 683, y: 400 } };
     case 'car':
@@ -68,7 +77,7 @@ export function interaction(state, target) {
     case 'fangjie': return { script: 'fang_talk' };
     case 'chen_mother': return { script: q === 'A1_07' ? 'a1_07_dinner' : 'mother_later' };
     case 'qingqing':
-      if (m === 'rental_shop') return { script: 'p1_qing' };
+      if (m === 'rental_shop') return { script: q === 'P0' ? 'p0_qing' : 'p1_qing' };
       if (m === 'japantown') return { script: 'a1_03_sakura' };
       if (m === 'parents_home') return { script: 'qing_dinner' };
       if (m === 'golf_range') return { script: 'a1_08_golf' };
@@ -107,15 +116,15 @@ export const CHOICE_SCENES = {
 // ── 剧情脚本 ────────────────────────────────────────────────
 export const SCRIPTS = {
   // 序章 ───────────────────────────────
+  // 老邝看见陈默进门，自己凑过来（见 PLACEMENTS 的 approach）
   p0_arrive: [
-    N('推开门，空调的嗡嗡声里混着老邝的大嗓门。沙发上坐着一个年轻女人，戴着一副名牌墨镜，脸上带着怒气。'),
-    say('v_detective', '她的气场和你在华人圈里见过的女人都不一样。举手投足，都带着一股刻意端出来的架子。'),
     say('laokuang', '老陈！你可算来了。她要报警！我这车都挂在我个人名下，你知道的……', 'panic'),
-    say('chen', '别急，慢慢说。'),
     say('laokuang', '她租我那辆奔驰，月租1500，租一年。开了半个月，嫌车旧、档次低，要退车。提前毁约，押金1500我肯定不退啊！'),
-    say('qingqing', '你找谁来都没用。不退钱，我就报警。', 'cold'),
-    say('v_mediator', '一边要钱，一边要面子。先分别聊聊，摸清两边的底线。'),
     { fx: { quest: 'P1', note: '老邝租车押金纠纷：月租1500，押金1500，她开了半个月要退车。老邝要全扣，她要全退，还威胁报警。' } },
+  ],
+
+  p0_qing: [
+    say('qingqing', '看什么看？老邝叫来的？', 'cold'),
   ],
 
   receipt: [
@@ -150,7 +159,14 @@ export const SCRIPTS = {
   ],
 
   p1_qing: [
-    say('qingqing', '你就是他找来的人？', 'cold'),
+    { if: has('p1_met_q'), goto: 'again' },
+    N('她戴着一副名牌墨镜，脸上带着怒气。'),
+    say('v_detective', '她的气场和你在华人圈里见过的女人都不一样。举手投足，都带着一股刻意端出来的架子。'),
+    say('qingqing', '你就是他找来的人？你找谁来都没用。不退钱，我就报警。', 'cold'),
+    { fx: { flags: { p1_met_q: true } } },
+    { goto: 'menu' },
+    { label: 'again' },
+    say('qingqing', '又怎么了？', 'cold'),
     { label: 'menu' },
     { choice: [
       { t: '你真正在意的是什么？', goto: 'care' },

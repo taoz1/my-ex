@@ -48,10 +48,9 @@ canvas { display: block; width: 100%; height: auto; image-rendering: pixelated; 
 
 /* 对话框 */
 .dialogue { position: absolute; left: 12px; right: 12px; bottom: 12px; min-height: 210px; max-height: 62%; display: flex; gap: 14px; padding: 14px; background: #0c111ae8; border: 1px solid #45536a; box-shadow: 0 10px 40px #000a; overflow: hidden; }
-.portrait { flex: 0 0 150px; height: 180px; align-self: flex-end; background: var(--pc, #333) center bottom / contain no-repeat; border: 1px solid var(--line); position: relative; }
-.portrait.blank { background-image: none !important; }
-.portrait.blank::after { content: attr(data-initial); position: absolute; inset: 0; display: grid; place-items: center; font-size: 48px; font-weight: 800; color: #0d1118; }
-.portrait.hidden { visibility: hidden; flex-basis: 0; border: 0; }
+/* 头像是透明底的半身像，直接站在对话框底边上，不加底色和边框 */
+.portrait { flex: 0 0 190px; height: 200px; align-self: flex-end; margin: 0 0 -14px -6px; background: center bottom / contain no-repeat; }
+.portrait.hidden { visibility: hidden; flex-basis: 0; margin: 0; }
 .dialogue-main { flex: 1; min-width: 0; min-height: 0; display: flex; flex-direction: column; }
 .speaker-row { display: flex; align-items: baseline; gap: 10px; }
 .speaker-row strong { font-size: 17px; }
@@ -122,7 +121,7 @@ aside { background: linear-gradient(160deg, #182130, #11161f); border: 1px solid
   .game-shell { grid-template-columns: 1fr; }
   aside { min-height: 0; max-height: none; }
   .dialogue { min-height: 0; }
-  .portrait { flex-basis: 80px; height: 100px; }
+  .portrait { flex-basis: 100px; height: 110px; }
   .dialogue.phone { width: auto; left: 8px; right: 8px; }
   .mobile-controls { display: flex; position: fixed; left: 12px; right: 12px; bottom: 12px; justify-content: space-between; align-items: flex-end; pointer-events: none; }
   .dpad { display: grid; grid-template-columns: repeat(3, 44px); grid-template-rows: repeat(2, 44px); gap: 4px; pointer-events: auto; }

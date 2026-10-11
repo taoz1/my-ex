@@ -6,6 +6,7 @@ import { SCENES } from '../backend/npc-cards.mjs';
 import { runScript } from '../public/js/engine/script.js';
 import { QUESTS } from '../public/js/engine/quests.js';
 import { interact, drive } from './helpers.mjs';
+import { updateApproach } from '../public/js/engine/world.js';
 
 test('every goto/call/label in every script resolves', () => {
   for (const [id, steps] of Object.entries(SCRIPTS)) {
@@ -40,8 +41,29 @@ test('every script with story choices has an AI scene for free-text input', () =
   }
 });
 
+// 玩家站着不动，老邝自己走过来开口
+function arriveAndGetApproached(state) {
+  for (let t = 0; t < 20; t += 0.05) {
+    const script = updateApproach(state, 0.05);
+    if (script) { runScript(state, script); return; }
+  }
+  assert.fail('老邝没有走到玩家跟前');
+}
+
+test('talking to her before Kuang arrives does not skip the prologue', () => {
+  const state = createState();
+  interact(state, 'door_rental');
+  interact(state, 'qingqing');
+  assert.equal(state.quest, 'P0');
+  arriveAndGetApproached(state);
+  assert.equal(state.quest, 'P1');
+  assert.ok(state.npcPos.laokuang, 'Kuang walked over');
+});
+
 function playPrologue(state) {
   interact(state, 'door_rental');
+  assert.equal(state.quest, 'P0');               // 进门不再自动开场
+  arriveAndGetApproached(state);
   assert.equal(state.quest, 'P1');
   interact(state, 'laokuang', [0, 3]);          // 问底线，离开
   interact(state, 'qingqing', [0, 4]);          // 问在意什么，离开
@@ -54,6 +76,7 @@ function playPrologue(state) {
 test('a failed proposal keeps the prologue open', () => {
   const state = createState();
   interact(state, 'door_rental');
+  arriveAndGetApproached(state);
   interact(state, 'laokuang', [3]);
   interact(state, 'qingqing', [4]);
   interact(state, 'laokuang', [2, 0]);          // 全退 → 老邝拒绝

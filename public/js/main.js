@@ -3,11 +3,11 @@ import { createState, applyFx, travel, rememberChat, serialize, deserialize } fr
 import { MAPS, DESTINATIONS, ARRIVALS } from './engine/maps.js';
 import { interaction, CHOICE_SCENES } from './engine/story.js';
 import { startScript, nextStep, choose, choiceIsFree } from './engine/script.js';
-import { movePlayer, nearestTarget } from './engine/world.js';
+import { movePlayer, nearestTarget, updateApproach } from './engine/world.js';
 import { SPEAKERS } from './engine/catalog.js';
 import { draw, debug } from './render.js';
 import { renderPanels, escapeHtml } from './panels.js';
-import { portraitImage, uiImage, preload } from './assets.js';
+import { portraitImage, portraitLoading, uiImage, preload } from './assets.js';
 
 const SAVE_KEY = 'fourth-version-save-v1';
 const $ = s => document.querySelector(s);
@@ -58,16 +58,19 @@ function setPortrait(speakerId, emotion) {
   const el = $('#portrait');
   $('#speaker').textContent = sp.name || '';
   $('#speaker-role').textContent = sp.role || '';
-  if (!sp.portrait || sp.voice) {
-    el.classList.add('hidden');
-    return;
-  }
-  el.classList.remove('hidden');
-  const img = portraitImage(sp.portrait, emotion);
-  el.classList.toggle('blank', !img);
-  el.dataset.initial = sp.name.slice(0, 1);
-  el.style.setProperty('--pc', sp.color);
+  const key = `${speakerId}:${emotion}`;
+  el.dataset.key = key;
+  showPortrait(el, sp, emotion, key, 0);
+}
+
+// 图片是异步加载的：第一次用到时可能还没下载完，等一会儿再试，没有图就不显示头像
+function showPortrait(el, sp, emotion, key, tries) {
+  if (el.dataset.key !== key) return;
+  const img = !sp.voice && portraitImage(sp.portrait, emotion);
+  el.classList.toggle('hidden', !img);
   el.style.backgroundImage = img ? `url(${img.src})` : '';
+  const waiting = sp.portrait && !sp.voice && (!img || portraitLoading(sp.portrait, emotion));
+  if (waiting && tries < 20) setTimeout(() => showPortrait(el, sp, emotion, key, tries + 1), 100);
 }
 
 function appendLine(speakerId, text) {
@@ -341,6 +344,8 @@ function update(dt) {
   if (keys.has('arrowup') || keys.has('w')) dy--;
   if (keys.has('arrowdown') || keys.has('s')) dy++;
   movePlayer(state, dx, dy, dt);
+  const approach = updateApproach(state, dt);
+  if (approach) { playScript(approach); return; }
   target = nearestTarget(state);
   $('#prompt').hidden = !target;
   if (target) $('#prompt').textContent = `按 E ${target.kind === 'npc' ? `和${target.label}说话` : target.label}`;
@@ -458,6 +463,7 @@ document.querySelectorAll('[data-move]').forEach(b => {
 const saved = loadSave();
 if (saved) { state = saved; $('#btn-continue').hidden = false; }
 preload(['assets/ui/title_keyart.png', 'assets/maps/chinatown_street.png', 'assets/maps/rental_shop.png', 'assets/sprites/chen_mo.png']);
+for (const sp of Object.values(SPEAKERS)) if (sp.portrait && !sp.voice) portraitImage(sp.portrait);
 const art = uiImage('title_keyart');
 setTimeout(() => {
   const img = uiImage('title_keyart') || art;

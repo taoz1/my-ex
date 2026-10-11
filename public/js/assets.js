@@ -27,6 +27,14 @@ export function portraitImage(base, emotion = 'neutral') {
     || image(`assets/portraits/${base}_videocall.png`);
 }
 
+// 这个表情的头像是否还在下载（下载完可能要换掉临时顶上的 neutral）
+export function portraitLoading(base, emotion = 'neutral') {
+  const path = `assets/portraits/${base}_${emotion}.png`;
+  image(path);
+  const entry = cache.get(path);
+  return !entry.img && !entry.failed;
+}
+
 // 预热：让常用图片尽早开始下载。
 export function preload(paths) {
   for (const p of paths) image(p);

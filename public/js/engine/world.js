@@ -1,10 +1,12 @@
 // 移动、碰撞、附近可互动目标。纯逻辑。
 import { MAPS, WORLD_W, WORLD_H } from './maps.js';
-import { npcsOnMap } from './story.js';
+import { npcsOnMap, approachingNpc } from './story.js';
 
 export const PLAYER_SPEED = 230;   // 世界坐标 / 秒
 const FOOT = 14;                   // 脚底碰撞半径
 const REACH = 76;                  // 互动距离
+const NPC_SPEED = 150;             // NPC 主动走向玩家的速度
+const TALK_DIST = 70;              // NPC 走到这个距离内就开口
 
 export function blocked(map, x, y) {
   if (x < FOOT || y < FOOT || x > WORLD_W - FOOT || y > WORLD_H - FOOT) return true;
@@ -41,4 +43,25 @@ export function nearestTarget(state) {
     if (d < bestD) { best = c; bestD = d; }
   }
   return best;
+}
+
+// NPC 主动找玩家：进图 delay 秒后朝玩家走，走到跟前返回要播放的脚本 id。
+// 每帧调用；没有要主动搭话的 NPC 时只累计 mapTime。
+export function updateApproach(state, dt) {
+  state.mapTime = (state.mapTime || 0) + dt;
+  const npc = approachingNpc(state);
+  if (!npc || state.mapTime < (npc.approach.delay || 0)) return null;
+  const p = state.player;
+  const dist = Math.hypot(p.x - npc.x, p.y - npc.y);
+  if (dist < TALK_DIST) return npc.approach.script;
+  const map = MAPS[state.map];
+  const step = Math.min(NPC_SPEED * dt, dist - TALK_DIST + 1);
+  const mx = ((p.x - npc.x) / dist) * step;
+  const my = ((p.y - npc.y) / dist) * step;
+  const pos = { x: npc.x, y: npc.y };
+  if (!blocked(map, pos.x + mx, pos.y)) pos.x += mx;
+  if (!blocked(map, pos.x, pos.y + my)) pos.y += my;
+  pos.dir = Math.abs(mx) > Math.abs(my) ? (mx > 0 ? 'right' : 'left') : (my > 0 ? 'down' : 'up');
+  state.npcPos = { ...state.npcPos, [npc.id]: pos };
+  return null;
 }

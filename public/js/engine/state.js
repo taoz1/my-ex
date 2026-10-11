@@ -24,6 +24,8 @@ export function createState() {
     memories: {},      // npcId -> 最近对话摘要
     notes: ['2025年2月。老邝打来电话，说租车出了点麻烦，请你去当个和事佬。'],
     stories: [],       // 第一幕日常中听过的炫富故事
+    mapTime: 0,        // 进入当前地图后经过的秒数
+    npcPos: {},        // 当前地图上走动过的 NPC 位置，离开地图时清空
     ended: false,
   };
 }
@@ -113,6 +115,8 @@ export function travel(state, target) {
   state.player.x = spawn.x;
   state.player.y = spawn.y;
   state.player.dir = 'up';
+  state.mapTime = 0;
+  state.npcPos = {};
 }
 
 export function rememberChat(state, npc, line) {
