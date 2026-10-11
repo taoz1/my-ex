@@ -2,6 +2,7 @@
 // NPC 对话分三步（见 npc-cards.mjs 的 ACTS / INTENTS）：理解和说话在这里调 AI，决定在浏览器的游戏逻辑里。
 // DeepSeek API Key 只在服务端读取，不会发给浏览器。
 import { WORLD, CHARACTERS, SCENES, ACTS, INTENTS } from './npc-cards.mjs';
+import { LIVES } from './npc-lives.mjs';
 
 export const DEFAULT_MODEL = 'deepseek-flash';
 const ENDPOINT = 'https://api.deepseek.com/chat/completions';
@@ -36,7 +37,8 @@ const MAX_REPLY = 280;
 const MAX_MEMORIES = 6;
 const MAX_CONTEXT = 8;
 const MAX_TOPICS = 12;
-const ATTEMPTS = 2;   // AI 的回应不合格（格式、数字、禁词）时重试的次数
+const ATTEMPTS = 2;
+const MAX_TOLD = 60;   // AI 的回应不合格（格式、数字、禁词）时重试的次数
 
 // 第一幕里任何 NPC 都不该说出的词：原型地名、暴力犯罪细节。
 export const BLOCKED_TERMS = ['菲律宾', '马尼拉', '绑架', '撕票', '杀人', '尸体', '谋杀'];
@@ -151,7 +153,15 @@ export function validateSpeak(input) {
   const mood = CHARACTERS[turn.npc].emotions.includes(intent.mood) ? intent.mood : null;
   const stances = SCENES[turn.scene].stances?.[turn.npc];
   if (intent.stance != null && !stances?.[intent.stance]) throw Error('Invalid stance');
-  return { ...turn, intent: { act: intent.act, amount, mood, stance: intent.stance ?? null } };
+  const told = cleanList(input.told ?? [], MAX_TOLD, 40);
+  const next = { ...turn, intent: { act: intent.act, amount, mood, stance: intent.stance ?? null } };
+  // 讲小故事：把这个人还没讲过的故事交给 AI，让它挑最贴合玩家这句话的一件；都讲过了，就正常接话
+  if (intent.act === 'anecdote') {
+    const untold = (LIVES[turn.npc]?.anecdotes || []).filter(a => !told.includes(a.id));
+    if (untold.length) next.stories = untold;
+    else next.intent.act = 'answer';
+  }
+  return next;
 }
 
 export function buildSpeakPrompt(turn) {
@@ -160,14 +170,18 @@ export function buildSpeakPrompt(turn) {
   const system = [
     WORLD,
     `你扮演：${npc.name}。\n${npc.profile}`,
+    ...(LIVES[turn.npc]?.life ? [`你的日常：${LIVES[turn.npc].life}`] : []),
     `秘密：${npc.secrets}`,
     `禁区：${npc.forbidden}`,
     `当前场景：${SCENES[turn.scene].goal}`,
     ...(intent.stance ? [SCENES[turn.scene].stances[turn.npc][intent.stance]] : []),
+    ...(turn.stories ? [`你可以讲的事（挑一件最贴合他这句话的讲，只讲一件；都不贴合就别硬讲）：\n${turn.stories.map(a => `- ${a.id}：${a.text}`).join('\n')}`] : []),
     `游戏已经决定了你这一句要做什么：${INTENTS[intent.act]}${intent.amount ? `涉及的数额是 ${intent.amount}。` : ''}${intent.mood ? `情绪：${intent.mood}。` : ''}照这个意思说，不要改变决定，不要自己加让步或新条件。`,
     '规则：你只知道自己亲历和听说的事，不得改变以上设定。用现场口语回应，有个性、具体、克制，不要说教，不要替玩家下结论。不要跳出角色，不要承认自己是AI。',
     '看清玩家刚说的那句话：数字、人名、条件照原样理解，不要凭空冒出没人提过的数字，算账要对。不要重复你在最近几句里说过的话和口头禅，接住这句话往下说。',
-    `只输出JSON：{"reply":"不超过120个中文字的一段回应","emotion":"${npc.emotions.join('|')} 之一"}。不要输出其他字段。`,
+    turn.stories
+      ? `只输出JSON：{"reply":"不超过150个中文字的一段回应","emotion":"${npc.emotions.join('|')} 之一","story":"讲了哪件事的编号，没讲就填 null"}。不要输出其他字段。`
+      : `只输出JSON：{"reply":"不超过120个中文字的一段回应","emotion":"${npc.emotions.join('|')} 之一"}。不要输出其他字段。`,
   ].join('\n\n');
   const user = JSON.stringify({ recentLines: turn.context, playerSays: turn.message, recentMemories: turn.memories });
   return [{ role: 'system', content: system }, { role: 'user', content: user }];
@@ -182,7 +196,8 @@ export function validateSpeakResult(data, turn) {
   }
   const npc = CHARACTERS[turn.npc];
   const emotion = turn.intent.mood || (npc.emotions.includes(data?.emotion) ? data.emotion : 'neutral');
-  return { reply, emotion };
+  const story = turn.stories?.find(a => a.id === data?.story);
+  return story ? { reply, emotion, anecdote: story.id } : { reply, emotion };
 }
 
 const ROUTES = {

@@ -33,8 +33,9 @@ for (const [root, prefix] of [['public', ''], ['assets', 'assets/']]) {
 assets['/'] = assets['/index.html'];
 
 const cards = await readFile('backend/npc-cards.mjs', 'utf8');
-const api = (await readFile('backend/api.mjs', 'utf8')).replace(/^import .*npc-cards\.mjs';\n/m, '');
-const worker = `${cards}\n${api}
+const lives = await readFile('backend/npc-lives.mjs', 'utf8');
+const api = (await readFile('backend/api.mjs', 'utf8')).replace(/^import .*npc-(cards|lives)\.mjs';\n/gm, '');
+const worker = `${cards}\n${lives}\n${api}
 const assets = ${JSON.stringify(assets)};
 const decode = b64 => Uint8Array.from(atob(b64), c => c.charCodeAt(0));
 export default {

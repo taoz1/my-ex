@@ -37,6 +37,7 @@ export function createState() {
     mapTime: 0,        // 进入当前地图后经过的秒数
     npcPos: {},        // 当前地图上走动过的 NPC 位置，离开地图时清空
     minds: {},         // npcId -> { trust }：NPC 对陈默的心态（见 minds.js）
+    told: {},          // npcId -> 讲过的小故事 id（backend/npc-lives.mjs），免得重复讲
     ended: false,
   };
 }

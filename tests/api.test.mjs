@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { handleApi, validateUnderstand, validateSpeak, validateSpeakResult, buildSpeakPrompt, numbersIn } from '../backend/api.mjs';
+import { LIVES } from '../backend/npc-lives.mjs';
+import { CHARACTERS } from '../backend/npc-cards.mjs';
 import { resolveFile } from '../server.mjs';
 
 const post = (path, body) => new Request(`http://localhost${path}`, {
@@ -88,6 +90,29 @@ test('blocked or malformed provider output becomes a redacted 502', async () => 
   const r = await handleApi(post('/api/speak', speak), env, async () => new Response('secret', { status: 401 }));
   assert.equal(r.status, 502);
   assert.ok(!(await r.text()).includes('secret'));
+});
+
+test('every character has a life and some untold stories; stories are not repeated', async () => {
+  for (const id of Object.keys(CHARACTERS)) {
+    const l = LIVES[id];
+    assert.ok(l?.life && l.anecdotes.length >= 2, `${id} needs a life and at least two stories`);
+    assert.equal(new Set(l.anecdotes.map(a => a.id)).size, l.anecdotes.length, `${id}: duplicate story id`);
+  }
+  const ask = told => validateSpeak({ npc: 'laokuang', scene: 'kuang_daily', message: '你年轻时候干嘛的？', intent: { act: 'anecdote' }, told });
+  const first = ask([]);
+  assert.equal(first.stories.length, LIVES.laokuang.anecdotes.length);
+  assert.match(buildSpeakPrompt(first)[0].content, /你可以讲的事/);
+  assert.match(buildSpeakPrompt(first)[0].content, /你的日常/);
+  assert.ok(!ask([LIVES.laokuang.anecdotes[0].id]).stories.some(a => a.id === LIVES.laokuang.anecdotes[0].id), 'told stories are not offered again');
+  const all = ask(LIVES.laokuang.anecdotes.map(a => a.id));
+  assert.equal(all.stories, undefined);
+  assert.equal(all.intent.act, 'answer', 'out of stories: just chat');
+  const koi = LIVES.laokuang.anecdotes[1].id;
+  const res = await handleApi(post('/api/speak', { npc: 'laokuang', scene: 'kuang_daily', message: '你那缸鱼养多久了', intent: { act: 'anecdote' }, told: [] }), env,
+    async () => reply(`{"reply":"那缸鱼啊……","emotion":"neutral","story":"${koi}"}`));
+  assert.equal((await res.json()).anecdote, koi);
+  const none = validateSpeakResult({ reply: '就随便聊聊。', story: 'made-up' }, first);
+  assert.equal(none.anecdote, undefined, 'an unknown story id is ignored');
 });
 
 test('prompt only includes the requested character', () => {

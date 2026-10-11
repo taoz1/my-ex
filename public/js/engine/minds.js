@@ -36,6 +36,13 @@ export const MINDS = {
   },
 };
 
+// 自由闲聊时让 AI 认的两个话题：问对方自己的事，或者请对方讲点有意思的。命中就讲一件小故事（backend/npc-lives.mjs）。
+export const CHAT_TOPICS = ['问对方自己的事、过去或爱好', '请对方讲个有意思的事'];
+// 随便闲聊时，每隔几句也会主动讲一件
+export const CASUAL_STORY_EVERY = 3;
+// 讲完一件之后，至少隔这么多句才讲下一件
+export const STORY_GAP = 2;
+
 export const TRUST_MIN = -3;
 export const TRUST_MAX = 3;
 
@@ -49,8 +56,14 @@ export function changeTrust(state, npc, delta) {
 }
 
 // said：AI 归类的结果 { act, topic, amount }。atChoice：剧情正等着玩家表态。
+// casualTurn：自由闲聊里第几句随便聊的话（每隔 CASUAL_STORY_EVERY 句主动讲一件小事）。
+// sinceStory：这段闲聊里距离上一次讲故事过了几句（刚讲完就先正常聊两句，别一个接一个地讲）。
 // 返回 NPC 意图 { act, mood, amount }，同时结算对 NPC 心态的影响。
-export function react(state, npc, said, { atChoice = false } = {}) {
+export function react(state, npc, said, { atChoice = false, casualTurn = 0, sinceStory = Infinity } = {}) {
+  const wantsStory = CHAT_TOPICS.includes(said.topic) || (said.act === 'chat' && casualTurn > 0 && casualTurn % CASUAL_STORY_EVERY === 0);
+  if (!atChoice && wantsStory && sinceStory >= STORY_GAP) {
+    return { act: 'anecdote', mood: null, amount: null };
+  }
   const rule = { ...BASE[said.act], ...MINDS[npc]?.[said.act] };
   if (rule.trust) changeTrust(state, npc, rule.trust);
   // 剧情等着他表态时想走：把人留住（真要走可以点 ×）

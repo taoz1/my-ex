@@ -17,6 +17,7 @@
   新写的剧情选项都要写 `on`；新场景在 `CHOICE_SCENES` 配场景。AI 没接通时，有分支的选项点走不下去（会显示原因）。
 - 剧情按幕拆文件：`public/js/engine/acts/`（act2 … finale），`story.js` 合并。剧情关键处若没有 AI 角色接话（警官、电话那头、陈默自己拿主意），`CHOICE_SCENES` 写 `{ scene: 'inner', npc: null }`：AI 只做理解，不编回应。
 - 选项匹配取最具体的：行为+话题 > 话题 > 行为 > '*'。说法分不出真假意图的地方（比如假装答应 vs 真去约小雯），用后面的动作来区分，不靠一句话。
+- 角色的生活和闲聊小故事在 `backend/npc-lives.mjs`（每个 AI 角色都要有 life 和至少两件 anecdotes）。自由闲聊时，玩家问对方自己的事、请对方讲点有意思的，或者随便聊了三句，NPC 就从没讲过的故事里挑最贴合的一件讲；讲完至少隔两句才讲下一件（`minds.js` 的 CHAT_TOPICS / CASUAL_STORY_EVERY / STORY_GAP）。讲过的记在 `state.told`。华埠的街坊阿伯和茶餐厅伙计随时可以闲聊。
 - 侧栏只保留任务说明和手机。属性、笔记、线索、版本档案仍在存档里记录（第一幕结束的总结会用），只是不显示。
 - 室内地图的人物按 `maps.js` 里的 `scale` 放大（租车行、晴晴家、父母家、下午茶 1.5，商场 1.25）。路灯这类竖着的物件只挡底座。
 - 开场不交代：进门不播旁白，让玩家自己找 NPC 聊。NPC 想主动找玩家时，在 `story.js` 的 `PLACEMENTS` 里给它加 `approach: { when, script, delay }`，它会在进图 delay 秒后走到玩家跟前开口（`world.js` 的 `updateApproach`）。序章的老邝就是这样。

@@ -6,13 +6,14 @@ Original generated images remain at their original tool-provided paths.
 import argparse
 import fcntl
 import json
+import os
 import sys
 from pathlib import Path
 
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
-MANIFEST = ROOT / "docs/art/generation_manifest.json"
+MANIFEST = ROOT / os.environ.get("ASSET_MANIFEST", "docs/art/generation_manifest.json")
 
 
 def normalize(asset):

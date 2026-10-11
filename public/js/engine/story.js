@@ -649,11 +649,14 @@ const BASE_SCRIPTS = {
   bed_idle: [
     N('现在还不想睡。'),
   ],
+  // 华埠街坊：打个招呼就可以随便聊（问问他们自己的事，他们会讲些街坊趣事）
   passerby_uncle: [
-    say('passerby', '后生仔，又来帮人睇数啊？你这个人啊，就是好讲话。'),
+    say('uncle', '后生仔，又来帮人睇数啊？你这个人啊，就是好讲话。'),
+    { chat: { npc: 'uncle', scene: 'chinatown_chat' } },
   ],
   passerby_waiter: [
-    say('passerby', '老邝那边又吵起来了？这条街上，什么事都传得快。'),
+    say('waiter', s => (s.quest === 'P0' || s.quest === 'P1' ? '老邝那边又吵起来了？这条街上，什么事都传得快。' : '陈哥！今天吃点什么？冻柠茶少甜是吧？')),
+    { chat: { npc: 'waiter', scene: 'chinatown_chat' } },
   ],
 };
 

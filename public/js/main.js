@@ -3,7 +3,7 @@ import { createState, applyFx, travel, rememberChat, serialize, deserialize } fr
 import { MAPS, DESTINATIONS, ARRIVALS } from './engine/maps.js';
 import { interaction, CHOICE_SCENES, STANCES } from './engine/story.js';
 import { startScript, nextStep, choose, choiceIsFree, matchOption, choiceTopics } from './engine/script.js';
-import { react } from './engine/minds.js';
+import { react, CHAT_TOPICS } from './engine/minds.js';
 import { movePlayer, nearestTarget, updateApproach } from './engine/world.js';
 import { SPEAKERS, AI_NPCS } from './engine/catalog.js';
 import { draw, debug } from './render.js';
@@ -195,6 +195,8 @@ function enterChoice(options) {
 
 function enterChat(npc, scene) {
   talk.mode = 'chat';
+  talk.casual = 0;
+  talk.sinceStory = Infinity;
   talk.chat = { npc, scene };
   if (!talk.phone) setPortrait(npc, 'neutral');
   showInput(ai.connected);
@@ -236,7 +238,7 @@ async function playerSays(message) {
   if (!scene) { appendError('这里没有可以接话的人。'); return; }
   const turn = { npc, scene, message, memories: npc ? (state.memories[npc] || []).slice(-6) : [], context: talk.lines };
 
-  const said = await askAi('/api/understand', { ...turn, topics: atChoice ? choiceTopics(state, talk.run) : [] });
+  const said = await askAi('/api/understand', { ...turn, topics: atChoice ? choiceTopics(state, talk.run) : CHAT_TOPICS });
   if (!said || talk.mode !== mode) return;
   state.lastSaid = { act: said.act, topic: said.topic, length: message.length };
   if (atChoice) {
@@ -250,11 +252,17 @@ async function playerSays(message) {
     setChatStatus('轮到你说话了。按 Esc 或 × 结束对话。');
     return;
   }
-  const intent = { ...react(state, npc, said, { atChoice }), stance: STANCES[scene]?.[npc]?.(state) ?? null };
-  const result = await askAi('/api/speak', { ...turn, intent });
+  if (!atChoice && said.act === 'chat' && !said.topic) talk.casual = (talk.casual || 0) + 1;
+  talk.sinceStory = (talk.sinceStory ?? Infinity) + 1;
+  const intent = { ...react(state, npc, said, { atChoice, casualTurn: talk.casual || 0, sinceStory: talk.sinceStory }), stance: STANCES[scene]?.[npc]?.(state) ?? null };
+  const result = await askAi('/api/speak', { ...turn, intent, told: state.told[npc] || [] });
   if (!result || talk.mode !== mode) return;
   if (!talk.phone) setPortrait(npc, result.emotion);
   appendLine(npc, result.reply);
+  if (result.anecdote) {
+    (state.told[npc] ??= []).push(result.anecdote);
+    talk.sinceStory = 0;
+  }
   remember('chen', message);
   remember(npc, result.reply);
   logPhone(`你：${message}`);

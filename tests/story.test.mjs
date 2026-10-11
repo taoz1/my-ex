@@ -4,7 +4,7 @@ import { createState, serialize, deserialize, applyFx } from '../public/js/engin
 import { SCRIPTS, CHOICE_SCENES } from '../public/js/engine/story.js';
 import { SCENES, ACTS, INTENTS, CHARACTERS } from '../backend/npc-cards.mjs';
 import { runScript, startScript, nextStep, choose, matchOption } from '../public/js/engine/script.js';
-import { MINDS, react, trust } from '../public/js/engine/minds.js';
+import { MINDS, react, trust, CHAT_TOPICS, CASUAL_STORY_EVERY } from '../public/js/engine/minds.js';
 import { AI_NPCS } from '../public/js/engine/catalog.js';
 import { CONTACTS, contactScene, search, comparePhotos, findCase, caseComplete } from '../public/js/engine/phone.js';
 import { startHeist, doAction, restore, flaws, endHeist, tick as heistTick, HEIST_MINUTES } from '../public/js/engine/heist.js';
@@ -120,6 +120,15 @@ test('deposit talk: amounts land in the right range and her bottom line needs tr
   assert.equal(option({ act: 'leave' }).goto, 'stay');              // 这时候说要走，她会留你
   assert.equal(react(state, 'qingqing', { act: 'pressure' }).act, 'refuse');
   assert.equal(trust(state, 'qingqing'), 0);
+});
+
+test('free chat: asking about someone, or chatting long enough, gets a story', () => {
+  const state = createState();
+  assert.equal(react(state, 'fangjie', { act: 'ask', topic: CHAT_TOPICS[0] }).act, 'anecdote');
+  assert.equal(react(state, 'fangjie', { act: 'chat' }, { casualTurn: 1 }).act, 'answer');
+  assert.equal(react(state, 'fangjie', { act: 'chat' }, { casualTurn: CASUAL_STORY_EVERY }).act, 'anecdote');
+  assert.equal(react(state, 'fangjie', { act: 'ask', topic: CHAT_TOPICS[1] }, { atChoice: true }).act, 'answer', 'not while the story waits for you');
+  assert.equal(react(state, 'fangjie', { act: 'ask', topic: CHAT_TOPICS[0] }, { sinceStory: 1 }).act, 'answer', 'just told one: chat a bit first');
 });
 
 test('wildcard options only catch what nothing else matches', () => {

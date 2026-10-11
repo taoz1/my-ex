@@ -9,6 +9,8 @@ export const SPEAKERS = {
   chen_mother: { name: '妈妈', role: '陈默的母亲', color: '#9c8fb8', portrait: 'chen_mother' },
   qinyue: { name: '秦岳', role: '电话那头 · K', color: '#6b7a8f', portrait: 'qin_yue' },
   passerby: { name: '路人', role: '华埠街坊', color: '#7d8c99', portrait: null },
+  uncle: { name: '街坊阿伯', role: '华埠的老街坊', color: '#8c7d6b', portrait: null },
+  waiter: { name: '茶餐厅伙计', role: '华埠茶餐厅', color: '#a36b52', portrait: null },
   // 第二幕
   xiaowen: { name: '小雯', role: '国内的老朋友', color: '#d39b6a', portrait: 'xiaowen' },
   akang: { name: '阿康', role: '共同好友', color: '#6a9bd3', portrait: 'akang' },
@@ -46,7 +48,7 @@ export const SPEAKERS = {
 };
 
 // 由 AI 扮演、能自由对话的角色（backend/npc-cards.mjs 里有角色卡）
-export const AI_NPCS = ['qingqing', 'laokuang', 'fangjie', 'chen_mother', 'akang', 'xiaowen', 'shenman', 'azhen', 'linda', 'laozhong', 'michael', 'xiaomo', 'zhaohui', 'tongxue', 'coco', 'eric', 'xiaowu'];
+export const AI_NPCS = ['qingqing', 'laokuang', 'fangjie', 'chen_mother', 'akang', 'xiaowen', 'shenman', 'azhen', 'linda', 'laozhong', 'michael', 'xiaomo', 'zhaohui', 'tongxue', 'coco', 'eric', 'xiaowu', 'uncle', 'waiter'];
 
 // 证据 / 物件。img 对应 assets/items/ 下的文件名（不含扩展名）。
 export const EVIDENCE = {
