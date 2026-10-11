@@ -1,0 +1,1083 @@
+{
+  "source_document": "docs/art/文生图素材清单_第一批.md",
+  "mode": "built-in image_gen",
+  "assets": [
+    {
+      "path": "assets/portraits/chen_mo_neutral.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. A Chinese-American man in his mid-40s, short black hair with a little grey at the temples, gentle but slightly tired face, navy blue windbreaker jacket over a grey polo shirt. Calm, friendly expression, a mediator's easygoing smile.",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-dd2d30fd-d96b-45e0-8f2e-02d0a3c3a36d.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. A Chinese-American man in his mid-40s, short black hair with a little grey at the temples, gentle but slightly tired face, navy blue windbreaker jacket over a grey polo shirt. Calm, friendly expression, a mediator's easygoing smile.\nAsset specification: a single PNG image, exactly 1024x1024 pixels; actual alpha transparency outside the bust, no background or decorative framing, clearly visible crisp square pixel clusters. Intended filename chen_mo_neutral.png.",
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/portraits/chen_mo_uneasy.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. The same Chinese-American man in his mid-40s, short black hair with a little grey at the temples, navy blue windbreaker over a grey polo shirt. Uneasy expression, brows slightly knitted, eyes looking sideways, as if noticing something that doesn't add up.",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-7fcb733b-65bf-4396-b977-0de9df006074.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. The same Chinese-American man in his mid-40s, short black hair with a little grey at the temples, navy blue windbreaker over a grey polo shirt. Uneasy expression, brows slightly knitted, eyes looking sideways, as if noticing something that doesn't add up.\nInput image 1: canonical identity and pixel-art style reference for this character. Preserve the same face, hairstyle, clothing colors and details. For portraits change only the requested expression and pose. For sprites adapt this identity to a full-body overhead RPG view.\nAsset specification: one PNG intended as assets/portraits/chen_mo_uneasy.png, final canvas 1024x1024 pixels. Crisp square pixel clusters, consistent 16-bit RPG art and warm colors with muted teal shadows.\nReal alpha transparency outside the character or item, not a painted checkerboard or colored background.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/portraits/chen_mo_neutral.png"
+      ],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/portraits/qingqing_neutral.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. A slim 25-year-old Chinese woman, long straight black hair, polished makeup, wearing a long-sleeved beige designer coat with high collar, oversized luxury sunglasses pushed up on her head (no logo). Composed, slightly haughty posture, a practiced elegant half-smile, the air of a rich heiress she is performing.",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-5066e0a4-0243-4e9d-9fa6-6226915ac029.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, slight three-quarter view, transparent background. A slim 25-year-old Chinese woman, long straight black hair, polished makeup, wearing a long-sleeved beige designer coat with high collar, oversized luxury sunglasses pushed up on her head (no logo). Composed, slightly haughty posture, a practiced elegant half-smile, the air of a rich heiress she is performing.\nAsset specification: a single square PNG, exactly 1024x1024 pixels. Real alpha transparency outside the bust, no framing. Crisp square pixel clusters; fully visible head and shoulders. Match the 16-bit pixel art rendering and warm muted palette of the project.",
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/portraits/qingqing_sweet.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, transparent background. The same slim 25-year-old Chinese woman, long straight black hair, long-sleeved beige designer coat. Sweet, coquettish expression, head tilted, big soft eyes, playful pout, warm and charming.",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-f1e047e3-6149-4543-b0e1-57497db689e9.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, transparent background. The same slim 25-year-old Chinese woman, long straight black hair, long-sleeved beige designer coat. Sweet, coquettish expression, head tilted, big soft eyes, playful pout, warm and charming.\nUse case: identity-preserve. Input image 1 is the neutral portrait identity and style reference. Preserve exactly the same woman, facial structure, straight long black hair, beige long-sleeved high-collar coat, and head-mounted sunglasses. Change only the expression and pose requested above. PNG 1024x1024, genuine transparent background; crisp pixel clusters, no text.",
+      "reference_images": [
+        "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-5066e0a4-0243-4e9d-9fa6-6226915ac029.png"
+      ],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/portraits/qingqing_angry.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, transparent background. The same slim 25-year-old Chinese woman, long straight black hair, long-sleeved beige designer coat. Sharp angry expression, raised voice, eyebrows up, pointing a finger forward, confrontational and accusing.",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-5468c274-ed0b-4f7d-950e-5ab26c240a5d.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, transparent background. The same slim 25-year-old Chinese woman, long straight black hair, long-sleeved beige designer coat. Sharp angry expression, raised voice, eyebrows up, pointing a finger forward, confrontational and accusing.\nUse case: identity-preserve. Input image 1 is the neutral portrait identity and style reference. Preserve exactly the same woman, facial structure, straight long black hair, beige long-sleeved high-collar coat, and head-mounted sunglasses. Change only the expression and pose requested above. PNG 1024x1024, genuine transparent background; crisp pixel clusters, no text.",
+      "reference_images": [
+        "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-5066e0a4-0243-4e9d-9fa6-6226915ac029.png"
+      ],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/portraits/qingqing_wronged.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, transparent background. The same slim 25-year-old Chinese woman, long straight black hair, long-sleeved beige designer coat. Wronged, tearful expression, eyes glistening, lips trembling, hugging her own arms, looking vulnerable.",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-f01f0a49-5d3d-459e-bab3-fb7d48ea8d41.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, transparent background. The same slim 25-year-old Chinese woman, long straight black hair, long-sleeved beige designer coat. Wronged, tearful expression, eyes glistening, lips trembling, hugging her own arms, looking vulnerable.\nUse case: identity-preserve. Input image 1 is the neutral portrait identity and style reference. Preserve exactly the same woman, facial structure, straight long black hair, beige long-sleeved high-collar coat, and head-mounted sunglasses. Change only the expression and pose requested above. PNG 1024x1024, genuine transparent background; crisp pixel clusters, no text.",
+      "reference_images": [
+        "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-5066e0a4-0243-4e9d-9fa6-6226915ac029.png"
+      ],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/portraits/qingqing_cold.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, transparent background. The same slim 25-year-old Chinese woman, long straight black hair, long-sleeved beige designer coat, oversized sunglasses worn over her eyes. Cold, impatient, dismissive expression, chin raised, phone in hand.",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-4d8b44bd-103f-441f-8fed-1d643b11f261.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, transparent background. The same slim 25-year-old Chinese woman, long straight black hair, long-sleeved beige designer coat, oversized sunglasses worn over her eyes. Cold, impatient, dismissive expression, chin raised, phone in hand.\nInput image 1: canonical identity and pixel-art style reference for this character. Preserve the same face, hairstyle, clothing colors and details. For portraits change only the requested expression and pose. For sprites adapt this identity to a full-body overhead RPG view.\nAsset specification: one PNG intended as assets/portraits/qingqing_cold.png, final canvas 1024x1024 pixels. Crisp square pixel clusters, consistent 16-bit RPG art and warm colors with muted teal shadows.\nReal alpha transparency outside the character or item, not a painted checkerboard or colored background.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/portraits/qingqing_neutral.png"
+      ],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/portraits/qingqing_lookdown.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, transparent background. The same slim 25-year-old Chinese woman, long straight black hair, long-sleeved beige designer coat. Head lowered, eyes looking down at a table, but glancing up sideways through her lashes to watch the listener's reaction. Subtly guilty, calculating.",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-71ab5756-a39c-4906-8df4-af3db8e115a7.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nEdit target: the supplied portrait. Preserve the identical 25-year-old Chinese woman, face identity, makeup, long straight black hair, beige long-sleeve high-collar designer coat, gold sunglasses on top of head, earrings, transparency and square bust framing. Change only head angle and gaze. Her head is unmistakably bowed downward toward an unseen table: chin tucked toward chest, top of head visibly tilted toward camera, nose pointing down, eyes mostly cast downward but making a subtle furtive sideways glance upward through the lashes at the listener. Calculating and subtly guilty. She is not facing the viewer with head upright and is not smiling coquettishly. The bowed head must be clearly distinguishable from the neutral portrait. Do not add a table or any background. One 1024x1024 PNG with actual transparent background.",
+      "reference_images": [
+        "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-aad50016-bc18-48c8-a4a9-7f70a1fadf97.png"
+      ],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA",
+      "discarded_sources": [
+        "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-aad50016-bc18-48c8-a4a9-7f70a1fadf97.png"
+      ]
+    },
+    {
+      "path": "assets/portraits/laokuang_neutral.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, transparent background. A stocky Chinese man in his 50s, buzz cut, open dark jacket over a white tank top, spinning a ring of car keys on one finger. Loud, shrewd, money-minded expression, slightly anxious under the bravado.",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-7111f9cb-f3e3-4050-b912-b10ea17f193a.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, transparent background. A stocky Chinese man in his 50s, buzz cut, open dark jacket over a white tank top, spinning a ring of car keys on one finger. Loud, shrewd, money-minded expression, slightly anxious under the bravado.\nAsset specification: a single square PNG, exactly 1024x1024 pixels. Real alpha transparency outside the bust, no framing. Crisp square pixel clusters; fully visible head and shoulders. Match the 16-bit pixel art rendering and warm muted palette of the project.",
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/portraits/laokuang_panic.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, transparent background. The same stocky Chinese man in his 50s, buzz cut, open dark jacket over a white tank top. Panicked expression, sweating, hands raised as if saying \"let's not call the police\".",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-6ffd0599-0a54-410f-a723-e8bd81c92da6.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, transparent background. The same stocky Chinese man in his 50s, buzz cut, open dark jacket over a white tank top. Panicked expression, sweating, hands raised as if saying \"let's not call the police\".\nInput image 1: canonical identity and pixel-art style reference for this character. Preserve the same face, hairstyle, clothing colors and details. For portraits change only the requested expression and pose. For sprites adapt this identity to a full-body overhead RPG view.\nAsset specification: one PNG intended as assets/portraits/laokuang_panic.png, final canvas 1024x1024 pixels. Crisp square pixel clusters, consistent 16-bit RPG art and warm colors with muted teal shadows.\nReal alpha transparency outside the character or item, not a painted checkerboard or colored background.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/portraits/laokuang_neutral.png"
+      ],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/portraits/fangjie_neutral.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, transparent background. A Chinese woman around 50, short permed hair, plain cardigan, kitchen apron. Eager-to-please smile, but slightly nervous eyes.",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-d1c17a41-23da-4f3c-b01d-fed41cc6cdab.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, transparent background. A Chinese woman around 50, short permed hair, plain cardigan, kitchen apron. Eager-to-please smile, but slightly nervous eyes.\nAsset specification: a single square PNG, exactly 1024x1024 pixels. Real alpha transparency outside the bust, no framing. Crisp square pixel clusters; fully visible head and shoulders. Match the 16-bit pixel art rendering and warm muted palette of the project.",
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/portraits/chen_mother.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, transparent background. A Chinese woman in her 60s, short grey-white hair, knitted cardigan, warm and kind face, but with perceptive, worried eyes, speaking quietly to her son.",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-ad1c47f3-7753-4c30-82af-8e3a176df313.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCharacter dialogue portrait, bust shot, transparent background. A Chinese woman in her 60s, short grey-white hair, knitted cardigan, warm and kind face, but with perceptive, worried eyes, speaking quietly to her son.\nAsset specification: a single square PNG, exactly 1024x1024 pixels. Real alpha transparency outside the bust, no framing. Crisp square pixel clusters; fully visible head and shoulders. Match the 16-bit pixel art rendering and warm muted palette of the project.",
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/portraits/qin_yue_videocall.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": false,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nA low-quality prison video call screen framed like a phone video chat, NOT transparent. A Chinese man in his 40s with a puffy, aged face, buzz cut, wearing a khaki prison uniform, sitting in front of a plain cinderblock wall, forced confident smile. Slight video compression blur and scanlines. No text, no UI labels.",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-bd313192-1f3a-45bb-8c40-2079ec5f1214.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nA low-quality prison video call screen framed like a phone video chat, NOT transparent. A Chinese man in his 40s with a puffy, aged face, buzz cut, wearing a khaki prison uniform, sitting in front of a plain cinderblock wall, forced confident smile. Slight video compression blur and scanlines. No text, no UI labels.\nAsset specification: one PNG intended as assets/portraits/qin_yue_videocall.png, final canvas 1024x1024 pixels. Crisp square pixel clusters, consistent 16-bit RPG art and warm colors with muted teal shadows.\nEntire image is opaque.",
+      "reference_images": [],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGB"
+    },
+    {
+      "path": "assets/sprites/chen_mo.png",
+      "size": [
+        1024,
+        256
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down RPG character sprite sheet, transparent background, 4 frames in a single row, evenly spaced: facing down, facing left, facing right, facing up. Full-body standing pose, same size, feet aligned. A Chinese-American man in his 40s, short black hair, navy blue windbreaker, grey polo, khaki pants.",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-ec611ea3-d2cf-42e3-8a20-a80fc0fa79d3.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down RPG character sprite sheet, transparent background, 4 frames in a single row, evenly spaced: facing down, facing left, facing right, facing up. Full-body standing pose, same size, feet aligned. A Chinese-American man in his 40s, short black hair, navy blue windbreaker, grey polo, khaki pants.\nInput image 1: canonical identity and pixel-art style reference for this character. Preserve the same face, hairstyle, clothing colors and details. For portraits change only the requested expression and pose. For sprites adapt this identity to a full-body overhead RPG view.\nAsset specification: one PNG intended as assets/sprites/chen_mo.png, final canvas 1024x256 pixels. Crisp square pixel clusters, consistent 16-bit RPG art and warm colors with muted teal shadows.\nSingle horizontal row of exactly 4 separate full-body figures with broad empty transparent gutters. No other rows. Do not crop hair, hands or shoes. Consistent size and overhead 3/4 RPG view. Strict left-to-right order: front facing down toward viewer; left profile facing image left; right profile facing image right; back facing up away from viewer. Identical clothing and standing pose in all four directions. Real alpha transparency, no floor, no backdrop, no cast shadows, no frames, no labels.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/portraits/chen_mo_neutral.png"
+      ],
+      "generated_size": [
+        2172,
+        724
+      ],
+      "frame_boxes": [
+        [
+          68,
+          15,
+          187,
+          244
+        ],
+        [
+          339,
+          12,
+          428,
+          244
+        ],
+        [
+          595,
+          12,
+          684,
+          244
+        ],
+        [
+          837,
+          15,
+          954,
+          244
+        ]
+      ],
+      "frame_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "final_size": [
+        1024,
+        256
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/sprites/qingqing.png",
+      "size": [
+        1024,
+        256
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down RPG character sprite sheet, transparent background, 4 frames in a single row, evenly spaced: facing down, facing left, facing right, facing up. Full-body standing pose, same size, feet aligned. A slim young Chinese woman, long straight black hair, long beige designer coat, long pants, oversized sunglasses on head, carrying a small luxury handbag (no logo).",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-243dc392-7bad-40cb-8038-1d7870f076bb.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down RPG character sprite sheet, transparent background, 4 frames in a single row, evenly spaced: facing down, facing left, facing right, facing up. Full-body standing pose, same size, feet aligned. A slim young Chinese woman, long straight black hair, long beige designer coat, long pants, oversized sunglasses on head, carrying a small luxury handbag (no logo).\nInput image 1: canonical identity and pixel-art style reference for this character. Preserve the same face, hairstyle, clothing colors and details. For portraits change only the requested expression and pose. For sprites adapt this identity to a full-body overhead RPG view.\nAsset specification: one PNG intended as assets/sprites/qingqing.png, final canvas 1024x256 pixels. Crisp square pixel clusters, consistent 16-bit RPG art and warm colors with muted teal shadows.\nSingle horizontal row of exactly 4 separate full-body figures with broad empty transparent gutters. No other rows. Do not crop hair, hands or shoes. Consistent size and overhead 3/4 RPG view. Strict left-to-right order: front facing down toward viewer; left profile facing image left; right profile facing image right; back facing up away from viewer. Identical clothing and standing pose in all four directions. Real alpha transparency, no floor, no backdrop, no cast shadows, no frames, no labels.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/portraits/qingqing_neutral.png"
+      ],
+      "generated_size": [
+        1983,
+        793
+      ],
+      "frame_boxes": [
+        [
+          74,
+          12,
+          182,
+          244
+        ],
+        [
+          337,
+          17,
+          430,
+          244
+        ],
+        [
+          593,
+          17,
+          686,
+          244
+        ],
+        [
+          842,
+          13,
+          950,
+          244
+        ]
+      ],
+      "frame_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "final_size": [
+        1024,
+        256
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/sprites/laokuang.png",
+      "size": [
+        1024,
+        256
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down RPG character sprite sheet, transparent background, 4 frames in a single row, evenly spaced: facing down, facing left, facing right, facing up. Full-body standing pose, same size, feet aligned. A stocky Chinese man in his 50s, buzz cut, open dark jacket, white tank top, dark trousers.",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-57011577-6177-410e-90e1-e848a50283ef.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down RPG character sprite sheet, transparent background, 4 frames in a single row, evenly spaced: facing down, facing left, facing right, facing up. Full-body standing pose, same size, feet aligned. A stocky Chinese man in his 50s, buzz cut, open dark jacket, white tank top, dark trousers.\nInput image 1: canonical identity and pixel-art style reference for this character. Preserve the same face, hairstyle, clothing colors and details. For portraits change only the requested expression and pose. For sprites adapt this identity to a full-body overhead RPG view.\nAsset specification: one PNG intended as assets/sprites/laokuang.png, final canvas 1024x256 pixels. Crisp square pixel clusters, consistent 16-bit RPG art and warm colors with muted teal shadows.\nSingle horizontal row of exactly 4 separate full-body figures with broad empty transparent gutters. No other rows. Do not crop hair, hands or shoes. Consistent size and overhead 3/4 RPG view. Strict left-to-right order: front facing down toward viewer; left profile facing image left; right profile facing image right; back facing up away from viewer. Identical clothing and standing pose in all four directions. Real alpha transparency, no floor, no backdrop, no cast shadows, no frames, no labels.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/portraits/laokuang_neutral.png"
+      ],
+      "generated_size": [
+        1983,
+        793
+      ],
+      "frame_boxes": [
+        [
+          52,
+          20,
+          203,
+          244
+        ],
+        [
+          330,
+          12,
+          438,
+          244
+        ],
+        [
+          585,
+          12,
+          694,
+          244
+        ],
+        [
+          822,
+          22,
+          970,
+          244
+        ]
+      ],
+      "frame_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "final_size": [
+        1024,
+        256
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/sprites/fangjie.png",
+      "size": [
+        1024,
+        256
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down RPG character sprite sheet, transparent background, 4 frames in a single row, evenly spaced: facing down, facing left, facing right, facing up. Full-body standing pose, same size, feet aligned. A Chinese woman around 50, short permed hair, cardigan, apron.",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-840dedeb-5c0b-4fe4-8ffc-e4da2891e480.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down RPG character sprite sheet, transparent background, 4 frames in a single row, evenly spaced: facing down, facing left, facing right, facing up. Full-body standing pose, same size, feet aligned. A Chinese woman around 50, short permed hair, cardigan, apron.\nInput image 1: canonical identity and pixel-art style reference for this character. Preserve the same face, hairstyle, clothing colors and details. For portraits change only the requested expression and pose. For sprites adapt this identity to a full-body overhead RPG view.\nAsset specification: one PNG intended as assets/sprites/fangjie.png, final canvas 1024x256 pixels. Crisp square pixel clusters, consistent 16-bit RPG art and warm colors with muted teal shadows.\nSingle horizontal row of exactly 4 separate full-body figures with broad empty transparent gutters. No other rows. Do not crop hair, hands or shoes. Consistent size and overhead 3/4 RPG view. Strict left-to-right order: front facing down toward viewer; left profile facing image left; right profile facing image right; back facing up away from viewer. Identical clothing and standing pose in all four directions. Real alpha transparency, no floor, no backdrop, no cast shadows, no frames, no labels.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/portraits/fangjie_neutral.png"
+      ],
+      "generated_size": [
+        1983,
+        793
+      ],
+      "frame_boxes": [
+        [
+          73,
+          13,
+          182,
+          244
+        ],
+        [
+          340,
+          12,
+          428,
+          244
+        ],
+        [
+          596,
+          12,
+          684,
+          244
+        ],
+        [
+          842,
+          14,
+          950,
+          244
+        ]
+      ],
+      "frame_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "final_size": [
+        1024,
+        256
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/sprites/chen_mother.png",
+      "size": [
+        1024,
+        256
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down RPG character sprite sheet, transparent background, 4 frames in a single row, evenly spaced: facing down, facing left, facing right, facing up. Full-body standing pose, same size, feet aligned. A Chinese woman in her 60s, short grey-white hair, knitted cardigan, slacks.",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-62962a73-75b6-48e7-94f4-8268965d08f8.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down RPG character sprite sheet, transparent background, 4 frames in a single row, evenly spaced: facing down, facing left, facing right, facing up. Full-body standing pose, same size, feet aligned. A Chinese woman in her 60s, short grey-white hair, knitted cardigan, slacks.\nInput image 1: canonical identity and pixel-art style reference for this character. Preserve the same face, hairstyle, clothing colors and details. For portraits change only the requested expression and pose. For sprites adapt this identity to a full-body overhead RPG view.\nAsset specification: one PNG intended as assets/sprites/chen_mother.png, final canvas 1024x256 pixels. Crisp square pixel clusters, consistent 16-bit RPG art and warm colors with muted teal shadows.\nSingle horizontal row of exactly 4 separate full-body figures with broad empty transparent gutters. No other rows. Do not crop hair, hands or shoes. Consistent size and overhead 3/4 RPG view. Strict left-to-right order: front facing down toward viewer; left profile facing image left; right profile facing image right; back facing up away from viewer. Identical clothing and standing pose in all four directions. Real alpha transparency, no floor, no backdrop, no cast shadows, no frames, no labels.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/portraits/chen_mother.png"
+      ],
+      "generated_size": [
+        2172,
+        724
+      ],
+      "frame_boxes": [
+        [
+          66,
+          14,
+          189,
+          244
+        ],
+        [
+          339,
+          12,
+          428,
+          244
+        ],
+        [
+          595,
+          12,
+          684,
+          244
+        ],
+        [
+          835,
+          16,
+          956,
+          244
+        ]
+      ],
+      "frame_order": [
+        "down",
+        "left",
+        "right",
+        "up"
+      ],
+      "final_size": [
+        1024,
+        256
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/sprites/npc_generic.png",
+      "size": [
+        1024,
+        256
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down RPG character sprite sheet, transparent background, 8 different background characters in a single row, all facing down, full-body standing, same size, feet aligned: an elderly Chinese grandpa, a young Asian woman office worker, a white male real estate agent in a suit, a Latino shop clerk, a Chinese teenage boy in a hoodie, a middle-aged Chinese woman with shopping bags, a Black female security guard, an elderly white man with a cap.",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-8156566a-7717-41c6-ac54-06e852237d54.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down RPG character sprite sheet, transparent background, 8 different background characters in a single row, all facing down, full-body standing, same size, feet aligned: an elderly Chinese grandpa, a young Asian woman office worker, a white male real estate agent in a suit, a Latino shop clerk, a Chinese teenage boy in a hoodie, a middle-aged Chinese woman with shopping bags, a Black female security guard, an elderly white man with a cap.\nAsset specification: one PNG intended as assets/sprites/npc_generic.png, final canvas 1024x256 pixels. Crisp square pixel clusters, consistent 16-bit RPG art and warm colors with muted teal shadows.\nSingle horizontal row of exactly 8 separate full-body figures with broad empty transparent gutters. No other rows. Do not crop hair, hands or shoes. Consistent size and overhead 3/4 RPG view. All eight figures face down toward the viewer in the exact requested left-to-right order. Real alpha transparency, no floor, no backdrop, no cast shadows, no frames, no labels.",
+      "reference_images": [],
+      "generated_size": [
+        2172,
+        724
+      ],
+      "frame_boxes": [
+        [
+          16,
+          51,
+          112,
+          244
+        ],
+        [
+          151,
+          34,
+          233,
+          244
+        ],
+        [
+          272,
+          35,
+          368,
+          244
+        ],
+        [
+          399,
+          40,
+          497,
+          244
+        ],
+        [
+          530,
+          47,
+          621,
+          244
+        ],
+        [
+          646,
+          50,
+          762,
+          244
+        ],
+        [
+          783,
+          30,
+          881,
+          244
+        ],
+        [
+          905,
+          47,
+          1014,
+          244
+        ]
+      ],
+      "frame_order": [
+        "down",
+        "down",
+        "down",
+        "down",
+        "down",
+        "down",
+        "down",
+        "down"
+      ],
+      "final_size": [
+        1024,
+        256
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/maps/rental_shop.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "transparent": false,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down 3/4 view RPG interior map, no characters. A small, cluttered Chinese-run car rental office in an American city: a worn leather sofa, a coffee table with a tea set, a desk with an old computer and stacks of paper, a wall board hung with car keys, a water dispenser, a lucky cat figurine, a glass door at the bottom leading to a small parking lot with two older sedans. Fluorescent lighting, slightly shabby but busy. Clear walkable floor space in the middle.",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-0c4ad258-d226-4e78-8d80-fcd88a5ffbe4.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down 3/4 view RPG interior map, no characters. A small, cluttered Chinese-run car rental office in an American city: a worn leather sofa, a coffee table with a tea set, a desk with an old computer and stacks of paper, a wall board hung with car keys, a water dispenser, a lucky cat figurine, a glass door at the bottom leading to a small parking lot with two older sedans. Fluorescent lighting, slightly shabby but busy. Clear walkable floor space in the middle.\nAsset specification: one PNG intended as assets/maps/rental_shop.png, final canvas 1536x1024 pixels. Crisp square pixel clusters, consistent 16-bit RPG art and warm colors with muted teal shadows.\nThis is a playable scene map: unified overhead 3/4 perspective, no horizon or sky, clear continuous walkable floors/roads, no people even in photos or decorative statues, no text or lettering on storefronts or signs. Full-bleed opaque scene.",
+      "reference_images": [],
+      "generated_size": [
+        1536,
+        1024
+      ],
+      "final_size": [
+        1536,
+        1024
+      ],
+      "final_mode": "RGB"
+    },
+    {
+      "path": "assets/maps/chinatown_street.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "transparent": false,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down 3/4 view RPG outdoor town map, no characters. A Chinatown street block in a West Coast American city: a Cantonese tea restaurant, a small car rental office with a parking lot, a feng shui / fortune-telling shop, a skincare direct-sales storefront, a bakery, a bus stop, red lanterns over the street, parked cars, sidewalks and a crosswalk. Late afternoon light. Wide walkable streets and sidewalks.",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-1379774f-278d-4b53-8820-29207e4738a0.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down 3/4 view RPG outdoor town map, no characters. A Chinatown street block in a West Coast American city: a Cantonese tea restaurant, a small car rental office with a parking lot, a feng shui / fortune-telling shop, a skincare direct-sales storefront, a bakery, a bus stop, red lanterns over the street, parked cars, sidewalks and a crosswalk. Late afternoon light. Wide walkable streets and sidewalks.\nAsset specification: one PNG intended as assets/maps/chinatown_street.png, final canvas 1536x1024 pixels. Crisp square pixel clusters, consistent 16-bit RPG art and warm colors with muted teal shadows.\nThis is a playable scene map: unified overhead 3/4 perspective, no horizon or sky, clear continuous walkable floors/roads, no people even in photos or decorative statues, no text or lettering on storefronts or signs. Full-bleed opaque scene.",
+      "reference_images": [],
+      "generated_size": [
+        1536,
+        1024
+      ],
+      "final_size": [
+        1536,
+        1024
+      ],
+      "final_mode": "RGB"
+    },
+    {
+      "path": "assets/maps/qingqing_house_a.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "transparent": false,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down 3/4 view RPG interior map of a furnished rented single-family house, no characters, cut-away walls showing several rooms: a master bedroom with blackout curtains and a large vanity full of skincare products, a small nanny's room, a guest bedroom with a single bed, an open living room with a beige sofa and a security camera in the corner, a kitchen. Stylish but impersonal, like a rental, a few luxury shopping bags on the floor. Walkable hallways.",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-96476cca-8060-4b99-824d-7fc8850a1298.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down 3/4 view RPG interior map of a furnished rented single-family house, no characters, cut-away walls showing several rooms: a master bedroom with blackout curtains and a large vanity full of skincare products, a small nanny's room, a guest bedroom with a single bed, an open living room with a beige sofa and a security camera in the corner, a kitchen. Stylish but impersonal, like a rental, a few luxury shopping bags on the floor. Walkable hallways.\nAsset specification: one PNG intended as assets/maps/qingqing_house_a.png, final canvas 1536x1024 pixels. Crisp square pixel clusters, consistent 16-bit RPG art and warm colors with muted teal shadows.\nThis is a playable scene map: unified overhead 3/4 perspective, no horizon or sky, clear continuous walkable floors/roads, no people even in photos or decorative statues, no text or lettering on storefronts or signs. Full-bleed opaque scene.",
+      "reference_images": [],
+      "generated_size": [
+        1536,
+        1024
+      ],
+      "final_size": [
+        1536,
+        1024
+      ],
+      "final_mode": "RGB"
+    },
+    {
+      "path": "assets/maps/mall.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "transparent": false,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down 3/4 view RPG interior map of an upscale American shopping mall, no characters: polished marble floor, luxury boutique storefronts without logos, a central fountain, benches, potted palms, an escalator, a cafe corner. Bright, glossy, expensive atmosphere. Wide walkable corridors.",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-a7a6a221-bd51-4b66-ba19-9b2c2de4257a.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down 3/4 view RPG interior map of an upscale American shopping mall, no characters: polished marble floor, luxury boutique storefronts without logos, a central fountain, benches, potted palms, an escalator, a cafe corner. Bright, glossy, expensive atmosphere. Wide walkable corridors.\nAsset specification: one PNG intended as assets/maps/mall.png, final canvas 1536x1024 pixels. Crisp square pixel clusters, consistent 16-bit RPG art and warm colors with muted teal shadows.\nThis is a playable scene map: unified overhead 3/4 perspective, no horizon or sky, clear continuous walkable floors/roads, no people even in photos or decorative statues, no text or lettering on storefronts or signs. Full-bleed opaque scene.",
+      "reference_images": [],
+      "generated_size": [
+        1536,
+        1024
+      ],
+      "final_size": [
+        1536,
+        1024
+      ],
+      "final_mode": "RGB"
+    },
+    {
+      "path": "assets/maps/japantown_sakura.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "transparent": false,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down 3/4 view RPG outdoor map, no characters: a Japantown plaza during a cherry blossom festival, rows of blooming pink sakura trees, a pagoda tower, food stalls with paper lanterns, a small stage, stone paths, petals drifting on the ground. Bright spring morning light. Walkable paths.",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-2a3bb641-1d6c-49b6-baa1-63d6cf7ef179.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down 3/4 view RPG outdoor map, no characters: a Japantown plaza during a cherry blossom festival, rows of blooming pink sakura trees, a pagoda tower, food stalls with paper lanterns, a small stage, stone paths, petals drifting on the ground. Bright spring morning light. Walkable paths.\nAsset specification: one PNG intended as assets/maps/japantown_sakura.png, final canvas 1536x1024 pixels. Crisp square pixel clusters, consistent 16-bit RPG art and warm colors with muted teal shadows.\nThis is a playable scene map: unified overhead 3/4 perspective, no horizon or sky, clear continuous walkable floors/roads, no people even in photos or decorative statues, no text or lettering on storefronts or signs. Full-bleed opaque scene.",
+      "reference_images": [],
+      "generated_size": [
+        1536,
+        1024
+      ],
+      "final_size": [
+        1536,
+        1024
+      ],
+      "final_mode": "RGB"
+    },
+    {
+      "path": "assets/maps/chen_parents_home.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "transparent": false,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down 3/4 view RPG interior map of a modest, warm Chinese-American family home, no characters: a round dining table with many home-cooked dishes for a family dinner, a living room with an old sofa and a TV, family photos on the wall, a small kitchen, a balcony with potted plants. Cozy evening light. Walkable floor space.",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-603a5776-cea4-4a08-bc85-9daeb2d03c22.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down 3/4 view RPG interior map of a modest, warm Chinese-American family home, no characters: a round dining table with many home-cooked dishes for a family dinner, a living room with an old sofa and a TV, family photos on the wall, a small kitchen, a balcony with potted plants. Cozy evening light. Walkable floor space.\nAsset specification: one PNG intended as assets/maps/chen_parents_home.png, final canvas 1536x1024 pixels. Crisp square pixel clusters, consistent 16-bit RPG art and warm colors with muted teal shadows.\nThis is a playable scene map: unified overhead 3/4 perspective, no horizon or sky, clear continuous walkable floors/roads, no people even in photos or decorative statues, no text or lettering on storefronts or signs. Full-bleed opaque scene.",
+      "reference_images": [],
+      "generated_size": [
+        1536,
+        1024
+      ],
+      "final_size": [
+        1536,
+        1024
+      ],
+      "final_mode": "RGB"
+    },
+    {
+      "path": "assets/maps/golf_range.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "transparent": false,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down 3/4 view RPG outdoor map, no characters: a public golf driving range, a row of practice bays with ball buckets, green turf with distance markers, a small clubhouse with a cafe, a parking lot. Sunny afternoon. Walkable paths behind the bays.",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-364e5728-c280-411a-a4ff-2a81fac8b4a8.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down 3/4 view RPG outdoor map, no characters: a public golf driving range, a row of practice bays with ball buckets, green turf with distance markers, a small clubhouse with a cafe, a parking lot. Sunny afternoon. Walkable paths behind the bays.\nAsset specification: one PNG intended as assets/maps/golf_range.png, final canvas 1536x1024 pixels. Crisp square pixel clusters, consistent 16-bit RPG art and warm colors with muted teal shadows.\nThis is a playable scene map: unified overhead 3/4 perspective, no horizon or sky, clear continuous walkable floors/roads, no people even in photos or decorative statues, no text or lettering on storefronts or signs. Full-bleed opaque scene.",
+      "reference_images": [],
+      "generated_size": [
+        1536,
+        1024
+      ],
+      "final_size": [
+        1536,
+        1024
+      ],
+      "final_mode": "RGB"
+    },
+    {
+      "path": "assets/maps/afternoon_tea.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "transparent": false,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down 3/4 view RPG interior map, no characters: an elegant hotel lounge serving afternoon tea, small round tables with three-tier cake stands and porcelain teacups, velvet armchairs, large windows with sea view, a grand piano. Soft golden light. Walkable aisles.",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-a54296e7-7232-425b-ab92-28d431f9b5b6.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down 3/4 view RPG interior map, no characters: an elegant hotel lounge serving afternoon tea, small round tables with three-tier cake stands and porcelain teacups, velvet armchairs, large windows with sea view, a grand piano. Soft golden light. Walkable aisles.\nAsset specification: one PNG intended as assets/maps/afternoon_tea.png, final canvas 1536x1024 pixels. Crisp square pixel clusters, consistent 16-bit RPG art and warm colors with muted teal shadows.\nThis is a playable scene map: unified overhead 3/4 perspective, no horizon or sky, clear continuous walkable floors/roads, no people even in photos or decorative statues, no text or lettering on storefronts or signs. Full-bleed opaque scene.",
+      "reference_images": [],
+      "generated_size": [
+        1536,
+        1024
+      ],
+      "final_size": [
+        1536,
+        1024
+      ],
+      "final_mode": "RGB"
+    },
+    {
+      "path": "assets/maps/bay_city_overview.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "transparent": false,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down stylized pixel art city map of a fictional West Coast American city, no text labels, no characters. Districts clearly distinct: a dense Chinatown with red roofs, a quiet suburban neighborhood with houses and lawns, a hillside district with large mansions, a seaside boulevard by the ocean, a downtown financial district with towers, a big shopping mall, a golf course. Highways leading off the edges toward a desert and toward distant hills. Clear roads.",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-a0071ce1-3272-4733-8482-fea1a7bdb26a.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nTop-down stylized pixel art city map of a fictional West Coast American city, no text labels, no characters. Districts clearly distinct: a dense Chinatown with red roofs, a quiet suburban neighborhood with houses and lawns, a hillside district with large mansions, a seaside boulevard by the ocean, a downtown financial district with towers, a big shopping mall, a golf course. Highways leading off the edges toward a desert and toward distant hills. Clear roads.\nAsset specification: one PNG intended as assets/maps/bay_city_overview.png, final canvas 1536x1024 pixels. Crisp square pixel clusters, consistent 16-bit RPG art and warm colors with muted teal shadows.\nThis is a playable scene map: unified overhead 3/4 perspective, no horizon or sky, clear continuous walkable floors/roads, no people even in photos or decorative statues, no text or lettering on storefronts or signs. Full-bleed opaque scene.",
+      "reference_images": [],
+      "generated_size": [
+        1536,
+        1024
+      ],
+      "final_size": [
+        1536,
+        1024
+      ],
+      "final_mode": "RGB"
+    },
+    {
+      "path": "assets/items/deposit_receipt.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a crumpled handwritten paper receipt with a few hundred-dollar bills paper-clipped to it, slightly worn. No readable text.",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-7030cbf3-5731-4aa2-8310-ec3acb095e43.png",
+      "generation_prompt": "Use case: precise-object-edit. Edit target: the supplied pixel-art evidence item. Keep the exact item, arrangement, angle, paper folds, colors, scale, currency portrait illustrations, blue currency stripe if present, envelope or paper clip if present, receipt if present, pixel-art rendering and real transparent alpha background unchanged. Change only the printed money symbols: remove ALL readable numbers, denomination digits, letters, words, serial numbers and typographic glyphs from every visible banknote. Replace these typographic marks with simple abstract colored rectangular blocks and illegible pixel pattern strokes, so the notes still clearly read as US-dollar-style money but contain no readable text or numerals whatsoever. Preserve the receipt's existing illegible placeholder strokes. No new objects, no text, no watermark, no logo. A single square 1024x1024 PNG with actual transparent background.",
+      "reference_images": [
+        "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-70caad90-bb92-4a8d-be9f-f6ba98700418.png"
+      ],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA",
+      "discarded_sources": [
+        "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-70caad90-bb92-4a8d-be9f-f6ba98700418.png"
+      ]
+    },
+    {
+      "path": "assets/items/designer_sunglasses.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a pair of oversized luxury designer sunglasses with gold hinges, glossy black lenses, no logo, no text.",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-da108c77-aa7d-4e2e-9135-13426eae4637.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a pair of oversized luxury designer sunglasses with gold hinges, glossy black lenses, no logo, no text.\nAsset specification: one PNG intended as assets/items/designer_sunglasses.png, final canvas 1024x1024 pixels. Crisp square pixel clusters, consistent 16-bit RPG art and warm colors with muted teal shadows.\nReal alpha transparency outside the character or item, not a painted checkerboard or colored background.",
+      "reference_images": [],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/items/cash_envelope.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a thick stack of US dollar bills partly sticking out of a plain brown envelope. No readable text.",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-266a46d6-fa44-472a-a186-93d899c7b53b.png",
+      "generation_prompt": "Use case: precise-object-edit. Edit target: the supplied pixel-art evidence item. Keep the exact item, arrangement, angle, paper folds, colors, scale, currency portrait illustrations, blue currency stripe if present, envelope or paper clip if present, receipt if present, pixel-art rendering and real transparent alpha background unchanged. Change only the printed money symbols: remove ALL readable numbers, denomination digits, letters, words, serial numbers and typographic glyphs from every visible banknote. Replace these typographic marks with simple abstract colored rectangular blocks and illegible pixel pattern strokes, so the notes still clearly read as US-dollar-style money but contain no readable text or numerals whatsoever. Preserve the receipt's existing illegible placeholder strokes. No new objects, no text, no watermark, no logo. A single square 1024x1024 PNG with actual transparent background.",
+      "reference_images": [
+        "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-9dcdb067-8ced-4e42-9f51-504d5e3efc00.png"
+      ],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA",
+      "discarded_sources": [
+        "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-9dcdb067-8ced-4e42-9f51-504d5e3efc00.png"
+      ]
+    },
+    {
+      "path": "assets/items/sakura_polaroid.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: an instant polaroid photo of a man and a young woman under pink cherry blossoms, the woman turning her face away from the camera, only her side profile visible. Blank white border, no text.",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-6c25d686-52bb-4f78-9ccd-278aa606a40f.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: an instant polaroid photo of a man and a young woman under pink cherry blossoms, the woman turning her face away from the camera, only her side profile visible. Blank white border, no text.\nInput images 1 and 2 are the canonical identity and clothing references for the man and woman respectively. Retain these identities in the requested scene.\nAsset specification: one PNG intended as assets/items/sakura_polaroid.png, final canvas 1024x1024 pixels. Crisp square pixel clusters, consistent 16-bit RPG art and warm colors with muted teal shadows.\nReal alpha transparency outside the character or item, not a painted checkerboard or colored background.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/portraits/chen_mo_neutral.png",
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/portraits/qingqing_neutral.png"
+      ],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/items/tattoo_arm.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nClose-up item illustration on transparent background: a woman's upper arm and shoulder, skin covered in dense dark tattoos: a large realistic male face portrait on the outer upper arm, and several long lines of cursive script running along the arm. The script is illegible decorative lines, NOT real letters. Faint pale scar where a tattoo was removed on the back of the hand. Somber, unsettling mood, not sexual.",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-f6d7766e-17bc-4ec1-af66-69b5f47f0bd5.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nClose-up item illustration on transparent background: a woman's upper arm and shoulder, skin covered in dense dark tattoos: a large realistic male face portrait on the outer upper arm, and several long lines of cursive script running along the arm. The script is illegible decorative lines, NOT real letters. Faint pale scar where a tattoo was removed on the back of the hand. Somber, unsettling mood, not sexual.\nThis is the separate evidence illustration, so tattoos are visible only here. A clothed upper torso cropped outside the artwork; show only shoulder, upper arm and hand, no breasts. The arm can be bent to also show the back-of-hand removal scar. No real letters or readable text.\nAsset specification: one PNG intended as assets/items/tattoo_arm.png, final canvas 1024x1024 pixels. Crisp square pixel clusters, consistent 16-bit RPG art and warm colors with muted teal shadows.\nReal alpha transparency outside the character or item, not a painted checkerboard or colored background.",
+      "reference_images": [],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/items/case_file_page.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nSingle item icon on transparent background: a single page of a US court document with a paragraph number in the margin, dense typed lines that are illegible grey bars, one paragraph highlighted with a yellow marker. Slightly folded. No readable text.",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-1fe897ff-b216-4e1d-8e01-acd8ed3be850.png",
+      "generation_prompt": "Use case: precise-object-edit. Edit target: the supplied pixel-art court-document page. Preserve the paper shape, angle, folds, grey rectangular placeholder body lines, yellow highlighted paragraph, colors, crisp pixel rendering, square framing and actual alpha transparency. Change only the margin numbers and header emblem. Remove all readable paragraph numbers, digits, punctuation, lettering and the eagle/seal/logo entirely. Replace the margin numbers with short plain grey rectangular placeholder bars (not glyphs); replace the header emblem with blank aged paper. Final page contains no readable text, no numerals, no seals, no logo, no watermark, only abstract grey typesetting bars and the existing yellow highlight. The real paragraph number and story text will be overlaid by game code. One 1024x1024 transparent PNG.",
+      "reference_images": [
+        "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-e938d7db-8583-4258-aa5f-d2d7d585955c.png"
+      ],
+      "generated_size": [
+        1254,
+        1254
+      ],
+      "final_size": [
+        1024,
+        1024
+      ],
+      "final_mode": "RGBA",
+      "discarded_sources": [
+        "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-e938d7db-8583-4258-aa5f-d2d7d585955c.png"
+      ]
+    },
+    {
+      "path": "assets/ui/clue_board.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "transparent": false,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nA large empty cork board filling the frame, seen straight on, warm brown cork texture, a few empty push pins in the corners, a desk lamp's warm glow from the upper left, a coil of red string at the bottom edge. No papers, no text.",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-877653a5-17df-43c1-bc87-42fb0a53cc82.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nA large empty cork board filling the frame, seen straight on, warm brown cork texture, a few empty push pins in the corners, a desk lamp's warm glow from the upper left, a coil of red string at the bottom edge. No papers, no text.\nAsset specification: one PNG intended as assets/ui/clue_board.png, final canvas 1536x1024 pixels. Crisp square pixel clusters, consistent 16-bit RPG art and warm colors with muted teal shadows.\nEntire image is opaque.",
+      "reference_images": [],
+      "generated_size": [
+        1536,
+        1024
+      ],
+      "final_size": [
+        1536,
+        1024
+      ],
+      "final_mode": "RGB"
+    },
+    {
+      "path": "assets/ui/phone_frame.png",
+      "size": [
+        768,
+        1536
+      ],
+      "transparent": true,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nA modern smartphone seen straight on, black bezel, slightly worn case, the screen area is completely transparent (empty), transparent background around the phone. No text, no icons.",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-f16cfcfc-b2f1-427a-8453-e92609f09024.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nA modern smartphone seen straight on, black bezel, slightly worn case, the screen area is completely transparent (empty), transparent background around the phone. No text, no icons.\nAsset specification: one PNG intended as assets/ui/phone_frame.png, final canvas 768x1536 pixels. Crisp square pixel clusters, consistent 16-bit RPG art and warm colors with muted teal shadows.\nReal alpha transparency outside the character or item, not a painted checkerboard or colored background.\nOnly the physical black phone bezel and case are opaque. Both the central screen opening and exterior must be genuinely alpha-transparent. Empty screen, no wallpaper, reflections, icons, buttons or labels.",
+      "reference_images": [],
+      "generated_size": [
+        887,
+        1774
+      ],
+      "final_size": [
+        768,
+        1536
+      ],
+      "final_mode": "RGBA"
+    },
+    {
+      "path": "assets/ui/title_keyart.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "transparent": false,
+      "source_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCinematic pixel art key art, no text: at night in a West Coast American city, a middle-aged Chinese man in a navy windbreaker stands by his car under a streetlight, looking at his phone. Behind him, reflected huge and faint in a dark shop window, a young woman in a beige coat and sunglasses looks back over her shoulder. Far in the background, a distant tropical island skyline glows under a red sky like a mirage. Melancholic, suspenseful mood.",
+      "status": "generated_normalized",
+      "generated_source": "/Users/tao/.codex/generated_images/01a128d5-91f8-7422-a74c-c16958b5709c/exec-b44c6f44-ce82-4d47-9db1-1f13fac14b2b.png",
+      "generation_prompt": "STYLE: 2D pixel art, 16-bit era RPG style, clean pixel clusters, limited warm palette with muted teal shadows, soft evening light, modern-day Chinese-American community setting, realistic proportions, no text, no watermark, no logo.\nCinematic pixel art key art, no text: at night in a West Coast American city, a middle-aged Chinese man in a navy windbreaker stands by his car under a streetlight, looking at his phone. Behind him, reflected huge and faint in a dark shop window, a young woman in a beige coat and sunglasses looks back over her shoulder. Far in the background, a distant tropical island skyline glows under a red sky like a mirage. Melancholic, suspenseful mood.\nInput images 1 and 2 are the canonical identity and clothing references for the man and woman respectively. Retain these identities in the requested scene.\nAsset specification: one PNG intended as assets/ui/title_keyart.png, final canvas 1920x1080 pixels. Crisp square pixel clusters, consistent 16-bit RPG art and warm colors with muted teal shadows.\nEntire image is opaque.",
+      "reference_images": [
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/portraits/chen_mo_neutral.png",
+        "/Users/tao/coding_projects/ai_game/my-ex/assets/portraits/qingqing_neutral.png"
+      ],
+      "generated_size": [
+        1672,
+        941
+      ],
+      "final_size": [
+        1920,
+        1080
+      ],
+      "final_mode": "RGB"
+    }
+  ]
+}
