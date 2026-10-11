@@ -111,12 +111,23 @@ function matches(m, said) {
   return true;
 }
 
-// 当前选项步骤上，第一个和玩家这句话对得上的选项（原始下标），没有则 -1。'*' 只在别的都对不上时才算。
+// 匹配条件有多具体：行为+话题 > 只看话题 > 只看行为 > '*'
+const specificity = m => (m === '*' ? 0 : (m.act ? 1 : 0) + (m.topic ? 2 : 0));
+
+// 当前选项步骤上，和玩家这句话对得上、而且条件最具体的选项（原始下标），没有则 -1。
+// 一样具体时取排在前面的；'*' 只在别的都对不上时才算。
 export function matchOption(state, run, said) {
-  const open = SCRIPTS[run.id][run.pc].choice.map((c, index) => ({ c, index })).filter(({ index }) => isOpen(state, run, index));
-  const hit = open.find(({ c }) => asList(c.on).some(m => m !== '*' && matches(m, said)))
-    || open.find(({ c }) => asList(c.on).includes('*'));
-  return hit ? hit.index : -1;
+  let best = -1;
+  let bestScore = -1;
+  SCRIPTS[run.id][run.pc].choice.forEach((c, index) => {
+    if (!isOpen(state, run, index)) return;
+    for (const m of asList(c.on)) {
+      if (m !== '*' && !matches(m, said)) continue;
+      const score = specificity(m);
+      if (score > bestScore) { best = index; bestScore = score; }
+    }
+  });
+  return best;
 }
 
 // 当前选项步骤上要让 AI 认的话题

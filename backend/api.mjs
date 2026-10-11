@@ -127,7 +127,7 @@ export function buildUnderstandPrompt(turn) {
     WORLD,
     `当前场景：${scene.goal}`,
     `你的任务：只做分类，不扮演角色。判断玩家（陈默）${turn.npc ? `对${CHARACTERS[turn.npc].name}` : ''}说的这句话属于哪一种行为（act）：\n${Object.entries(ACTS).map(([k, v]) => `- ${k}：${v}`).join('\n')}`,
-    turn.topics.length ? `如果玩家是在问或谈下面某个话题，topic 照抄那个话题，否则为 null：\n${turn.topics.map(t => `- ${t}`).join('\n')}` : 'topic 一律为 null。',
+    turn.topics.length ? `如果玩家这句话明确说到了下面某个话题，topic 照抄那个话题；只是沾边、要靠猜的，填 null：\n${turn.topics.map(t => `- ${t}`).join('\n')}` : 'topic 一律为 null。',
     scene.amount ? `如果玩家说出了数额，amount 填数字，口径是：${scene.amount}。没有数额时为 null。` : 'amount 一律为 null。',
     '先在 analysis 里用一句话写清玩家的意思（有数额就写出数额）。只输出JSON：{"analysis":"一句话","act":"上面的某个键","topic":"照抄的话题或null","amount":数字或null}。',
   ].join('\n\n');

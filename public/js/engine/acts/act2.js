@@ -115,8 +115,7 @@ export const SCRIPTS = {
     { choice: [
       { t: '这种事我不会干。', on: [{ act: 'refuse' }, { act: 'challenge' }, { act: 'leave' }], goto: 'refuse' },
       { t: '行，我把她删了，你别生气了。', on: [{ topic: '删掉小雯的微信' }, { act: 'propose' }], goto: 'delete' },
-      { t: '好好好，我想想办法。', on: { act: 'agree' }, goto: 'pretend' },
-      { t: '……行，我约约她。', on: { topic: '真的去约小雯出国' }, goto: 'lure' },
+      { t: '好好好，我想想办法。', on: { act: 'agree' }, goto: 'agree' },
     ] },
     { label: 'refuse' },
     say('chen', '这种事我不会干。'),
@@ -132,19 +131,17 @@ export const SCRIPTS = {
     say('qingqing', '这还差不多。', 'cold'),
     { fx: { flags: { d_deleted: true }, uncontact: 'xiaowen', stats: { doubt: 3 } } },
     { goto: 'trip' },
-    { label: 'pretend' },
+    // 嘴上答应了。是真去约，还是只是敷衍，要看你接下来做什么（a2_09_lure）
+    { label: 'agree' },
     say('qingqing', '这可是你说的。', 'cold'),
     say('v_mother', '你答应了什么？'),
-    { fx: { flags: { d_pretended: true }, stats: { doubt: 3, attachment: 2 } } },
-    N('你以为这只是一句气话。'),
-    { goto: 'trip' },
-    { label: 'lure' },
+    { fx: { stats: { doubt: 3, attachment: 2 } } },
     { call: 'a2_09_lure' },
     { label: 'trip' },
     TRIP,
   ],
 
-  // 抉择 D 的第四条路：两次回头的机会
+  // 抉择 D：嘴上答应之后。真把邀约发出去（两次回头的机会）是共谋；删掉草稿就是“假装答应”
   a2_09_lure: [
     N('第二天在路上，你打开了和小雯的对话框，打了一行字：“最近有空吗？有个朋友想约你出国玩几天。”'),
     say('akang', '（微信）你跟晴晴怎么样了？昨晚小雯还问我你最近在忙什么。'),
@@ -167,6 +164,7 @@ export const SCRIPTS = {
     { goto: 'trip' },
     { label: 'stop' },
     N('你删掉了那行字。手心全是汗。'),
+    N('就当是一句气话吧。你跟自己这么说。'),
     { fx: { flags: { d_pretended: true }, stats: { clarity: 3 } } },
     { label: 'trip' },
     TRIP,

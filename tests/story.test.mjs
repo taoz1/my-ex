@@ -489,6 +489,17 @@ test('full playthrough: act five, the finale and an ending', () => {
   assert.deepEqual(slides.at(-1), ['鹿鸣', '至今下落不明。']);
 });
 
+test('saying yes to “take her to Nanyu”: what you do next decides pretend or lure', () => {
+  const pretend = createState();
+  runScript(pretend, 'a2_09_phone', [0, 0, 2, 1]);     // 答应 → 删掉草稿
+  assert.ok(pretend.flags.d_pretended && !pretend.flags.xiaowen_lured);
+  const lure = createState();
+  runScript(lure, 'a2_09_phone', [0, 0, 2, 0, 0]);     // 答应 → 发出去 → 告诉她去南屿
+  assert.ok(lure.flags.xiaowen_lured && !lure.flags.d_pretended);
+  assert.equal(lure.quest, 'A2_10');
+  assert.equal(computeEnding(lure), 'E5');
+});
+
 test('ending rules', () => {
   const base = () => Object.assign(createState(), { evidence: [], versions: {} });
   const lured = base(); lured.flags.xiaowen_lured = true;
