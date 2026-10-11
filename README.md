@@ -13,8 +13,30 @@ cp .env.example .env     # 在 .env 中填写 DEEPSEEK_API_KEY（可选）
 npm run dev              # 打开 http://localhost:3000
 ```
 
-- 没有配置 DeepSeek 时，游戏照常可玩，AI 闲聊改用本地预设回应。
+- 没有接通 DeepSeek 时，剧情照常可玩，但 NPC 自由对话不可用。标题画面、右下角状态和对话框都会显示“AI 未连接”和具体原因。
 - API Key 只在服务端读取，不会发给浏览器。
+
+## 提供 API Key
+
+1. 在 DeepSeek 开放平台（platform.deepseek.com）创建一个 API Key。
+2. 在项目根目录新建 `.env` 文件（可以从 `.env.example` 复制），写入：
+   ```
+   DEEPSEEK_API_KEY=你的key
+   ```
+   `.env` 已在 `.gitignore` 里，不会被提交。
+3. 重启 `npm run dev`，刷新页面。标题画面显示“AI 已连接”即成功。
+
+启动时服务端会真正连一次 DeepSeek，校验 Key 和模型名。常见提示：
+
+| 提示 | 原因 |
+|---|---|
+| 服务端没有配置 DEEPSEEK_API_KEY | `.env` 不在项目根目录，或改完没重启服务 |
+| DeepSeek API Key 无效 | Key 填错或已删除 |
+| DeepSeek 账户余额不足 | 需要充值 |
+| 模型 xxx 不可用。可用模型：…… | 在 `.env` 里加一行 `DEEPSEEK_MODEL=列表里的某个模型` |
+| 连不上 DeepSeek 服务器 | 网络或代理问题 |
+
+在 Codespaces 里运行时，把 `DEEPSEEK_API_KEY` 加到仓库的 Codespaces secrets 即可。
 
 | 命令 | 作用 |
 |---|---|
@@ -42,7 +64,6 @@ public/                 前端（原生 ES 模块 + Canvas 2D）
   js/main.js            游戏循环、输入、对话 / 手机 / 开车、存档
   js/render.js          地图与人物渲染（有素材画素材，没有画占位图）
   js/panels.js          侧栏：任务、线索板、版本档案
-  js/local-replies.js   未配置 AI 时的本地回应
 backend/
   api.mjs               /api/status、/api/dialogue（DeepSeek，服务端调用）
   npc-cards.mjs         AI NPC 角色卡与场景目标（只在服务端）

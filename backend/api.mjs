@@ -4,6 +4,31 @@ import { WORLD, CHARACTERS, SCENES } from './npc-cards.mjs';
 
 export const DEFAULT_MODEL = 'deepseek-flash';
 const ENDPOINT = 'https://api.deepseek.com/chat/completions';
+const MODELS_ENDPOINT = 'https://api.deepseek.com/models';
+const NO_KEY = '服务端没有配置 DEEPSEEK_API_KEY（见 README「提供 API Key」）。';
+const NETWORK = '连不上 DeepSeek 服务器（网络或代理问题）。';
+
+function providerError(status) {
+  const messages = { 401: 'DeepSeek API Key 无效。', 402: 'DeepSeek 账户余额不足。', 429: 'DeepSeek 请求过于频繁，请稍后再试。' };
+  return messages[status] || `DeepSeek 返回错误（HTTP ${status}）。`;
+}
+
+// 真正连一次 DeepSeek：校验 Key，并确认模型名存在。
+export async function checkConnection(env, fetcher = fetch) {
+  const model = env.DEEPSEEK_MODEL || DEFAULT_MODEL;
+  if (!env.DEEPSEEK_API_KEY) return { connected: false, error: NO_KEY };
+  try {
+    const res = await fetcher(MODELS_ENDPOINT, { headers: { Authorization: `Bearer ${env.DEEPSEEK_API_KEY}` }, signal: AbortSignal.timeout(15000) });
+    if (!res.ok) return { connected: false, error: providerError(res.status) };
+    const ids = ((await res.json()).data || []).map(m => m.id).filter(id => typeof id === 'string');
+    if (ids.length && !ids.includes(model)) {
+      return { connected: false, error: `模型 ${model} 不可用。可用模型：${ids.join('、')}。请在 .env 里用 DEEPSEEK_MODEL 指定。` };
+    }
+    return { connected: true };
+  } catch {
+    return { connected: false, error: NETWORK };
+  }
+}
 const MAX_BODY = 12000;
 const MAX_MESSAGE = 160;
 const MAX_REPLY = 280;
@@ -74,14 +99,15 @@ export async function handleApi(request, env, fetcher = fetch) {
   const path = new URL(request.url).pathname;
   const model = env.DEEPSEEK_MODEL || DEFAULT_MODEL;
   if (path === '/api/status' && request.method === 'GET') {
-    return json({ configured: !!env.DEEPSEEK_API_KEY, model });
+    const status = await checkConnection(env, fetcher);
+    return json({ configured: !!env.DEEPSEEK_API_KEY, model, ...status });
   }
   if (path !== '/api/dialogue') return json({ error: 'Not found' }, 404);
   if (request.method !== 'POST') return json({ error: 'Method not allowed' }, 405);
   if (!request.headers.get('content-type')?.startsWith('application/json') || request.headers.get('sec-fetch-site') === 'cross-site') {
     return json({ error: 'Invalid request' }, 403);
   }
-  if (!env.DEEPSEEK_API_KEY) return json({ error: 'DeepSeek 尚未配置，当前使用本地剧情对话。' }, 503);
+  if (!env.DEEPSEEK_API_KEY) return json({ error: NO_KEY }, 503);
 
   let turn;
   try {
@@ -90,8 +116,9 @@ export async function handleApi(request, env, fetcher = fetch) {
     return json({ error: 'Invalid dialogue state' }, 400);
   }
 
+  let response;
   try {
-    const response = await fetcher(ENDPOINT, {
+    response = await fetcher(ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${env.DEEPSEEK_API_KEY}` },
       signal: AbortSignal.timeout(40000),
@@ -103,15 +130,16 @@ export async function handleApi(request, env, fetcher = fetch) {
         messages: buildPrompt(turn),
       }),
     });
-    if (!response.ok) {
-      const messages = { 401: 'DeepSeek API Key 无效。', 402: 'DeepSeek 账户余额不足。', 429: 'DeepSeek 请求过于频繁，请稍后再试。' };
-      return json({ error: messages[response.status] || 'DeepSeek 暂时无法回应。' }, 502);
-    }
+  } catch (e) {
+    return json({ error: e.name === 'TimeoutError' ? 'DeepSeek 回应超时。' : NETWORK }, 502);
+  }
+  if (!response.ok) return json({ error: providerError(response.status) }, 502);
+  try {
     const data = await response.json();
     if (data.choices?.[0]?.finish_reason !== 'stop') throw Error('Incomplete');
     const result = validateReply(JSON.parse(data.choices[0].message.content), turn.npc);
     return json({ ...result, model });
   } catch {
-    return json({ error: 'NPC 没有及时形成有效回应，请再试一次。' }, 502);
+    return json({ error: 'DeepSeek 的回应格式不对或包含不允许的内容，请再试一次。' }, 502);
   }
 }

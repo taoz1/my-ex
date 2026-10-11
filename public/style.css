@@ -172,3 +172,8 @@ aside { background: linear-gradient(160deg, #182130, #11161f); border: 1px solid
   .action { width: 72px; height: 72px; border-radius: 36px; pointer-events: auto; }
   main { padding-bottom: 120px; }
 }
+.chat-status.error, .line.error { color: var(--red); }
+.line.error { font-size: 13px; border-left: 3px solid var(--red); padding-left: 8px; }
+.ai-badge.offline { color: var(--red); cursor: help; }
+.title-ai { font-size: 13px; color: var(--teal); }
+.title-ai.error { color: var(--red); }

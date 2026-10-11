@@ -8,7 +8,6 @@ import { SPEAKERS } from './engine/catalog.js';
 import { draw } from './render.js';
 import { renderPanels, bindPanels, escapeHtml } from './panels.js';
 import { portraitImage, uiImage, preload } from './assets.js';
-import { localReply } from './local-replies.js';
 
 const SAVE_KEY = 'fourth-version-save-v1';
 const $ = s => document.querySelector(s);
@@ -19,7 +18,7 @@ const keys = new Set();
 let state = createState();
 let target = null;
 let started = false;
-let aiReady = false;
+let ai = { connected: false, reason: '正在检测 AI 连接……' };
 let last = performance.now();
 let saveTimer = 0;
 
@@ -164,7 +163,7 @@ function enterChat(npc, scene) {
   $('#chat-form').hidden = false;
   $('#close-dialogue').hidden = false;
   $('#suggestions').innerHTML = (CHAT_SUGGESTIONS[scene] || []).map(s => `<button type="button" data-say="${escapeHtml(s)}">${escapeHtml(s)}</button>`).join('');
-  $('#chat-status').textContent = aiReady ? 'AI 角色会按自己的性格和知道的事回应你。按 Esc 或 × 结束。' : '本地剧情模式（未配置 DeepSeek）。按 Esc 或 × 结束。';
+  setChatStatus(ai.connected ? 'AI 角色会按自己的性格和知道的事回应你。按 Esc 或 × 结束。' : `AI 未连接：${ai.reason}`, !ai.connected);
   $('#chat-input').focus();
 }
 
@@ -174,23 +173,27 @@ async function sendChat(message) {
   const { npc, scene } = talk.chat;
   talk.busy = true;
   appendLine('chen', message);
-  $('#chat-status').textContent = '对方正在想……';
+  setChatStatus('对方正在想……');
   let result;
   try {
-    if (!aiReady) throw Error('local');
     const res = await fetch('/api/dialogue', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ npc, scene, message, memories: (state.memories[npc] || []).slice(-6) }),
       signal: AbortSignal.timeout(45000),
     });
-    const data = await res.json();
-    if (!res.ok) throw Error(data.error || '暂时无法回应');
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw Error(data.error || `服务器返回 ${res.status}`);
     result = data;
-    $('#chat-status').textContent = 'AI 回应完成。';
+    setAi(true, '');
+    setChatStatus('AI 回应完成。');
   } catch (e) {
-    result = localReply(npc, message, talk.turns);
-    $('#chat-status').textContent = aiReady && e.message !== 'local' ? `${e.message}（已改用本地回应）` : '本地剧情模式。';
+    const reason = e.name === 'TimeoutError' ? 'AI 回应超时（45 秒）。' : e.name === 'TypeError' ? '连不上游戏服务器。' : e.message;
+    if (talk.chat) {
+      appendError(`AI 没有回应：${reason}`);
+      setChatStatus(`AI 未连接：${reason}`, true);
+    }
+    return;
   } finally {
     talk.busy = false;
   }
@@ -200,6 +203,20 @@ async function sendChat(message) {
   appendLine(npc, result.reply);
   rememberChat(state, npc, `陈默：“${message}” ${SPEAKERS[npc].name}：“${result.reply}”`);
   save();
+}
+
+function setChatStatus(text, error = false) {
+  const el = $('#chat-status');
+  el.textContent = text;
+  el.classList.toggle('error', error);
+}
+
+function appendError(text) {
+  const div = document.createElement('div');
+  div.className = 'line error';
+  div.textContent = text;
+  $('#transcript').append(div);
+  $('#transcript').scrollTop = $('#transcript').scrollHeight;
 }
 
 // ── 手机 ─────────────────────────────
@@ -288,6 +305,7 @@ function startGame(fresh) {
   renderPanels(state);
   save();
   if (fresh) toast('任务：押金');
+  if (!ai.connected) toast(`AI 未连接：${ai.reason}`);
 }
 
 function showActEnd() {
@@ -301,16 +319,28 @@ function showActEnd() {
   $('#act-end').hidden = false;
 }
 
+function setAi(connected, reason) {
+  ai = { ...ai, connected, reason };
+  const badge = $('#ai-badge');
+  badge.textContent = connected ? `AI 已连接 · ${ai.model || 'DeepSeek'}` : 'AI 未连接';
+  badge.title = connected ? '' : reason;
+  badge.classList.toggle('ready', connected);
+  badge.classList.toggle('offline', !connected);
+  const line = $('#title-ai');
+  line.textContent = connected ? `AI 已连接（${ai.model || 'DeepSeek'}），NPC 可以自由对话。` : `AI 未连接：${reason} 剧情可以照常进行，但不能和 NPC 自由对话。`;
+  line.classList.toggle('error', !connected);
+}
+
 async function checkAi() {
   try {
-    const res = await fetch('/api/status');
+    const res = await fetch('/api/status', { signal: AbortSignal.timeout(20000) });
     const data = await res.json();
-    aiReady = !!data.configured;
-    $('#ai-badge').textContent = aiReady ? `DEEPSEEK AI 在线` : '本地剧情模式';
-    $('#ai-badge').classList.toggle('ready', aiReady);
+    ai.model = data.model;
+    setAi(!!data.connected, data.error || '');
   } catch {
-    $('#ai-badge').textContent = '本地剧情模式';
+    setAi(false, '连不上游戏服务器。');
   }
+  if (!ai.connected && started) toast(`AI 未连接：${ai.reason}`);
 }
 
 // ── 事件绑定 ─────────────────────────

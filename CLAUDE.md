@@ -5,7 +5,7 @@
 
 ## 已确定的决定（用户确认过，不要擅自改）
 - 技术栈：沿用 https://github.com/taoz1/the-last-shift 的架构。零依赖原生 ES 模块 + Canvas 2D + Node 内置 http 服务器 + `node:test`。代码要写成可读的多文件格式，不要压缩。
-- AI 模型：DeepSeek，只在服务端调用（`backend/api.mjs`），Key 放 `.env` 的 `DEEPSEEK_API_KEY`。没配 Key 时用 `public/js/local-replies.js` 的本地回应。
+- AI 模型：DeepSeek，只在服务端调用（`backend/api.mjs`），Key 放 `.env` 的 `DEEPSEEK_API_KEY`。AI 没接通时**不要**用假的本地回应：剧情照常，NPC 自由对话显示“AI 未连接”和具体原因（用户要求）。`/api/status` 会真正连一次 DeepSeek 校验 Key 和模型名。
 - 里程碑：第一版是「序章 + 第一幕」，已完成。下一步是第二幕「裂」（剧情见 `docs/story/05_主线剧情.md`）。
 - 分支：每次直接推 `main`。
 - 美术：用户用文生图生成，按 `docs/art/文生图素材清单_第一批.md` 的文件名放进 `assets/`。默认画风是 16-bit 像素风、俯视 3/4 视角。
